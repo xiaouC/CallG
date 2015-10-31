@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan;
 import android.graphics.Color;
 import android.content.Intent;
 import android.widget.Toast;
+import android.util.Log;
 
 public class YYInputNumberPINView extends YYViewBase {
     private YYInputNumberPINView yy_input_number;
@@ -165,13 +166,15 @@ public class YYInputNumberPINView extends YYViewBase {
                         banbIntent.putExtra( "old", origin_pin );
                         banbIntent.putExtra( "new", first_pin );
                         main_activity.sendBroadcast( banbIntent );
+                        Log.v( "cconn", "CALL_GUARDIAN_SCCP : send" );
                         Toast.makeText( main_activity, "request change pin number : send", Toast.LENGTH_SHORT ).show();
                     }
                     public void onRecv( String data ) {
+                        Log.v( "cconn", "CALL_GUARDIAN_SCCP : recv [" + data + "]" );
                         Toast.makeText( main_activity, "request change pin number : successfully", Toast.LENGTH_LONG ).show();
 
                         // 
-                        if( data.equals( "EQUAL" ) ) {
+                        if( data.equals( "SUCCESS" ) ) {
                             in_pin_handler.onSuccessful( first_pin );
                         }
                         else {
@@ -187,6 +190,7 @@ public class YYInputNumberPINView extends YYViewBase {
                         }
                     }
                     public void onFailure() {
+                        Log.v( "cconn", "CALL_GUARDIAN_SCCP : failed" );
                         Toast.makeText( main_activity, "request change pin number : failure", Toast.LENGTH_LONG ).show();
                     }
                 });
@@ -215,11 +219,10 @@ public class YYInputNumberPINView extends YYViewBase {
                     Intent banbIntent = new Intent( YYCommand.CALL_GUARDIAN_CMPC );
                     banbIntent.putExtra( "data", first_pin );
                     main_activity.sendBroadcast( banbIntent );
-                    Toast.makeText( main_activity, "request pin number : send", Toast.LENGTH_SHORT ).show();
+                    Log.v( "cconn", "CALL_GUARDIAN_CMPC : send" );
                 }
                 public void onRecv( String data ) {
-                    Toast.makeText( main_activity, "request pin number : successfully", Toast.LENGTH_LONG ).show();
-
+                    Log.v( "cconn", "CALL_GUARDIAN_CMPC : recv [" + data + "]" );
                     // 
                     if( data.equals( "EQUAL" ) ) {
                         in_pin_handler.onSuccessful( first_pin );
@@ -237,6 +240,7 @@ public class YYInputNumberPINView extends YYViewBase {
                     }
                 }
                 public void onFailure() {
+                    Log.v( "cconn", "CALL_GUARDIAN_CMPC : failed" );
                     Toast.makeText( main_activity, "request pin number : failure", Toast.LENGTH_LONG ).show();
                 }
             });
