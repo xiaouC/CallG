@@ -164,6 +164,7 @@ public class AddNumberView extends YYViewBackList {
                                 from_calls_list_view.setView( true, yy_view_self.getViewBackHandler() );
                             }
                             public void onFailure() {
+                                Toast.makeText( main_activity, "get calls list failed", Toast.LENGTH_LONG ).show();
                             }
                         });
                     }

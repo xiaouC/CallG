@@ -433,30 +433,43 @@ public class YYDataSource {
                 Intent calllistIntent = new Intent( YYCommand.CALL_LIST_GTCL );
                 calllistIntent.putExtra( "data", "0" );
                 main_activity.sendBroadcast( calllistIntent );
+                Log.v( "cconn", "get calls list : send" );
             }
             public void onRecv( String data ) {
+                Log.v( "cconn", "get calls list : recv" );
                 String[] results = data.split( "," );
                 Log.v( "prot", "getCallsList --------------------------------------------- data : " + data );
 
                 cur_calls_list.clear();
 
+                Log.v( "cconn", "get calls list length : " + results.length );
                 int count = results.length / 4;
+                Log.v( "cconn", "get calls list count : " + count );
                 for( int i=0; i < count; ++i ) {
+                    Log.v( "cconn", "i : " + i + " ============================================ " );
                     if( results[i*4+0].equals( "" ) ) {
                         continue;
                     }
 
-                    final int msg_type = Integer.valueOf( results[i*4+0], 16 );
+                    //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
                     final int msg_state = 1;
                     final String msg_name = results[i*4+1];
                     final String msg_number = results[i*4+2];
                     final String msg_datetime = results[i*4+3];
+                    Log.v( "cconn", "msg_name : " + msg_name );
+                    Log.v( "cconn", "msg_number : " + msg_number );
+                    Log.v( "cconn", "msg_datetime : " + msg_datetime );
 
-                    final String year = msg_datetime.substring( 0, 4 );
-                    final String month = msg_datetime.substring( 4, 6 );
-                    final String day = msg_datetime.substring( 6, 8 );
-                    final String hour = msg_datetime.substring( 8, 10 );
-                    final String min = msg_datetime.substring( 10 );
+                    //final String year = msg_datetime.substring( 0, 4 );
+                    //final String month = msg_datetime.substring( 4, 6 );
+                    //final String day = msg_datetime.substring( 6, 8 );
+                    //final String hour = msg_datetime.substring( 8, 10 );
+                    //final String min = msg_datetime.substring( 10 );
+                    final String year = "2015";
+                    final String month = "11";
+                    final String day = "1";
+                    final String hour = "2";
+                    final String min = "53";
 
                     cur_calls_list.add( new callsListItem() {
                         public String getName() { return msg_name; }
@@ -465,11 +478,13 @@ public class YYDataSource {
                         //public int getState() { return msg_type; }
                         public int getState() { return msg_state; }
                     });
-
-                    calls_list_listener.onSuccessfully();
                 }
+
+                calls_list_listener.onSuccessfully();
             }
             public void onFailure() {
+                calls_list_listener.onFailure();
+                Log.v( "cconn", "get calls list : failed" );
             }
         });
     }

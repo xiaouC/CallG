@@ -129,9 +129,21 @@ public class YYCommand {
             Log.v( "cconn", "action : " + action );
             Log.v( "cconn", "data : " + data );
             Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
+            Log.v( "prot", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
+            Log.v( "prot", "action : " + action );
+            Log.v( "prot", "data : " + data );
+            Log.v( "prot", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
 
-            onRecvActionListener ral = action_list.get( action );
-            ral.onExecute( data );
+            if( cur_command_info != null ) {
+                if( cur_command_info.command_name.equals( action ) ) {
+                    onRecvActionListener ral = action_list.get( action );
+                    ral.onExecute( data );
+                }
+            }
+            else {
+                onRecvActionListener ral = action_list.get( action );
+                ral.onExecute( data );
+            }
         }
     };
 
@@ -267,9 +279,12 @@ public class YYCommand {
         // 获取 calls list
         action_list.put( CALL_LIST_GTCL_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
+                Log.v( "cconn", "CALL_LIST_GTCL_RESULT : 1111111111111111111111111" + data );
                 if( cur_command_info != null ) {
+                    Log.v( "cconn", "CALL_LIST_GTCL_RESULT : 222222222222222222222222222222222222" );
                     cur_command_info.command_listener.onRecv( data );
                 }
+                Log.v( "cconn", "CALL_LIST_GTCL_RESULT : 3333333333333333333333333333333333333333" );
 
                 cur_command_info = null;
                 realExecuteCommand();
@@ -425,8 +440,7 @@ public class YYCommand {
     }
 
     public void executeCallListCommand( final String cmd_result, final onCommandListener cmd_listener ) {
-        cmd_listener.onFailure();
-        /*
+        //cmd_listener.onFailure();
         Log.v( "cconn", "execute call list cmd begin 11 " );
         main_activity.yy_show_alert_dialog.showWaitingAlertDialog();
         disconnectAllLink( new onConnLisenter() {
@@ -440,11 +454,34 @@ public class YYCommand {
                                 Log.v( "cconn", "execute call list cmd success" );
                                 cmd_listener.onRecv( data );
                                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //final String recv_data = data;
+                                //disconnectCallList( new onConnLisenter() {
+                                //    public void onSuccessfully() {
+                                //        cmd_listener.onRecv( recv_data );
+                                //        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //    }
+                                //    public void onFailure() {
+                                //        cmd_listener.onRecv( recv_data );
+                                //        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //    }
+                                //});
+                                call_list_link = false;
                             }
                             public void onFailure() {
                                 Log.v( "cconn", "execute call list cmd failed" );
                                 cmd_listener.onFailure();
                                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //disconnectCallList( new onConnLisenter() {
+                                //    public void onSuccessfully() {
+                                //        cmd_listener.onFailure();
+                                //        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //    }
+                                //    public void onFailure() {
+                                //        cmd_listener.onFailure();
+                                //        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                //    }
+                                //});
+                                call_list_link = false;
                             }
                         });
                     }
@@ -459,7 +496,6 @@ public class YYCommand {
                 Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
             }
         });
-        */
     }
 
     public void executeAnswerMachineCommand( final String cmd_result, final onCommandListener cmd_listener ) {
