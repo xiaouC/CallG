@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Call Guardian</string>
+    
+    <!-- Call Control -->
+    <string name="Call_Control__BT_Call_Guardian">BT Call Guardian</string>
+    <string name="Call_Control__Do_Not_Disturb">Do Not Disturb</string>
+    <string name="Call_Control__Outgoing_Calls">Outgoing Calls</string>
+
+    <!-- BT Call Guardian -->
+    <string name="BT_Call_Guardian__Mode">BT Call Guardian Mode</string>
+    <string name="BT_Call_Guardian__Announce_Message">Announce Message</string>
+    <string name="BT_Call_Guardian__Block_Numbers">Block Numbers</string>
+    <string name="BT_Call_Guardian__Allow_Numbers">Allow Numbers</string>
+
+    <string name="BT_Call_Guardian__Mode_Announce">Announce(default)</string>
+    <string name="BT_Call_Guardian__Mode_International">International</string>
+    <string name="BT_Call_Guardian__Mode_Answerphone">Answerphone</string>
+    <string name="BT_Call_Guardian__Mode_Custom">Custom</string>
+    <string name="BT_Call_Guardian__Mode_OK">OK</string>
+    <string name="BT_Call_Guardian__Mode_Cancel">Cancel</string>
+
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Numbers">Blocked Numbers</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Allowed_Numbers">Allowed Numbers</string>
+    <string name="BT_Call_Guardian__Mode__Custom__International">International</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Withheld">Withheld</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Payphones">Payphones</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Mobile_Numbers">Mobile Numbers</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Unavailable">Unavailable</string>
+    <string name="BT_Call_Guardian__Mode__Custom__All_Other_Numbers">All Other Numbers</string>
+
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Numbers__Title">Blocked numbers</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__Allow">Allow</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__Announce">Announce</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__Block">Block(default)</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__Answerphone">Answerphone</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__OK">OK</string>
+    <string name="BT_Call_Guardian__Mode__Custom__Blocked_Number__Cancel">Cancel</string>
+
+    <string name="BT_Call_Guardian__Announce_Message__Record_Name">Record name</string>
+    <string name="BT_Call_Guardian__Announce_Message__Play_Message">Play message</string>
+    <string name="BT_Call_Guardian__Announce_Message__Use_Default_Message">Use default message</string>
+    <string name="Announce_Message__Use_Default_Message__On">on(default)</string>
+    <string name="Announce_Message__Use_Default_Message__Off">off</string>
+
+    <string name="Block_Numbers__Add_Number">Add number</string>
+    <string name="Block_Numbers__Add_Contect">Add contect</string>
+    <string name="Block_Numbers__Area_Codes">Area codes</string>
+    <string name="Block_Numbers__Delete_All">Delete all</string>
+    <string name="Block_Numbers__Add_Number__Number_Manually">number manually</string>
+    <string name="Block_Numbers__Add_Number__From_Calls_List">from calls list</string>
+    <string name="Block_Numbers__Area_Codes__Add_Area_Code">add area code</string>
+    <string name="Block_Numbers__Area_Codes__View_Area_Codes">view area codes</string>
+    <string name="Block_Numbers__View_Area_Codes__Operation__Edit_Area_Code">edit area code</string>
+    <string name="Block_Numbers__View_Area_Codes__Operation__Delete_Area_Code">delete area code</string>
+    <string name="Block_Numbers__View_Area_Codes__Operation__Delete_Area_Code__Attention">Are you sure that you want to delete the area code %s from your list?</string>
+    <string name="Block_Numbers__Delete_All__Attention">Are you sure that you want to delete all the blocked numbers stored on your telephone system?</string>
+</resources>
