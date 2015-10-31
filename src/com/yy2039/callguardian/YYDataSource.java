@@ -116,7 +116,6 @@ public class YYDataSource {
         bIsFirstTimeUse = true;
         strPINNumber = "";
 
-        /*
         // 请求 BTＣall Guardian 设置
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
@@ -149,7 +148,6 @@ public class YYDataSource {
 				Toast.makeText( main_activity, "request BT Call Guardian : failure", Toast.LENGTH_LONG ).show();
             }
         });
-        //*/
 
         /* 测试 coom
         main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {

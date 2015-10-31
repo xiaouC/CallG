@@ -27,6 +27,7 @@ public class BTCallGuardianView extends YYViewBack {
     private AnnounceMessageView announce_message_view;
     private BlockNumbersView block_numbers_view;
     private AllowNumbersView allow_numbers_view;
+    private boolean bIsInitSwitchBtnState;
 
     public BTCallGuardianView() {
         view_layout_res_id = R.layout.title_back_listview_1;
@@ -39,18 +40,25 @@ public class BTCallGuardianView extends YYViewBack {
     public void setView( boolean bIsPush, onViewBackHandler handler ) {
         super.setView( bIsPush, handler );
 
+        bIsInitSwitchBtnState = true;
+
         // 
         Switch btn_obj = (Switch)main_activity.findViewById( R.id.button_state );
         btn_obj.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
-                main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
+                if( !bIsInitSwitchBtnState ) {
+                    main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
+                }
 
                 updateState();
             }
         });
 
         fillListView();
+
         btn_obj.setChecked( main_activity.yy_data_source.getBTCallGuardianModeOn() );
+
+        bIsInitSwitchBtnState = false;
     }
 
     // 返回到自己界面
@@ -298,7 +306,7 @@ public class BTCallGuardianView extends YYViewBack {
         if( main_activity.yy_data_source.getBTCallGuardianModeOn() )
             tv_tips.setText( "" );
         else
-            tv_tips.setText( "BT Call Guardian\r\nYou will need Caller Dispaly to use\r\n BT Call Guardian and other Call control\r\n features.Please contact your telephone\r\n service provide for more information." );
+            tv_tips.setText( "BT Call Guardian You will need Caller Dispaly to use BT Call Guardian and other Call control features.Please contact your telephone service provide for more information." );
 
         // list view
         yy_list_adapter.list_data = getItemListData();
