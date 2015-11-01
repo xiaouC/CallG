@@ -114,7 +114,7 @@ public class AddContactView extends YYViewBackList {
                 public void item_handle( Object view_obj ) {
                     Button btn_obj = (Button)view_obj;
 
-                    btn_obj.setText( YYViewBase.transferText( item_info.getName(), "" ) );
+                    btn_obj.setText( YYViewBase.transferText( item_info.getName(), item_info.getNumber() ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {

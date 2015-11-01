@@ -490,28 +490,6 @@ public class YYDataSource {
         });
     }
 
-    /*
-    public boolean initContactsList() {
-        if( !bIsFirstTimeUseContacts ) {
-            return true;
-        }
-
-        if( bIsFirstTimeUseContacts ) {
-            bIsFirstTimeUseContacts = false;
-
-            String[] PHONES_PROJECTION = new String[] { Phone.DISPLAY_NAME, Phone.NUMBER, Phone.CONTACT_ID };
-
-            // 获取手机联系人
-            ContentResolver resolver = main_activity.getContentResolver();
-            Cursor phoneCursor = resolver.query( Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null );
-            if( phoneCursor != null ) {  
-                phoneCursor.close();  
-            }
-        }
-        return false;
-    }
-    */
-
     public List<contactsListItem> getContactsList() {
         List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
 
@@ -537,70 +515,6 @@ public class YYDataSource {
 
         return ret_contacts_list;
     }
-
-    /*
-    public List<contactsListItem> getContactsList() {
-        List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
-
-        String[] PHONES_PROJECTION = new String[] { Phone.DISPLAY_NAME, Phone.NUMBER, Phone.CONTACT_ID };
-
-        // 获取手机联系人
-        ContentResolver resolver = main_activity.getContentResolver();
-        Cursor phoneCursor = resolver.query( Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null );
-        if( phoneCursor != null ) {  
-            while( phoneCursor.moveToNext() ) {  
-                //得到手机号码  
-                final String phoneNumber = phoneCursor.getString( 1 );
-                Log.v( "number", "phoneNumber : " + phoneNumber );
-
-                //当手机号码为空的或者为空字段 跳过当前循环
-                if( TextUtils.isEmpty( phoneNumber ) )
-                    continue;
-
-                //得到联系人名称  
-                final String contactName = phoneCursor.getString( 0 );
-                Log.v( "number", "contactName : " + contactName );
-
-                //得到联系人ID  
-                Long contactid = phoneCursor.getLong( 2 );
-
-                ret_contacts_list.add( new contactsListItem() {
-                    public String getName() { return contactName; }
-                    public String getNumber() { return phoneNumber; }
-                });
-            }  
-
-            phoneCursor.close();  
-        }
-
-        //// 获取Sims卡联系人  
-        //phoneCursor = resolver.query( Uri.parse( "content://icc/adn" ), PHONES_PROJECTION, null, null, null );
-        //if( phoneCursor != null ) {  
-        //    while( phoneCursor.moveToNext() ) {  
-        //        // 得到手机号码  
-        //        final String phoneNumber = phoneCursor.getString( 1 );
-        //        Log.v( "number", "phoneNumber : " + phoneNumber );
-
-        //        // 当手机号码为空的或者为空字段 跳过当前循环  
-        //        if( TextUtils.isEmpty( phoneNumber ) )
-        //            continue;  
-
-        //        // 得到联系人名称  
-        //        final String contactName = phoneCursor.getString( 0 );
-        //        Log.v( "number", "contactName : " + contactName );
-
-        //        ret_contacts_list.add( new contactsListItem() {
-        //            public String getName() { return contactName; }
-        //            public String getNumber() { return phoneNumber; }
-        //        });
-        //    }  
-
-        //    phoneCursor.close();  
-        //}
-
-        return ret_contacts_list;
-    }
-    */
 
     public boolean areaCodesIsFull() {
         return false;
