@@ -52,6 +52,7 @@ public class AddNumberView extends YYViewBackList {
                                 });
                             }
                             public void onFailure() {
+                                Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -76,6 +77,7 @@ public class AddNumberView extends YYViewBackList {
                                 task.execute();
                             }
                             public void onFailure() {
+                                Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -95,6 +97,7 @@ public class AddNumberView extends YYViewBackList {
                                 });
                             }
                             public void onFailure() {
+                                Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -119,6 +122,7 @@ public class AddNumberView extends YYViewBackList {
                                 task.execute();
                             }
                             public void onFailure() {
+                                Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }

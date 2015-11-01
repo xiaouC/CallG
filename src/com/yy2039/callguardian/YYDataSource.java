@@ -121,7 +121,6 @@ public class YYDataSource {
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
                 main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GCCS ) );
-                Toast.makeText( main_activity, "request BT Call Guardian : send", Toast.LENGTH_SHORT ).show();
             }
             public void onRecv( String data ) {
                 String[] results = data.split( "," );
@@ -142,11 +141,9 @@ public class YYDataSource {
                 nBTCallGuardianMode_Custom_MobileNumbers = Integer.valueOf( String.valueOf( ch_custom[5] ) );
                 nBTCallGuardianMode_Custom_Unavailable = Integer.valueOf( String.valueOf( ch_custom[6] ) );
                 nBTCallGuardianMode_Custom_AllOtherNumbers = Integer.valueOf( String.valueOf( ch_custom[7] ) );
-
-				Toast.makeText( main_activity, "request BT Call Guardian : successfully", Toast.LENGTH_LONG ).show();
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "request BT Call Guardian : failure", Toast.LENGTH_LONG ).show();
+				Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
             }
         });
 
@@ -159,15 +156,12 @@ public class YYDataSource {
                 main_activity.sendBroadcast( tempIntent );
 
                 Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT send" );
-                Toast.makeText( main_activity, "request play announce message : send", Toast.LENGTH_SHORT ).show();
             }
             public void onRecv( String data ) {
                 Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT recv" );
-                Toast.makeText( main_activity, "request play announce message : successfully", Toast.LENGTH_LONG ).show();
             }
             public void onFailure() {
                 Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT failed" );
-                Toast.makeText( main_activity, "request play announce message : failure", Toast.LENGTH_LONG ).show();
             }
         });
         */
@@ -178,15 +172,12 @@ public class YYDataSource {
                 Intent cmpcIntent = new Intent( YYCommand.CALL_GUARDIAN_CMPC );
                 cmpcIntent.putExtra( "data", "0000" );
                 main_activity.sendBroadcast( cmpcIntent );
-                Toast.makeText( main_activity, "request pin number : send", Toast.LENGTH_SHORT ).show();
                 Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT send" );
             }
             public void onRecv( String data ) {
-                Toast.makeText( main_activity, "request pin number : successfully", Toast.LENGTH_LONG ).show();
                 Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT recv" );
             }
             public void onFailure() {
-                Toast.makeText( main_activity, "request pin number : failure", Toast.LENGTH_LONG ).show();
                 Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT failed" );
             }
         });
@@ -381,7 +372,7 @@ public class YYDataSource {
             public void onRecv( String data ) {
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "update BT Call Guardian : failure", Toast.LENGTH_SHORT ).show();
+				Toast.makeText( main_activity, "update BT Call Guardian settings failed", Toast.LENGTH_SHORT ).show();
             }
         });
     }
@@ -412,11 +403,9 @@ public class YYDataSource {
                 main_activity.sendBroadcast( banbIntent );
             }
             public void onRecv( String data ) {
-				Toast.makeText( main_activity, "update block/allow number : successfully", Toast.LENGTH_SHORT ).show();
                 onAddNumberEvent.onSuccessfully();
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "update block/allow number : failure", Toast.LENGTH_SHORT ).show();
                 onAddNumberEvent.onFailure();
             }
         });
@@ -533,16 +522,13 @@ public class YYDataSource {
                 if( newNum != null ) { banbIntent.putExtra( "newnum", String.format( "%s", newNum ) ); }
                 if( oldNum != null ) { banbIntent.putExtra( "oldnum", String.format( "%s", oldNum ) ); }
                 main_activity.sendBroadcast( banbIntent );
-				Toast.makeText( main_activity, "request meda", Toast.LENGTH_LONG ).show();
             }
             public void onRecv( String data ) {
                 medaListener.onSuccessfully();
-				Toast.makeText( main_activity, "response meda : successfully", Toast.LENGTH_LONG ).show();
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
             }
             public void onFailure() {
                 medaListener.onFailure();
-				Toast.makeText( main_activity, "response meda : failure", Toast.LENGTH_LONG ).show();
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
             }
         });
