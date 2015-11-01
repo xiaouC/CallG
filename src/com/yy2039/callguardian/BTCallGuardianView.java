@@ -708,9 +708,9 @@ public class BTCallGuardianView extends YYViewBack {
                     btn_obj.setText( YYViewBase.transferText( "Add contact", "" ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
-                            if( main_activity.yy_data_source.initContactsList() ) {
+                            //if( main_activity.yy_data_source.initContactsList() ) {
                                 add_contact_view.setView( true, yy_view_self.getViewBackHandler() );
-                            }
+                            //}
                         }
                     });
                 }
@@ -1141,9 +1141,9 @@ public class BTCallGuardianView extends YYViewBack {
                     btn_obj.setText( YYViewBase.transferText( "Add contact", "" ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
-                            if( main_activity.yy_data_source.initContactsList() ) {
+                            //if( main_activity.yy_data_source.initContactsList() ) {
                                 add_contact_view.setView( true, yy_view_self.getViewBackHandler() );
-                            }
+                            //}
                         }
                     });
                 }

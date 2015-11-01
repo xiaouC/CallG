@@ -46,7 +46,11 @@ public class CallGuardianActivity extends FragmentActivity
 
         // 
         call_control_view = new CallControlView();
-        call_control_view.setView( false, null );
+        //call_control_view.setView( false, null );
+
+        AddContactView add_contact_view = new AddContactView();
+        add_contact_view.setViewType( AddContactView.ADD_CONTACT_VIEW_TYPE_BLOCK_NUMBER );
+        add_contact_view.setView( true, null );
 
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ) {
             Window win = getWindow();

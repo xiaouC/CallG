@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.text.TextUtils;
+import android.provider.ContactsContract;
 import android.net.Uri;
 
 public class YYDataSource {
@@ -489,6 +490,7 @@ public class YYDataSource {
         });
     }
 
+    /*
     public boolean initContactsList() {
         if( !bIsFirstTimeUseContacts ) {
             return true;
@@ -508,6 +510,35 @@ public class YYDataSource {
         }
         return false;
     }
+    */
+
+    public List<contactsListItem> getContactsList() {
+        List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
+
+        Cursor cursor = null;
+        try {
+            cursor = main_activity.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null );
+            while( cursor.moveToNext() ) {
+                final String displayName = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME ) );
+                final String number = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.NUMBER ) );
+                ret_contacts_list.add( new contactsListItem() {
+                    public String getName() { return displayName; }
+                    public String getNumber() { return number; }
+                });
+            }
+        } catch ( Exception e ) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            if( cursor != null ){
+                cursor.close();
+            }
+        }
+
+        return ret_contacts_list;
+    }
+
+    /*
     public List<contactsListItem> getContactsList() {
         List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
 
@@ -569,6 +600,7 @@ public class YYDataSource {
 
         return ret_contacts_list;
     }
+    */
 
     public boolean areaCodesIsFull() {
         return false;
