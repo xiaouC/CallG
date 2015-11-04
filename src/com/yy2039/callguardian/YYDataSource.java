@@ -442,7 +442,15 @@ public class YYDataSource {
                     }
 
                     //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
-                    final int msg_state = 1;
+                    // "00","02"
+                    int temp_state = 1;
+                    char[] ch_custom = results[i*4+0].toCharArray();
+                    if( ch_custom[0] == '0' ) { temp_state = 3; }
+                    if( ch_custom[0] == '1' ) { temp_state = 1; }
+                    if( ch_custom[0] == '2' ) { temp_state = 2; }
+                    if( ch_custom[0] == '3' ) { temp_state = 4; }
+
+                    final int msg_state = temp_state;
                     final String msg_name = results[i*4+1];
                     final String msg_number = results[i*4+2];
                     final String msg_datetime = results[i*4+3];
