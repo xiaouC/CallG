@@ -82,11 +82,11 @@ public class YYCommand {
     public final static String ANSWER_MACHINE_COOM_RESULT = "com.action.dect.answer.machine.coom.result";
 
     // 比较 pin 是否正确
-    public final static String CALL_GUARDIAN_CMPC = "android.intent.action.call.guardian.cmpc";
+    public final static String CALL_GUARDIAN_CMPC = "andorid.intent.action.call.guardian.cmpc";
     public final static String CALL_GUARDIAN_CMPC_RESULT = "com.action.dect.call.guardian.cmpc.result";
 
     // new pin
-    public final static String CALL_GUARDIAN_SCCP = "android.intent.action.call.guardian.sccp";
+    public final static String CALL_GUARDIAN_SCCP = "andorid.intent.action.call.guardian.sccp";
     public final static String CALL_GUARDIAN_SCCP_RESULT = "com.action.dect.call.guardian.sccp.result";
 
     private boolean settings_base_link = false;
