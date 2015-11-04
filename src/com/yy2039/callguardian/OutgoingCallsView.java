@@ -191,7 +191,7 @@ public class OutgoingCallsView extends YYViewBackList {
                     public void onClick( View v ) {
                         main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), "first", new YYInputNumberPINView.onYYInputNumberPINHandler() {
                             public void onSuccessful( String number ) {
-                                main_activity.yy_data_source.setPINNumber( number );
+                                //main_activity.yy_data_source.setPINNumber( number );
 
                                 YYViewBase.onBackClick();
 

@@ -38,7 +38,7 @@ public class YYDataSource {
     private Integer nPreminumRateCallsMode;
     private Integer nAllDialledCallsMode;
     private boolean bIsFirstTimeUse;
-    private String strPINNumber;
+    //private String strPINNumber;
 
     private Integer nDoNotDisturb_CallsAndNotificationsArrive_Mode;
     private Integer nDoNotDisturb_Priority;
@@ -114,8 +114,8 @@ public class YYDataSource {
         nInternationalCallsMode = YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED;
         nPreminumRateCallsMode = YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED;
         nAllDialledCallsMode = YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED;
-        bIsFirstTimeUse = true;
-        strPINNumber = "";
+        bIsFirstTimeUse = false;
+        //strPINNumber = "";
 
         // 请求 BTＣall Guardian 设置
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
@@ -680,15 +680,15 @@ public class YYDataSource {
         main_activity.saveSharedPreferences();
     }
 
-    public String getPINNumber() {
-        return strPINNumber;
-    }
+    //public String getPINNumber() {
+    //    return strPINNumber;
+    //}
 
-    public void setPINNumber( String pin_number ) {
-        strPINNumber = pin_number;
+    //public void setPINNumber( String pin_number ) {
+    //    strPINNumber = pin_number;
 
-        main_activity.saveSharedPreferences();
-    }
+    //    main_activity.saveSharedPreferences();
+    //}
 
     public Integer getMobileCallsMode() {
         return nMobileCallsMode;

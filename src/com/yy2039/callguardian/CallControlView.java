@@ -106,10 +106,10 @@ public class CallControlView extends YYViewBase {
                     @Override
                     public void onClick( View v ) {
                         final String pin_type = main_activity.yy_data_source.IsFirstTimeUse() ? "first" : "enter";
-                        final String ori_pin = main_activity.yy_data_source.getPINNumber();
-                        main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", ori_pin, yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
+                        //final String ori_pin = main_activity.yy_data_source.getPINNumber();
+                        main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
                             public void onSuccessful( String number ) {
-                                main_activity.yy_data_source.setPINNumber( number );
+                                //main_activity.yy_data_source.setPINNumber( number );
 
                                 outgoing_calls_view.setView( true, yy_view_self.getViewBackHandler() );
 
