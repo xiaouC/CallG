@@ -131,40 +131,18 @@ public class CallGuardianActivity extends FragmentActivity
     }
 
     // 
-    private static final String PREFERENCE_PACKAGE = "com.yy2039.answermachine";  
-    public static String PREFER_NAME = "answermachine";
     private boolean bIsLoading = false;
-
-    private boolean bRemoteValid = false;
     private static String LOCAL_PREFER_NAME = "callguardian";
-    private static int MODE = Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE + Context.MODE_APPEND;
     public void loadSharedPreferences() {
         bIsLoading = true;
 
         // 
-        SharedPreferences share = main_activity.getSharedPreferences( LOCAL_PREFER_NAME, MODE );
+        SharedPreferences share = main_activity.getSharedPreferences( LOCAL_PREFER_NAME, Context.MODE_WORLD_READABLE );
+
         yy_data_source.setMobileCallsMode( share.getBoolean( "Mobile", true ) ? YYCommon.OUTGOING_CALLS_MOBILE_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_MOBILE_CALLS_MODE_BARRED );
         yy_data_source.setPreminumRateCallsMode( share.getBoolean( "Preminum", true ) ? YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_BARRED );
         yy_data_source.setInternationalCallsMode( share.getBoolean( "International", true ) ? YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_BARRED );
         yy_data_source.setAllDialledCallsMode( share.getBoolean( "AllDialled", true ) ? YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_BARRED );
-        yy_data_source.setIsFirstTimeUse( share.getBoolean( "PINFirstTimeUse", false ) );
-        boolean bIsValid = share.getBoolean( "IsFirstTimeUseValid", false );
-
-        if( !bIsValid ) {
-            Context c = null;
-            try {
-                c = createPackageContext( PREFERENCE_PACKAGE, Context.CONTEXT_IGNORE_SECURITY );
-            } catch (NameNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            if( c != null ) {
-                SharedPreferences sharedPreferences = c.getSharedPreferences( PREFER_NAME, Context.MODE_MULTI_PROCESS );
-                if( sharedPreferences != null && sharedPreferences.getBoolean( "IsFirstTimeUseValid", false ) ) {
-                    yy_data_source.setIsFirstTimeUse( sharedPreferences.getBoolean( "PINFirstTimeUse", false ) );
-                }
-            }
-        }
 
         bIsLoading = false;
     }
@@ -173,15 +151,13 @@ public class CallGuardianActivity extends FragmentActivity
         if( bIsLoading )
             return;
 
-        SharedPreferences share = main_activity.getSharedPreferences( PREFER_NAME, MODE );
+        SharedPreferences share = main_activity.getSharedPreferences( LOCAL_PREFER_NAME, Context.MODE_WORLD_READABLE );
         SharedPreferences.Editor editor = share.edit();
 
         editor.putBoolean( "Mobile", yy_data_source.getMobileCallsMode() == YYCommon.OUTGOING_CALLS_MOBILE_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "Preminum", yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "International", yy_data_source.getInternationalCallsMode() == YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "AllDialled", yy_data_source.getAllDialledCallsMode() == YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED ? true : false );
-        editor.putBoolean( "PINFirstTimeUse", yy_data_source.IsFirstTimeUse() );
-        editor.putBoolean( "IsFirstTimeUseValid", true );
 
         editor.commit();
     }
