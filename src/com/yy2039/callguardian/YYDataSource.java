@@ -403,6 +403,7 @@ public class YYDataSource {
                 main_activity.sendBroadcast( banbIntent );
             }
             public void onRecv( String data ) {
+                Log.v( "cconn", "CALL_GUARDIAN_BANB_RESULT : " + data );
                 onAddNumberEvent.onSuccessfully();
             }
             public void onFailure() {

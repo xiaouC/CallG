@@ -120,7 +120,7 @@ public class YYCommand {
     }
     public Map<String,onRecvActionListener> action_list = new HashMap<String,onRecvActionListener>();
 
-	public BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver commandReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			String data = intent.getExtras().getString("data");
@@ -129,23 +129,35 @@ public class YYCommand {
             Log.v( "cconn", "action : " + action );
             Log.v( "cconn", "data : " + data );
             Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
-            Log.v( "prot", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
-            Log.v( "prot", "action : " + action );
-            Log.v( "prot", "data : " + data );
-            Log.v( "prot", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
 
             if( cur_command_info != null ) {
+                Log.v( "cconn", "cur_command_info.command_name : " + cur_command_info.command_name );
                 if( cur_command_info.command_name.equals( action ) ) {
+                    unregisterReceiver();
+
                     onRecvActionListener ral = action_list.get( action );
                     ral.onExecute( data );
                 }
             }
-            else {
-                onRecvActionListener ral = action_list.get( action );
-                ral.onExecute( data );
-            }
+            //else {
+            //    onRecvActionListener ral = action_list.get( action );
+            //    ral.onExecute( data );
+            //}
         }
     };
+
+    public void unregisterReceiver() {
+        try {
+            main_activity.unregisterReceiver( commandReceiver );
+        } catch ( IllegalArgumentException e ) {
+            if( e.getMessage().contains( "Receiver not registered" ) ) {
+                // Ignore this exception. This is exactly what is desired
+            } else {
+                // unexpected, re-throw
+                throw e;
+            }
+        }
+    }
 
     public List<CommandInfo> request_command_list = new ArrayList<CommandInfo>();
     public void executeCommand( String cmd, onCommandListener listener ) {
@@ -164,6 +176,11 @@ public class YYCommand {
         if( request_command_list.size() > 0 ) {
             cur_command_info = request_command_list.get( 0 );
             request_command_list.remove( 0 );
+
+            // 
+            IntentFilter filter = new IntentFilter();
+            filter.addAction( cur_command_info.command_name );
+            main_activity.registerReceiver( commandReceiver, filter );
 
             cur_command_info.command_listener.onSend();
         }
@@ -374,13 +391,13 @@ public class YYCommand {
             }
         });
 
-        // 注册
-        IntentFilter filter = new IntentFilter();
-        for( Map.Entry<String,onRecvActionListener> entry : action_list.entrySet() ) {
-            String action_name = entry.getKey();
-            filter.addAction( action_name );
-        }
-		main_activity.registerReceiver( commandReceiver, filter );
+        //// 注册
+        //IntentFilter filter = new IntentFilter();
+        //for( Map.Entry<String,onRecvActionListener> entry : action_list.entrySet() ) {
+        //    String action_name = entry.getKey();
+        //    filter.addAction( action_name );
+        //}
+		//main_activity.registerReceiver( commandReceiver, filter );
     }
 
     public interface onConnLisenter {
