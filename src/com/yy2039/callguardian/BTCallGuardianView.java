@@ -591,17 +591,23 @@ public class BTCallGuardianView extends YYViewBack {
                     main_activity.sendBroadcast( tempIntent );
                 }
                 public void onRecv( String data ) {
-                    String title = "Record name";
-                    String tips = "Recording name";
-                    main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                        public void onOK() { showPlayMessageAlertDialog(); }
-                        public void onCancel() {
-                            main_activity.yy_data_source.setIsUseDefaultMessage( true );
+                    Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                    if( data != null && data.equals( "SUCCESS" ) ) {
+                        String title = "Record name";
+                        String tips = "Recording name";
+                        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public void onOK() { showPlayMessageAlertDialog(); }
+                            public void onCancel() {
+                                main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
-                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                            task.execute();
-                        }
-                    });
+                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                task.execute();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
+                    }
                 }
                 public void onFailure() {
                     Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
@@ -618,32 +624,44 @@ public class BTCallGuardianView extends YYViewBack {
                     main_activity.sendBroadcast( tempIntent );
                 }
                 public void onRecv( String data ) {
-                    String title = "Play message";
-                    String tips = "Playing announce message";
-                    main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                        public void onOK() {
-                            main_activity.yy_data_source.setIsUseDefaultMessage( false );
+                    Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                    if( data != null && data.equals( "SUCCESS" ) ) {
+                        String title = "Play message";
+                        String tips = "Playing announce message";
+                        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public void onOK() {
+                                main_activity.yy_data_source.setIsUseDefaultMessage( false );
 
-                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                            task.execute();
-                        }
-                        public void onCancel() {
-                            main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                                public void onSend() {
-                                    Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                                    tempIntent.putExtra( "operation", "1" );       // 1 : delete , 3 : announce message
-                                    tempIntent.putExtra( "type", "3" );       // 1 : play , 3 : announce message
-                                    main_activity.sendBroadcast( tempIntent );
-                                }
-                                public void onRecv( String data ) {
-                                    showRecordNameAlertDialog();
-                                }
-                                public void onFailure() {
-                                    Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
-                                }
-                            });
-                        }// End public void onCancel()
-                    });
+                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                task.execute();
+                            }
+                            public void onCancel() {
+                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                    public void onSend() {
+                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                        tempIntent.putExtra( "operation", "1" );       // 1 : delete , 3 : announce message
+                                        tempIntent.putExtra( "type", "3" );       // 1 : play , 3 : announce message
+                                        main_activity.sendBroadcast( tempIntent );
+                                    }
+                                    public void onRecv( String data ) {
+                                        Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                                        if( data != null && data.equals( "SUCCESS" ) ) {
+                                            showRecordNameAlertDialog();
+                                        }
+                                        else {
+                                            Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                        }
+                                    }
+                                    public void onFailure() {
+                                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                    }
+                                });
+                            }// End public void onCancel()
+                        });
+                    }
+                    else {
+                        Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
+                    }
                 }
                 public void onFailure() {
                     Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
@@ -871,16 +889,22 @@ public class BTCallGuardianView extends YYViewBack {
                             main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GACN ) );
                         }
                         public void onRecv( String data ) {
-                            String[] results = data.split( "," );
-
-                            area_codes_list.clear();
-                            for( int i=0; i < results.length; ++i ) {
-                                area_codes_list.add( results[i] );
+                            if( data == null ) {
+                                String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
+                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
+                            else {
+                                String[] results = data.split( "," );
 
-                            fillListView();
+                                area_codes_list.clear();
+                                for( int i=0; i < results.length; ++i ) {
+                                    area_codes_list.add( results[i] );
+                                }
 
-                            area_codes_list.clear();
+                                fillListView();
+
+                                area_codes_list.clear();
+                            }
                         }
                         public void onFailure() {
                             Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
@@ -949,17 +973,23 @@ public class BTCallGuardianView extends YYViewBack {
                             main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GACN ) );
                         }
                         public void onRecv( String data ) {
-                            String[] results = data.split( "," );
-
-                            area_codes_list.clear();
-                            for( int i=0; i < results.length; ++i ) {
-                                area_codes_list.add( results[i] );
+                            if( data == null ) {
+                                String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
+                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
-                            main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            else {
+                                String[] results = data.split( "," );
 
-                            fillListView();
+                                area_codes_list.clear();
+                                for( int i=0; i < results.length; ++i ) {
+                                    area_codes_list.add( results[i] );
+                                }
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
 
-                            area_codes_list.clear();
+                                fillListView();
+
+                                area_codes_list.clear();
+                            }
                         }
                         public void onFailure() {
                             Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();

@@ -172,7 +172,7 @@ public class YYInputNumberPINView extends YYViewBase {
                         Log.v( "cconn", "CALL_GUARDIAN_SCCP : recv [" + data + "]" );
 
                         // 
-                        if( data.equals( "SUCCESS" ) ) {
+                        if( data != null && data.equals( "SUCCESS" ) ) {
                             in_pin_handler.onSuccessful( first_pin );
                         }
                         else {
@@ -222,7 +222,7 @@ public class YYInputNumberPINView extends YYViewBase {
                 public void onRecv( String data ) {
                     Log.v( "cconn", "CALL_GUARDIAN_CMPC : recv [" + data + "]" );
                     // 
-                    if( data.equals( "EQUAL" ) ) {
+                    if( data != null && data.equals( "EQUAL" ) ) {
                         in_pin_handler.onSuccessful( first_pin );
                     }
                     else {

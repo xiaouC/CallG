@@ -204,7 +204,7 @@ public class YYCommand {
         // 建立连接
         action_list.put( SETTINGS_BASE_BTCL_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
-				if( data.equals( RESULT_LINK ) ) {
+				if( data != null && data.equals( RESULT_LINK ) ) {
                     if( cur_command_info != null ) {
                         cur_command_info.command_listener.onRecv( data );
                     }
@@ -267,7 +267,7 @@ public class YYCommand {
         // calls list 连接
         action_list.put( CALL_LIST_BTCL_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
-				if( data.equals( RESULT_LINK ) ) {
+				if( data != null && data.equals( RESULT_LINK ) ) {
                     if( cur_command_info != null ) {
                         cur_command_info.command_listener.onRecv( data );
                     }
@@ -354,7 +354,7 @@ public class YYCommand {
 
         action_list.put( ANSWER_MACHINE_BTCL_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
-				if( data.equals( RESULT_LINK ) ) {
+				if( data != null && data.equals( RESULT_LINK ) ) {
                     if( cur_command_info != null ) {
                         cur_command_info.command_listener.onRecv( data );
                     }

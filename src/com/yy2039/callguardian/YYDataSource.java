@@ -123,65 +123,51 @@ public class YYDataSource {
                 main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GCCS ) );
             }
             public void onRecv( String data ) {
-                String[] results = data.split( "," );
+                if( data == null ) {
+                    String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
+                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                }
+                else {
+                    String[] results = data.split( "," );
+                    if( results.length < 3 ) {
+                        String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    }
+                    else {
+                        try {
+                            // 00 为关，01 为开
+                            bBTCallGuardianModeOn = results[0].equals( "01" );
 
-                // 00 为关，01 为开
-                bBTCallGuardianModeOn = results[0].equals( "01" );
+                            // 00 : announce, 01 : international, 02 : answerphone, 03 : custom
+                            nBTCallGuardianMode = Integer.parseInt( results[1] );
 
-                // 00 : announce, 01 : international, 02 : answerphone, 03 : custom
-                nBTCallGuardianMode = Integer.parseInt( results[1] );
-
-                // 0 : allow, 1 : announce, 2 : block, 3 : answerphone
-                char[] ch_custom = results[2].toCharArray();
-                nBTCallGuardianMode_Custom_BlockedNumber = Integer.valueOf( String.valueOf( ch_custom[0] ) );
-                nBTCallGuardianMode_Custom_AllowedNumber = Integer.valueOf( String.valueOf( ch_custom[1] ) );
-                nBTCallGuardianMode_Custom_International = Integer.valueOf( String.valueOf( ch_custom[2] ) );
-                nBTCallGuardianMode_Custom_Withheld = Integer.valueOf( String.valueOf( ch_custom[3] ) );
-                nBTCallGuardianMode_Custom_Payphones = Integer.valueOf( String.valueOf( ch_custom[4] ) );
-                nBTCallGuardianMode_Custom_MobileNumbers = Integer.valueOf( String.valueOf( ch_custom[5] ) );
-                nBTCallGuardianMode_Custom_Unavailable = Integer.valueOf( String.valueOf( ch_custom[6] ) );
-                nBTCallGuardianMode_Custom_AllOtherNumbers = Integer.valueOf( String.valueOf( ch_custom[7] ) );
+                            // 0 : allow, 1 : announce, 2 : block, 3 : answerphone
+                            char[] ch_custom = results[2].toCharArray();
+                            if( ch_custom.length < 8 ) {
+                                String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                            }
+                            else {
+                                nBTCallGuardianMode_Custom_BlockedNumber = Integer.valueOf( String.valueOf( ch_custom[0] ) );
+                                nBTCallGuardianMode_Custom_AllowedNumber = Integer.valueOf( String.valueOf( ch_custom[1] ) );
+                                nBTCallGuardianMode_Custom_International = Integer.valueOf( String.valueOf( ch_custom[2] ) );
+                                nBTCallGuardianMode_Custom_Withheld = Integer.valueOf( String.valueOf( ch_custom[3] ) );
+                                nBTCallGuardianMode_Custom_Payphones = Integer.valueOf( String.valueOf( ch_custom[4] ) );
+                                nBTCallGuardianMode_Custom_MobileNumbers = Integer.valueOf( String.valueOf( ch_custom[5] ) );
+                                nBTCallGuardianMode_Custom_Unavailable = Integer.valueOf( String.valueOf( ch_custom[6] ) );
+                                nBTCallGuardianMode_Custom_AllOtherNumbers = Integer.valueOf( String.valueOf( ch_custom[7] ) );
+                            }
+                        } catch ( Exception e ) {
+                            String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        }
+                    }
+                }
             }
             public void onFailure() {
 				Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
             }
         });
-
-        /* 测试 coom
-        main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-            public void onSend() {
-                Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                tempIntent.putExtra( "operation", "0" );       // 0 : play , 3 : announce message
-                tempIntent.putExtra( "type", "3" );       // 0 : play , 3 : announce message
-                main_activity.sendBroadcast( tempIntent );
-
-                Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT send" );
-            }
-            public void onRecv( String data ) {
-                Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT recv" );
-            }
-            public void onFailure() {
-                Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT failed" );
-            }
-        });
-        */
-
-        /* 测试 PIN
-        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_CMPC_RESULT, new YYCommand.onCommandListener() {
-            public void onSend() {
-                Intent cmpcIntent = new Intent( YYCommand.CALL_GUARDIAN_CMPC );
-                cmpcIntent.putExtra( "data", "0000" );
-                main_activity.sendBroadcast( cmpcIntent );
-                Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT send" );
-            }
-            public void onRecv( String data ) {
-                Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT recv" );
-            }
-            public void onFailure() {
-                Log.v( "cconn", "CALL_GUARDIAN_CMPC_RESULT failed" );
-            }
-        });
-        */
     }
 
     // 
@@ -370,6 +356,7 @@ public class YYDataSource {
                 main_activity.sendBroadcast( banbIntent );
             }
             public void onRecv( String data ) {
+                Log.v( "cconn", "CALL_GUARDIAN_SCCS_RESULT : " + data );
             }
             public void onFailure() {
 				Toast.makeText( main_activity, "update BT Call Guardian settings failed", Toast.LENGTH_SHORT ).show();
@@ -404,7 +391,12 @@ public class YYDataSource {
             }
             public void onRecv( String data ) {
                 Log.v( "cconn", "CALL_GUARDIAN_BANB_RESULT : " + data );
-                onAddNumberEvent.onSuccessfully();
+                if( data != null && data.equals( "SUCCESS" ) ) {
+                    onAddNumberEvent.onSuccessfully();
+                }
+                else {
+                    onAddNumberEvent.onFailure();
+                }
             }
             public void onFailure() {
                 onAddNumberEvent.onFailure();
@@ -427,59 +419,57 @@ public class YYDataSource {
                 Log.v( "cconn", "get calls list : send" );
             }
             public void onRecv( String data ) {
-                Log.v( "cconn", "get calls list : recv" );
-                String[] results = data.split( "," );
-                Log.v( "prot", "getCallsList --------------------------------------------- data : " + data );
-
-                cur_calls_list.clear();
-
-                Log.v( "cconn", "get calls list length : " + results.length );
-                int count = results.length / 4;
-                Log.v( "cconn", "get calls list count : " + count );
-                for( int i=0; i < count; ++i ) {
-                    Log.v( "cconn", "i : " + i + " ============================================ " );
-                    if( results[i*4+0].equals( "" ) ) {
-                        continue;
-                    }
-
-                    //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
-                    // "00","02"
-                    int temp_state = 1;
-                    char[] ch_custom = results[i*4+0].toCharArray();
-                    if( ch_custom[0] == '0' ) { temp_state = 3; }
-                    if( ch_custom[0] == '1' ) { temp_state = 1; }
-                    if( ch_custom[0] == '2' ) { temp_state = 2; }
-                    if( ch_custom[0] == '3' ) { temp_state = 4; }
-
-                    final int msg_state = temp_state;
-                    final String msg_name = results[i*4+1];
-                    final String msg_number = results[i*4+2];
-                    final String msg_datetime = results[i*4+3];
-                    Log.v( "cconn", "msg_name : " + msg_name );
-                    Log.v( "cconn", "msg_number : " + msg_number );
-                    Log.v( "cconn", "msg_datetime : " + msg_datetime );
-
-                    //final String year = msg_datetime.substring( 0, 4 );
-                    //final String month = msg_datetime.substring( 4, 6 );
-                    //final String day = msg_datetime.substring( 6, 8 );
-                    //final String hour = msg_datetime.substring( 8, 10 );
-                    //final String min = msg_datetime.substring( 10 );
-                    final String year = "2015";
-                    final String month = "11";
-                    final String day = "1";
-                    final String hour = "2";
-                    final String min = "53";
-
-                    cur_calls_list.add( new callsListItem() {
-                        public String getName() { return msg_name; }
-                        public String getNumber() { return msg_number; }
-                        public String getCallTime() { return String.format( "%s/%s/%s %s:%s", month, day, year, hour, min ); }
-                        //public int getState() { return msg_type; }
-                        public int getState() { return msg_state; }
-                    });
+                if( data == null ) {
+                    String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
+                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
+                else {
+                    String[] results = data.split( "," );
 
-                calls_list_listener.onSuccessfully();
+                    cur_calls_list.clear();
+
+                    try {
+                        int count = results.length / 4;
+                        for( int i=0; i < count; ++i ) {
+                            if( results[i*4+0].equals( "" ) ) {
+                                continue;
+                            }
+
+                            //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
+                            // "00","02"
+                            int temp_state = 1;
+                            char[] ch_custom = results[i*4+0].toCharArray();
+                            if( ch_custom[0] == '0' ) { temp_state = 3; }
+                            if( ch_custom[0] == '1' ) { temp_state = 1; }
+                            if( ch_custom[0] == '2' ) { temp_state = 2; }
+                            if( ch_custom[0] == '3' ) { temp_state = 4; }
+
+                            final int msg_state = temp_state;
+                            final String msg_name = results[i*4+1];
+                            final String msg_number = results[i*4+2];
+                            final String msg_datetime = results[i*4+3];
+
+                            final String year = msg_datetime.substring( 0, 4 );
+                            final String month = msg_datetime.substring( 4, 6 );
+                            final String day = msg_datetime.substring( 6, 8 );
+                            final String hour = msg_datetime.substring( 8, 10 );
+                            final String min = msg_datetime.substring( 10 );
+
+                            cur_calls_list.add( new callsListItem() {
+                                public String getName() { return msg_name; }
+                                public String getNumber() { return msg_number; }
+                                public String getCallTime() { return String.format( "%s/%s/%s %s:%s", month, day, year, hour, min ); }
+                                public int getState() { return msg_state; }
+                            });
+                        }
+
+                        calls_list_listener.onSuccessfully();
+                    } catch ( Exception e ) {
+                        String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        Log.v( "cconn", text );
+                    }
+                }
             }
             public void onFailure() {
                 calls_list_listener.onFailure();
@@ -533,7 +523,13 @@ public class YYDataSource {
                 main_activity.sendBroadcast( banbIntent );
             }
             public void onRecv( String data ) {
-                medaListener.onSuccessfully();
+                Log.v( "cconn", "CALL_GUARDIAN_MDEA_RESULT : " + data );
+                if( data != null && data.equals( "00" ) ) {
+                    medaListener.onSuccessfully();
+                }
+                else {
+                    medaListener.onFailure();
+                }
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
             }
             public void onFailure() {
