@@ -1,4 +1,4 @@
-package com.yy2039.callguardian;
+package com.yy2039.callguardian_1;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -596,7 +596,8 @@ public class BTCallGuardianView extends YYViewBack {
                         String title = "Record name";
                         String tips = "Recording name";
                         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                            public void onOK() { showPlayMessageAlertDialog(); }
+                            //public void onOK() { showPlayMessageAlertDialog(); }
+                            public void onOK() { }
                             public void onCancel() {
                                 main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
@@ -646,7 +647,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     public void onRecv( String data ) {
                                         Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
                                         if( data != null && data.equals( "SUCCESS" ) ) {
-                                            showRecordNameAlertDialog();
+                                            //showRecordNameAlertDialog();
                                         }
                                         else {
                                             Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
