@@ -119,6 +119,7 @@ public class CallControlView extends YYViewBase {
                                 }
                                 else {
                                     final String pin_type = data.equals( "01" ) ? "first" : "enter";
+                                    String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
                                     main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
                                         public void onSuccessful( String number ) {
                                             outgoing_calls_view.setView( true, yy_view_self.getViewBackHandler() );
