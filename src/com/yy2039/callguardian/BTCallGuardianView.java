@@ -596,8 +596,22 @@ public class BTCallGuardianView extends YYViewBack {
                         String title = "Record name";
                         String tips = "Recording name";
                         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                            public void onOK() { showPlayMessageAlertDialog(); }
-                            //public void onOK() { }
+                            public void onOK() {
+                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                    public void onSend() {
+                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                        tempIntent.putExtra( "operation", "4" );        // 4 : stop change
+                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                                        main_activity.sendBroadcast( tempIntent );
+                                    }
+                                    public void onRecv( String data ) {
+                                        showPlayMessageAlertDialog();
+                                    }
+                                    public void onFailure() {
+                                        showPlayMessageAlertDialog();
+                                    }
+                                });
+                            }
                             public void onCancel() {
                                 main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
@@ -631,10 +645,26 @@ public class BTCallGuardianView extends YYViewBack {
                         String tips = "Playing announce message";
                         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
-                                main_activity.yy_data_source.setIsUseDefaultMessage( false );
+                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                    public void onSend() {
+                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                        tempIntent.putExtra( "operation", "3" );        // 3 : stop play
+                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                                        main_activity.sendBroadcast( tempIntent );
+                                    }
+                                    public void onRecv( String data ) {
+                                        main_activity.yy_data_source.setIsUseDefaultMessage( false );
 
-                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                task.execute();
+                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                        task.execute();
+                                    }
+                                    public void onFailure() {
+                                        main_activity.yy_data_source.setIsUseDefaultMessage( false );
+
+                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                        task.execute();
+                                    }
+                                });
                             }
                             public void onCancel() {
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
