@@ -15,7 +15,7 @@
  */
 
 //package com.readystatesoftware.systembartint;
-package com.yy2039.callguardian_1;
+package com.yy2039.callguardian;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
