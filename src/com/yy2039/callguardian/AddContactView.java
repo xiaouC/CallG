@@ -39,7 +39,7 @@ public class AddContactView extends YYViewBackList {
                 v_handler = new onViewHandler() {
                     public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nBLOCKED list.Are you sure you\r\nwish to continue?"; }
                     public void onAttentionOK( final String number ) {
-                        main_activity.yy_data_source.addBlockNumber( 0, number, new YYDataSource.onAddNumberSuccefully() {
+                        main_activity.yy_data_source.addBlockNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
                                 // 移除这个 item
                                 blockedNames.add( number );
@@ -69,7 +69,7 @@ public class AddContactView extends YYViewBackList {
                 v_handler = new onViewHandler() {
                     public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nALLOWED list.Are you sure you\r\nwish to continue?"; }
                     public void onAttentionOK( final String number ) {
-                        main_activity.yy_data_source.addAllowNumber( 0, number, new YYDataSource.onAddNumberSuccefully() {
+                        main_activity.yy_data_source.addAllowNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
                                 // 移除这个 item
                                 allowedNames.add( number );

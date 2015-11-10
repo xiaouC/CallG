@@ -58,7 +58,7 @@ public class AddNumberView extends YYViewBackList {
                     }
                     public String getAttentionText() { return "All future calls from this number will be BLOCKED.Are you sure you wish to continue?"; }
                     public void onFromCallsListOK( String number ) {
-                        main_activity.yy_data_source.addBlockNumber( 1, number, new YYDataSource.onAddNumberSuccefully() {
+                        main_activity.yy_data_source.addBlockNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
                                 // 移除这个 item
 
@@ -103,7 +103,7 @@ public class AddNumberView extends YYViewBackList {
                     }
                     public String getAttentionText() { return "All future calls from this number will be ALLOWED.Are you sure you wish to continue?"; }
                     public void onFromCallsListOK( String number ) {
-                        main_activity.yy_data_source.addAllowNumber( 1, number, new YYDataSource.onAddNumberSuccefully() {
+                        main_activity.yy_data_source.addAllowNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
                                 // 移除这个 item
 
@@ -200,7 +200,10 @@ public class AddNumberView extends YYViewBackList {
                     public void item_handle( Object view_obj ) {
                         final Button btn_obj = (Button)view_obj;
 
-                        String name = item_info.getName();
+                        String name = item_info.getNumber();
+                        if( name.equals( "" ) ) {
+                            name = item_info.getName();
+                        }
                         String callTime = item_info.getCallTime();
                         int state = item_info.getState();
 

@@ -381,16 +381,35 @@ public class YYDataSource {
         updateBlockAllowNumber( nNumberFrom, 1, number, onAddNumberEvent );
     }
 
+    private String valid_chars = new String( "0123456789PR*#" );
+    private boolean isValidNumber( char ch ) {
+        for( int i=0; i < valid_chars.length(); ++i ) {
+            if( ch == valid_chars.charAt( i ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // nNumberFrom : 0 from Contacts, 1 from call list, 2 from other
     // bNumberType : 0 for block, 1 for allow
-    public void updateBlockAllowNumber( final int nNumberFrom, final int nNumberType, final String number, final onAddNumberSuccefully onAddNumberEvent ) {
+    public void updateBlockAllowNumber( final int nNumberFrom, final int nNumberType, String number, final onAddNumberSuccefully onAddNumberEvent ) {
+        String new_number = "";
+        for( int i=0; i < number.length(); ++i ) {
+            if( isValidNumber( number.charAt( i ) ) ) {
+                new_number += number.charAt( i );
+            }
+        }
+
+        final String send_number = new_number;
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_BANB_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
                 Intent banbIntent = new Intent( YYCommand.CALL_GUARDIAN_BANB );
                 banbIntent.putExtra( "type", String.format( "%d", nNumberFrom ) );
                 banbIntent.putExtra( "block_or_allow", String.format( "%d", nNumberType ) );
-                banbIntent.putExtra( "num", number );
+                banbIntent.putExtra( "num", send_number );
                 main_activity.sendBroadcast( banbIntent );
+                Log.v( "cconn", String.format( "from : %d, type : %d, number : %s", nNumberFrom, nNumberType, send_number ) );
             }
             public void onRecv( String data ) {
                 Log.v( "cconn", "CALL_GUARDIAN_BANB_RESULT : " + data );
@@ -430,7 +449,7 @@ public class YYDataSource {
                         timer.cancel();
                     }  
                 }; 
-                timer.schedule( task, 1000, 1000000 ); //延时1000ms后执行，1000ms执行一次
+                timer.schedule( task, 2000, 1000000 ); //延时1000ms后执行，1000ms执行一次
 
                 Log.v( "cconn", "get calls list : send" );
             }
@@ -448,12 +467,13 @@ public class YYDataSource {
                     try {
                         int count = results.length / 4;
                         for( int i=0; i < count; ++i ) {
-                            if( results[i*4+0].equals( "" ) ) {
+                            if( results[i*4+1].equals( "" ) && results[i*4+2].equals( "" ) ) {
                                 continue;
                             }
 
                             //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
                             // "00","02"
+                            Log.v( "cconn", "results0 : " + results[i*4+0] );
                             int temp_state = 1;
                             char[] ch_custom = results[i*4+0].toCharArray();
                             if( ch_custom[0] == '0' ) { temp_state = 3; }
@@ -462,15 +482,23 @@ public class YYDataSource {
                             if( ch_custom[0] == '3' ) { temp_state = 4; }
 
                             final int msg_state = temp_state;
+                            Log.v( "cconn", "results1 : " + results[i*4+1] );
                             final String msg_name = results[i*4+1];
+                            Log.v( "cconn", "results2 : " + results[i*4+2] );
                             final String msg_number = results[i*4+2];
+                            Log.v( "cconn", "results3 : " + results[i*4+3] );
                             final String msg_datetime = results[i*4+3];
 
                             final String year = msg_datetime.substring( 0, 4 );
+                            Log.v( "cconn", "year : " + year );
                             final String month = msg_datetime.substring( 4, 6 );
+                            Log.v( "cconn", "month : " + month );
                             final String day = msg_datetime.substring( 6, 8 );
+                            Log.v( "cconn", "day : " + day );
                             final String hour = msg_datetime.substring( 8, 10 );
+                            Log.v( "cconn", "hour : " + hour );
                             final String min = msg_datetime.substring( 10 );
+                            Log.v( "cconn", "min : " + min );
 
                             cur_calls_list.add( new callsListItem() {
                                 public String getName() { return msg_name; }
