@@ -21,6 +21,9 @@ import android.text.TextUtils;
 import android.provider.ContactsContract;
 import android.net.Uri;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class YYDataSource {
     private boolean bBTCallGuardianModeOn;
     private Integer nBTCallGuardianMode;    // 最终选中的
@@ -413,9 +416,22 @@ public class YYDataSource {
     public void getCallsList( final onCallsListListener calls_list_listener ) {
         main_activity.yy_command.executeCallListCommand( YYCommand.CALL_LIST_GTCL_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
-                Intent calllistIntent = new Intent( YYCommand.CALL_LIST_GTCL );
-                calllistIntent.putExtra( "data", "0" );
-                main_activity.sendBroadcast( calllistIntent );
+                final Timer timer = new Timer( true );
+                TimerTask task = new TimerTask(){  
+                    public void run() {  
+                        //Message message = new Message();      
+                        //message.what = 1;      
+                        //handler.sendMessage(message);    
+
+                        Intent calllistIntent = new Intent( YYCommand.CALL_LIST_GTCL );
+                        calllistIntent.putExtra( "data", "0" );
+                        main_activity.sendBroadcast( calllistIntent );
+
+                        timer.cancel();
+                    }  
+                }; 
+                timer.schedule( task, 1000, 1000000 ); //延时1000ms后执行，1000ms执行一次
+
                 Log.v( "cconn", "get calls list : send" );
             }
             public void onRecv( String data ) {
