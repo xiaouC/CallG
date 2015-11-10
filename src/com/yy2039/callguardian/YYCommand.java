@@ -89,6 +89,10 @@ public class YYCommand {
     public final static String CALL_GUARDIAN_SCCP = "andorid.intent.action.call.guardian.sccp";
     public final static String CALL_GUARDIAN_SCCP_RESULT = "com.action.dect.call.guardian.sccp.result";
 
+    // first pin
+    public final static String CALL_GUARDIAN_GDES = "andorid.intent.action.call.guardian.gdes";
+    public final static String CALL_GUARDIAN_GDES_RESULT = "com.action.dect.call.guardian.gdes.result";
+
     //private boolean settings_base_link = false;
     //private boolean call_list_link = false;
     //private boolean answer_machine_link = false;
@@ -344,6 +348,17 @@ public class YYCommand {
         });
         // 修改 pin
         action_list.put( CALL_GUARDIAN_SCCP_RESULT, new onRecvActionListener() {
+            public void onExecute( String data ) {
+                if( cur_command_info != null ) {
+                    cur_command_info.command_listener.onRecv( data );
+                }
+
+                cur_command_info = null;
+                realExecuteCommand();
+            }
+        });
+        // first pin
+        action_list.put( CALL_GUARDIAN_GDES_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
                 if( cur_command_info != null ) {
                     cur_command_info.command_listener.onRecv( data );

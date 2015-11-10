@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.content.Intent;
 import android.widget.Toast;
+import android.util.Log;
 
 public class CallControlView extends YYViewBase {
     private BTCallGuardianView bt_call_guardian;
@@ -105,27 +106,44 @@ public class CallControlView extends YYViewBase {
                 btn_obj.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) {
-                        final String pin_type = main_activity.yy_data_source.IsFirstTimeUse() ? "first" : "enter";
-                        //final String ori_pin = main_activity.yy_data_source.getPINNumber();
-                        main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
-                            public void onSuccessful( String number ) {
-                                //main_activity.yy_data_source.setPINNumber( number );
+                        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GDES_RESULT, new YYCommand.onCommandListener() {
+                            public void onSend() {
+                                main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GDES ) );
+                                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : send" );
+                            }
+                            public void onRecv( String data ) {
+                                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : recv " + data );
+                                if( data == null ) {
+                                    String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GDES_RESULT );
+                                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                }
+                                else {
+                                    final String pin_type = data.equals( "01" ) ? "first" : "enter";
+                                    main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
+                                        public void onSuccessful( String number ) {
+                                            outgoing_calls_view.setView( true, yy_view_self.getViewBackHandler() );
 
-                                outgoing_calls_view.setView( true, yy_view_self.getViewBackHandler() );
+                                            if( pin_type.equals( "first" ) ) {
+                                                main_activity.yy_data_source.setIsFirstTimeUse( false );
 
-                                if( pin_type.equals( "first" ) ) {
-                                    main_activity.yy_data_source.setIsFirstTimeUse( false );
-
-                                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention_2, new YYShowAlertDialog.onAlertDialogHandler() {
-                                        public void onInit( AlertDialog ad, View view ) {
-                                            String text1 = "Please remember this Access PIN is used for both remote access and outgoing call control";
-                                            TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                            tv.setText( text1 );
+                                                main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention_2, new YYShowAlertDialog.onAlertDialogHandler() {
+                                                    public void onInit( AlertDialog ad, View view ) {
+                                                        String text1 = "Please remember this Access PIN is used for both remote access and outgoing call control";
+                                                        TextView tv = (TextView)view.findViewById( R.id.attention_text );
+                                                        tv.setText( text1 );
+                                                    }
+                                                    public void onOK() { }
+                                                    public void onCancel() { }
+                                                });
+                                            }
                                         }
-                                        public void onOK() { }
-                                        public void onCancel() { }
                                     });
                                 }
+                            }
+                            public void onFailure() {
+                                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : failed " );
+                                String text = String.format( "%s recv failed", YYCommand.CALL_GUARDIAN_GDES_RESULT );
+                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
                         });
                     }
