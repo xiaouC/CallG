@@ -419,6 +419,7 @@ public class YYDataSource {
                 Log.v( "cconn", "get calls list : send" );
             }
             public void onRecv( String data ) {
+                Log.v( "cconn", "get calls list recv : " + data );
                 if( data == null ) {
                     String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
                     Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
