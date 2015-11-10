@@ -596,8 +596,8 @@ public class BTCallGuardianView extends YYViewBack {
                         String title = "Record name";
                         String tips = "Recording name";
                         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                            //public void onOK() { showPlayMessageAlertDialog(); }
-                            public void onOK() { }
+                            public void onOK() { showPlayMessageAlertDialog(); }
+                            //public void onOK() { }
                             public void onCancel() {
                                 main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
