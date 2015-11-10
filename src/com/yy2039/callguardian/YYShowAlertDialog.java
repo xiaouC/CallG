@@ -1,4 +1,4 @@
-package com.yy2039.callguardian_1;
+package com.yy2039.callguardian;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -257,6 +257,7 @@ public class YYShowAlertDialog {
             @Override
             public boolean onKey( DialogInterface dialog, int keyCode, KeyEvent event) {
                 if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    main_activity.yy_command.unregisterReceiver();
                     main_activity.yy_command.cur_command_info = null;
                     main_activity.yy_command.realExecuteCommand();
                 }
