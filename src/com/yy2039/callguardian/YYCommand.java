@@ -157,6 +157,7 @@ public class YYCommand {
                 throw e;
             }
         }
+        Log.v( "cconn", "unregisterReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
     }
 
     public List<CommandInfo> request_command_list = new ArrayList<CommandInfo>();
@@ -181,6 +182,7 @@ public class YYCommand {
             IntentFilter filter = new IntentFilter();
             filter.addAction( cur_command_info.command_name );
             main_activity.registerReceiver( commandReceiver, filter );
+            Log.v( "cconn", "registerReceiver : " + cur_command_info.command_name );
 
             cur_command_info.command_listener.onSend();
         }
@@ -419,12 +421,12 @@ public class YYCommand {
                                 // 处理完后，马上断开
                                 disconnectSettingsBase( new onConnLisenter() {
                                     public void onSuccessfully() {
-                                        cmd_listener.onRecv( recv_data );
                                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                        cmd_listener.onRecv( recv_data );
                                     }
                                     public void onFailure() {
-                                        cmd_listener.onRecv( recv_data );
                                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                        cmd_listener.onRecv( recv_data );
                                     }
                                 });
                             }
@@ -432,20 +434,20 @@ public class YYCommand {
                                 // 处理完后，马上断开
                                 disconnectSettingsBase( new onConnLisenter() {
                                     public void onSuccessfully() {
-                                        cmd_listener.onFailure();
                                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                        cmd_listener.onFailure();
                                     }
                                     public void onFailure() {
-                                        cmd_listener.onFailure();
                                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                        cmd_listener.onFailure();
                                     }
                                 });
                             }
                         });
                     }
                     public void onFailure() {
-                        Toast.makeText( main_activity, "settings base link failed!", Toast.LENGTH_LONG ).show();
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                        Toast.makeText( main_activity, "settings base link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
@@ -468,9 +470,9 @@ public class YYCommand {
                         executeCommand( cmd_result, new onCommandListener() {
                             public void onSend() { cmd_listener.onSend(); }
                             public void onRecv( String data ) {
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
                                 Log.v( "cconn", "execute call list cmd success" );
                                 cmd_listener.onRecv( data );
-                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
                                 //final String recv_data = data;
                                 //disconnectCallList( new onConnLisenter() {
                                 //    public void onSuccessfully() {
@@ -486,9 +488,9 @@ public class YYCommand {
                                 //call_list_link = false;
                             }
                             public void onFailure() {
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
                                 Log.v( "cconn", "execute call list cmd failed" );
                                 cmd_listener.onFailure();
-                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
                                 //disconnectCallList( new onConnLisenter() {
                                 //    public void onSuccessfully() {
                                 //        cmd_listener.onFailure();
@@ -505,8 +507,8 @@ public class YYCommand {
                         });
                     }
                     public void onFailure() {
-                        Toast.makeText( main_activity, "call list link failed!", Toast.LENGTH_LONG ).show();
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                        Toast.makeText( main_activity, "call list link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
@@ -526,18 +528,18 @@ public class YYCommand {
                         executeCommand( cmd_result, new onCommandListener() {
                             public void onSend() { cmd_listener.onSend(); }
                             public void onRecv( String data ) {
-                                cmd_listener.onRecv( data );
                                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                cmd_listener.onRecv( data );
                             }
                             public void onFailure() {
-                                cmd_listener.onFailure();
                                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                cmd_listener.onFailure();
                             }
                         });
                     }
                     public void onFailure() {
-                        Toast.makeText( main_activity, "answer machine link failed!", Toast.LENGTH_LONG ).show();
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                        Toast.makeText( main_activity, "answer machine link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
