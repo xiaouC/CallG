@@ -435,21 +435,13 @@ public class YYDataSource {
     public void getCallsList( final onCallsListListener calls_list_listener ) {
         main_activity.yy_command.executeCallListCommand( YYCommand.CALL_LIST_GTCL_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
-                final Timer timer = new Timer( true );
-                TimerTask task = new TimerTask(){  
-                    public void run() {  
-                        //Message message = new Message();      
-                        //message.what = 1;      
-                        //handler.sendMessage(message);    
-
+                main_activity.yy_schedule.scheduleOnceTime( 2000, new YYSchedule.onScheduleAction() {
+                    public void doSomething() {
                         Intent calllistIntent = new Intent( YYCommand.CALL_LIST_GTCL );
                         calllistIntent.putExtra( "data", "0" );
                         main_activity.sendBroadcast( calllistIntent );
-
-                        timer.cancel();
-                    }  
-                }; 
-                timer.schedule( task, 2000, 1000000 ); //延时1000ms后执行，1000ms执行一次
+                    }
+                });
 
                 Log.v( "cconn", "get calls list : send" );
             }

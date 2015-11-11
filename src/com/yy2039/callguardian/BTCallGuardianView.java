@@ -61,24 +61,6 @@ public class BTCallGuardianView extends YYViewBack {
         bIsInitSwitchBtnState = false;
     }
 
-    // 返回到自己界面
-    public onViewBackHandler getViewBackHandler() {
-        if( vb_handler == null )
-        {
-            vb_handler = new onViewBackHandler() {
-                public void onBack() {
-                    //main_activity.yy_command.disconnectAnswerMachine( new YYCommand.onConnLisenter() {
-                    //    public void onSuccessfully() {}
-                    //    public void onFailure() {}
-                    //});
-                    yy_view_self.setView( false, null );
-                }
-            };
-        }
-
-        return vb_handler;
-    }
-
     public String getViewTitle() {
         return "BT Call Guardian";
     }
