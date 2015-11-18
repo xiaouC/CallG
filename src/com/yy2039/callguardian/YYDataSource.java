@@ -541,8 +541,32 @@ public class YYDataSource {
         return ret_contacts_list;
     }
 
-    public boolean areaCodesIsFull() {
-        return false;
+    // 
+    public interface onAreaCodesIsFullListener {
+        void onAreaCodeFullCallback( boolean bIsFull );
+    }
+
+    public void areaCodesIsFull( final onAreaCodesIsFullListener area_code_listener ) {
+        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_MDEA_RESULT, new YYCommand.onCommandListener() {
+            public void onSend() {
+                main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_MDEA ) );
+                Log.v( "cconn", "areaCodesIsFull : send" );
+            }
+            public void onRecv( String data ) {
+                Log.v( "cconn", "areaCodesIsFull recv : " + data );
+                if( data != null && data.equals( "00" ) ) {
+                    boolean bIsFull = false;
+                    area_code_listener.onAreaCodeFullCallback( false );
+                }
+                else {
+                    Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
+                }
+            }
+            public void onFailure() {
+                Log.v( "cconn", "areaCodesIsFull : failed" );
+                Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
+            }
+        });
     }
 
     public interface onMedaListener {
@@ -567,11 +591,9 @@ public class YYDataSource {
                 else {
                     medaListener.onFailure();
                 }
-                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
             }
             public void onFailure() {
                 medaListener.onFailure();
-                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
             }
         });
     }

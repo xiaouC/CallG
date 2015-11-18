@@ -824,43 +824,46 @@ public class BTCallGuardianView extends YYViewBack {
                                         final String new_area_code = number;
 
                                         // 如果满了，就弹窗提示，选择一个进行覆盖
-                                        if( main_activity.yy_data_source.areaCodesIsFull() ) {
-                                            main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
-                                                public void onInit( AlertDialog ad, View view ) {
-                                                    TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                                    tv.setText( "The area codes list is full.Please\r\npress OK to select an area code in\r\nthe list to replace or CANCEL to go\r\nback." );
+                                        main_activity.yy_data_source.areaCodesIsFull( new YYDataSource.onAreaCodesIsFullListener() {
+                                            public void onAreaCodeFullCallback( boolean bIsFull ) {
+                                                if( bIsFull ) {
+                                                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                                                        public void onInit( AlertDialog ad, View view ) {
+                                                            TextView tv = (TextView)view.findViewById( R.id.attention_text );
+                                                            tv.setText( "The area codes list is full.Please\r\npress OK to select an area code in\r\nthe list to replace or CANCEL to go\r\nback." );
 
-                                                    // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
-                                                    ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
-                                                    btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_cancel ) );
+                                                            // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
+                                                            ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_cancel ) );
 
-                                                    ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
-                                                    btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
-                                                }
-                                                public void onOK() { }
-                                                public void onCancel() {
-                                                    area_codes_full_view.add_area_code = new_area_code;
-                                                    area_codes_full_view.setView( true, main_activity.yy_input_number_view.getViewBackHandler() );
-                                                }
-                                            });
-                                        }
-                                        else {
-                                            main_activity.yy_data_source.onMedaProcess( YYCommand.ADD_NEW_AREA_CODE, new_area_code, null, new YYDataSource.onMedaListener() {
-                                                public void onSuccessfully() {
-                                                    String title = "Successfully added to the\r\n BLOCKED list";
-                                                    String tips = "Press OK to finish";
-                                                    int nDrawableResID = R.drawable.successfully;
-                                                    int nOKResID = R.drawable.alert_dialog_ok;
-                                                    main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                            ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                                        }
                                                         public void onOK() { }
-                                                        public void onCancel() { }
+                                                        public void onCancel() {
+                                                            area_codes_full_view.add_area_code = new_area_code;
+                                                            area_codes_full_view.setView( true, main_activity.yy_input_number_view.getViewBackHandler() );
+                                                        }
+                                                    });
+                                                } else {
+                                                    main_activity.yy_data_source.onMedaProcess( YYCommand.ADD_NEW_AREA_CODE, new_area_code, null, new YYDataSource.onMedaListener() {
+                                                        public void onSuccessfully() {
+                                                            String title = "Successfully added to the\r\n BLOCKED list";
+                                                            String tips = "Press OK to finish";
+                                                            int nDrawableResID = R.drawable.successfully;
+                                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                                public void onOK() { }
+                                                                public void onCancel() { }
+                                                            });
+                                                        }
+                                                        public void onFailure() {
+                                                            Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                        }
                                                     });
                                                 }
-                                                public void onFailure() {
-                                                    Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
-                                                }
-                                            });
-                                        }
+                                            }
+                                        });
                                     }
                                 });
                             }
