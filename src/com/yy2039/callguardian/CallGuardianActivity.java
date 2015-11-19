@@ -20,6 +20,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 public class CallGuardianActivity extends FragmentActivity
 {
     public static CallGuardianActivity main_activity;
+    public boolean bIsDestroy = false;
 
     public YYCommon yy_common;
     public YYSchedule yy_schedule;
@@ -108,6 +109,8 @@ public class CallGuardianActivity extends FragmentActivity
 	@Override
 	protected void onDestroy()
 	{
+        bIsDestroy = true;
+
 		// TODO Auto-generated method stub
 		super.onDestroy();
 
