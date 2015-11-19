@@ -22,10 +22,14 @@ public class AddContactView extends YYViewBackList {
     private Set<String> blockedNames = new HashSet<String>();
     private Set<String> allowedNames = new HashSet<String>();
 
+    private int total = 0;
+    private int nCounter = 0;
+    private boolean bSuccess = false;
+    private boolean bFail = false;
+
     public interface onViewHandler {
         String getAttentionText();
-        void onAttentionOK( String number );
-        boolean isValid( String number );
+        void onAttentionOK( YYDataSource.contactsListItem item_info );
     }
 
     private onViewHandler v_handler;
@@ -38,60 +42,113 @@ public class AddContactView extends YYViewBackList {
             case ADD_CONTACT_VIEW_TYPE_BLOCK_NUMBER: {
                 v_handler = new onViewHandler() {
                     public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nBLOCKED list.Are you sure you\r\nwish to continue?"; }
-                    public void onAttentionOK( final String number ) {
-                        main_activity.yy_data_source.addBlockNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
-                            public void onSuccessfully() {
-                                // 移除这个 item
-                                blockedNames.add( number );
+                    public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
+                        final String name = item_info.getName();
+                        List<String> number_list = item_info.getNumber();
+                        total = number_list.size();
 
-                                // 弹窗提示成功
-                                String title = "Successfully added to the\r\nBLOCKED list";
-                                String tips = "Press OK to finish";
-                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                    public void onOK() {  }
-                                    public void onCancel() { }
-                                });
+                        nCounter = 0;
+                        bSuccess = false;
+                        bFail = false;
 
-                                // 更新列表
-                                yy_list_adapter.list_data = getItemListData();
+                        for( int i=0; i < number_list.size(); ++i ) {
+                            main_activity.yy_data_source.addBlockNumber( 2, number_list.get( i ), new YYDataSource.onAddNumberSuccefully() {
+                                public void onSuccessfully() {
+                                    nCounter = nCounter + 1;
+                                    bSuccess = true;
 
-                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                task.execute();
-                            }
-                            public void onFailure() { Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show(); }
-                        });
+                                    // 如果全部返回了，并且没有失败
+                                    if( nCounter >= total ) {
+                                        if( bFail ) {
+                                            Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        } else {
+                                            // 移除这个 item
+                                            blockedNames.add( name );
+
+                                            // 弹窗提示成功
+                                            String title = "Successfully added to the\r\nBLOCKED list";
+                                            String tips = "Press OK to finish";
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public void onOK() {  }
+                                                public void onCancel() { }
+                                            });
+
+                                            // 更新列表
+                                            yy_list_adapter.list_data = getItemListData();
+
+                                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                            task.execute();
+                                        }
+                                    }
+                                }
+                                public void onFailure() {
+                                    nCounter = nCounter + 1;
+                                    bFail = true;
+
+                                    // 如果全部返回了，但有失败的
+                                    if( nCounter >= total ) {
+                                        Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                    }
+                                }
+                            });
+                        }
                     }
-                    public boolean isValid( String number ) { return !blockedNames.contains( number ); }
                 };
             }
             break;
             case ADD_CONTACT_VIEW_TYPE_ALLOW_NUMBER: {
                 v_handler = new onViewHandler() {
                     public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nALLOWED list.Are you sure you\r\nwish to continue?"; }
-                    public void onAttentionOK( final String number ) {
-                        main_activity.yy_data_source.addAllowNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
-                            public void onSuccessfully() {
-                                // 移除这个 item
-                                allowedNames.add( number );
+                    public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
+                        final String name = item_info.getName();
+                        List<String> number_list = item_info.getNumber();
+                        total = number_list.size();
 
-                                // 弹窗提示成功
-                                String title = "Successfully added to the\r\nALLOWED list";
-                                String tips = "Press OK to finish";
-                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                    public void onOK() {  }
-                                    public void onCancel() { }
-                                });
+                        nCounter = 0;
+                        bSuccess = false;
+                        bFail = false;
+                        for( int i=0; i < number_list.size(); ++i ) {
+                            main_activity.yy_data_source.addAllowNumber( 2, number_list.get( i ), new YYDataSource.onAddNumberSuccefully() {
+                                public void onSuccessfully() {
+                                    nCounter = nCounter + 1;
+                                    bSuccess = true;
 
-                                // 更新列表
-                                yy_list_adapter.list_data = getItemListData();
+                                    // 如果全部返回了，并且没有失败
+                                    if( nCounter >= total ) {
+                                        if( bFail ) {
+                                            Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        } else {
+                                            // 移除这个 item
+                                            allowedNames.add( name );
 
-                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                task.execute();
-                            }
-                            public void onFailure() { Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show(); }
-                        });
+                                            // 弹窗提示成功
+                                            String title = "Successfully added to the\r\nALLOWED list";
+                                            String tips = "Press OK to finish";
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public void onOK() {  }
+                                                public void onCancel() { }
+                                            });
+
+                                            // 更新列表
+                                            yy_list_adapter.list_data = getItemListData();
+
+                                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                            task.execute();
+                                        }
+                                    }
+                                }
+                                public void onFailure() {
+                                    nCounter = nCounter + 1;
+                                    bFail = true;
+
+                                    // 如果全部返回了，但有失败的
+                                    if( nCounter >= total ) {
+                                        Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                    }
+                                }
+                            });
+                        }
                     }
-                    public boolean isValid( String number ) { return !allowedNames.contains( number ); }
                 };
             }
             break;
@@ -106,15 +163,12 @@ public class AddContactView extends YYViewBackList {
         for( int i=0; i < contacts_list.size(); ++i ) {
             final YYDataSource.contactsListItem item_info = contacts_list.get( i );
 
-            if( !v_handler.isValid( item_info.getNumber() ) )
-                    continue;
-
             Map<Integer,YYListAdapter.onYYListItemHandler> map = new HashMap<Integer,YYListAdapter.onYYListItemHandler>();
             map.put( R.id.item_button, new YYListAdapter.onYYListItemHandler() {
                 public void item_handle( Object view_obj ) {
                     Button btn_obj = (Button)view_obj;
 
-                    btn_obj.setText( YYViewBase.transferText( item_info.getName(), item_info.getNumber() ) );
+                    btn_obj.setText( YYViewBase.transferText( item_info.getName(), "" ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
@@ -131,7 +185,7 @@ public class AddContactView extends YYViewBackList {
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
                                 public void onOK() { }
-                                public void onCancel() { v_handler.onAttentionOK( item_info.getNumber() ); }
+                                public void onCancel() { v_handler.onAttentionOK( item_info ); }
                             });
                         }
                     });

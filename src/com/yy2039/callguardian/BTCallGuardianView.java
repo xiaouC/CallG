@@ -1255,10 +1255,35 @@ public class BTCallGuardianView extends YYViewBack {
                                                     String text1 = "If you cancel this synchronisation new.your contacts will need to announce their names when they call.Are you sure?";
                                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                                     tv.setText( text1 );
+
+                                                    ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                                    btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
+
+                                                    ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                                    btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                 }
                                                 public void onOK() { }
-                                                public void onCancel() { }
+                                                public void onCancel() {
+                                                    main_activity.yy_show_alert_dialog.bShowWaiting = true;
+                                                    main_activity.yy_command.unregisterReceiver();
+                                                    main_activity.yy_command.cur_command_info = null;
+                                                    main_activity.yy_command.request_command_list.clear();
+                                                }
                                             });
+                                        }
+                                    });
+
+                                    main_activity.yy_show_alert_dialog.bShowWaiting = false;
+                                    main_activity.yy_data_source.syncContactToBase( new YYDataSource.syncLisenter() {
+                                        public void onSuccessfully() {
+                                            main_activity.yy_show_alert_dialog.hideAlertDialog();
+                                            Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
+                                            main_activity.yy_show_alert_dialog.bShowWaiting = true;
+                                        }
+                                        public void onFailure() {
+                                            main_activity.yy_show_alert_dialog.hideAlertDialog();
+                                            Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
+                                            main_activity.yy_show_alert_dialog.bShowWaiting = true;
                                         }
                                     });
                                 }

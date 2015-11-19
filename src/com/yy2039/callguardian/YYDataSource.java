@@ -74,7 +74,7 @@ public class YYDataSource {
 
     public interface contactsListItem {
         String getName();
-        String getNumber();
+        List<String> getNumber();
     }
 
     private boolean bIsFirstTimeUseContacts = true;
@@ -516,7 +516,7 @@ public class YYDataSource {
     }
 
     public List<contactsListItem> getContactsList() {
-        List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
+        Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
 
         Cursor cursor = null;
         try {
@@ -524,10 +524,13 @@ public class YYDataSource {
             while( cursor.moveToNext() ) {
                 final String displayName = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME ) );
                 final String number = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.NUMBER ) );
-                ret_contacts_list.add( new contactsListItem() {
-                    public String getName() { return displayName; }
-                    public String getNumber() { return number; }
-                });
+
+                List<String> number_list = name_number_list.get( displayName );
+                if( number_list == null ) {
+                    name_number_list.put( displayName, new ArrayList<String>() );
+                    number_list = name_number_list.get( displayName );
+                }
+                number_list.add( number );
             }
         } catch ( Exception e ) {
             // TODO: handle exception
@@ -536,6 +539,17 @@ public class YYDataSource {
             if( cursor != null ){
                 cursor.close();
             }
+        }
+
+        List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
+        for( Map.Entry<String,List<String>> item_entry : name_number_list.entrySet() ) {
+            final String displayName = item_entry.getKey();
+            final List<String> numbers = item_entry.getValue();
+
+            ret_contacts_list.add( new contactsListItem() {
+                public String getName() { return displayName; }
+                public List<String> getNumber() { return numbers; }
+            });
         }
 
         return ret_contacts_list;
@@ -577,6 +591,9 @@ public class YYDataSource {
     public void onMedaProcess( final int nType, final String newNum, final String oldNum, final onMedaListener medaListener ) {
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_MDEA_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
+                Log.v( "cconn", "onMedaProcess type : " + nType );
+                Log.v( "cconn", "onMedaProcess new : " + newNum );
+                Log.v( "cconn", "onMedaProcess old : " + oldNum );
                 Intent banbIntent = new Intent( YYCommand.CALL_GUARDIAN_MDEA );
                 banbIntent.putExtra( "type", String.format( "%d", nType ) );
                 if( newNum != null ) { banbIntent.putExtra( "newnum", String.format( "%s", newNum ) ); }
@@ -794,5 +811,59 @@ public class YYDataSource {
         main_activity.saveSharedPreferences();
     }
 
+    public interface syncLisenter {
+        void onSuccessfully();
+        void onFailure();
+    }
+
+    private int total_count = 0;
+    private int counter = 0;
+    private boolean bSuccess = false;
+    private boolean bFail = false;
+    public void syncContactToBase( final syncLisenter sync_lisenter ) {
+        List<YYDataSource.contactsListItem> contacts_list = main_activity.yy_data_source.getContactsList();
+
+        total_count = 0;
+        for( int i=0; i < contacts_list.size(); ++i ) {
+            final YYDataSource.contactsListItem item_info = contacts_list.get( i );
+            List<String> number_list = item_info.getNumber();
+            for( int j=0; j < number_list.size(); ++j ) {
+                total_count = total_count + 1;
+            }
+        }
+
+        counter = 0;
+        bSuccess = false;
+        bFail = false;
+
+        for( int i=0; i < contacts_list.size(); ++i ) {
+            final YYDataSource.contactsListItem item_info = contacts_list.get( i );
+            List<String> number_list = item_info.getNumber();
+            for( int j=0; j < number_list.size(); ++j ) {
+                main_activity.yy_data_source.addAllowNumber( 2, number_list.get( j ), new YYDataSource.onAddNumberSuccefully() {
+                    public void onSuccessfully() {
+                        counter = counter + 1;
+                        bSuccess = true;
+
+                        if( counter >= total_count ) {
+                            if( bFail ) {
+                                sync_lisenter.onFailure();
+                            } else {
+                                sync_lisenter.onSuccessfully();
+                            }
+                        }
+                    }
+                    public void onFailure() {
+                        counter = counter + 1;
+                        bFail = true;
+
+                        if( counter >= total_count ) {
+                            sync_lisenter.onFailure();
+                        }
+                    }
+                });
+            }
+        }
+    }
 }
 

@@ -59,7 +59,7 @@ public class YYShowAlertDialog {
 
         AlertDialog.Builder builder = new AlertDialog.Builder( new ContextThemeWrapper( main_activity, R.style.BT_Call_Guardian_Mode ) );
         builder.setView( view );
-        builder.setCancelable( true );
+        builder.setCancelable( false );
 
         cur_show_ad = builder.create();
 
@@ -99,6 +99,13 @@ public class YYShowAlertDialog {
         cur_show_ad.show();
 
         return cur_show_ad;
+    }
+
+    public void hideAlertDialog() {
+        if( cur_show_ad != null ) {
+            cur_show_ad.hide();
+            cur_show_ad = null;
+        }
     }
 
     public RadioButton createRadioButton( RadioGroup r_group, String text, View.OnClickListener click_handler ) {
@@ -244,7 +251,12 @@ public class YYShowAlertDialog {
         ad.show();
     }
 
+    public boolean bShowWaiting = true;
     public void showWaitingAlertDialog() {
+        if( !bShowWaiting ) {
+            return;
+        }
+
         LayoutInflater li = LayoutInflater.from( main_activity );
         View view = li.inflate( R.layout.alert_waiting, null );
 
