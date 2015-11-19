@@ -107,7 +107,7 @@ public class OutgoingCallsView extends YYViewBackList {
             public void item_handle( Object view_obj ) {
                 Button btn_obj = (Button)view_obj;
 
-                btn_obj.setText( YYViewBase.transferText( "Preminum rate calls", main_activity.yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED ? "Allowed" : "Barred" ) );
+                btn_obj.setText( YYViewBase.transferText( "Premium rate calls", main_activity.yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED ? "Allowed" : "Barred" ) );
                 btn_obj.setOnClickListener( new View.OnClickListener() {
                     public void onClick( View v ) {
                         List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
