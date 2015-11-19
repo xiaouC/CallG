@@ -585,7 +585,7 @@ public class YYDataSource {
 
     public interface onMedaListener {
         void onSuccessfully();
-        void onFailure();
+        void onFailure( int err_code );
     }
 
     public void onMedaProcess( final int nType, final String newNum, final String oldNum, final onMedaListener medaListener ) {
@@ -602,15 +602,24 @@ public class YYDataSource {
             }
             public void onRecv( String data ) {
                 Log.v( "cconn", "CALL_GUARDIAN_MDEA_RESULT : " + data );
-                if( data != null && data.equals( "00" ) ) {
-                    medaListener.onSuccessfully();
-                }
-                else {
-                    medaListener.onFailure();
+                if( data != null ) {
+                    try {
+                        int code = Integer.parseInt( data );
+                        if( code == 0 ) {
+                            medaListener.onSuccessfully();
+                        } else {
+                            medaListener.onFailure( code );
+                        }
+                    } catch ( Exception e ) {
+                        String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_MDEA_RESULT, data );
+                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    }
+                } else {
+                    medaListener.onFailure( 1 );
                 }
             }
             public void onFailure() {
-                medaListener.onFailure();
+                medaListener.onFailure( 1 );
             }
         });
     }

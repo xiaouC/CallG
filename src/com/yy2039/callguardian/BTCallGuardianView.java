@@ -780,7 +780,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_BLOCK_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
                                         }
-                                        public void onFailure() {
+                                        public void onFailure( int err_code ) {
                                             Toast.makeText( main_activity, "delete all block number failed", Toast.LENGTH_LONG ).show();
                                         }
                                     });
@@ -819,14 +819,29 @@ public class BTCallGuardianView extends YYViewBack {
                         btn_obj.setText( YYViewBase.transferText( "Add area code", "" ) );
                         btn_obj.setOnClickListener( new View.OnClickListener() {
                             public void onClick( View v ) {
-                                main_activity.yy_input_number_view.showInputNumberView( "Add area code", "", 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
+                                main_activity.yy_input_number_view.showInputNumberView( "Add area code", "", 2, 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
                                     public void onSave( String number ) {
                                         final String new_area_code = number;
-
-                                        // 如果满了，就弹窗提示，选择一个进行覆盖
-                                        main_activity.yy_data_source.areaCodesIsFull( new YYDataSource.onAreaCodesIsFullListener() {
-                                            public void onAreaCodeFullCallback( boolean bIsFull ) {
-                                                if( bIsFull ) {
+                                        main_activity.yy_data_source.onMedaProcess( YYCommand.ADD_NEW_AREA_CODE, number, null, new YYDataSource.onMedaListener() {
+                                            public void onSuccessfully() {
+                                                String title = "Successfully added to the\r\n BLOCKED list";
+                                                String tips = "Press OK to finish";
+                                                int nDrawableResID = R.drawable.successfully;
+                                                int nOKResID = R.drawable.alert_dialog_ok;
+                                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                    public void onOK() { }
+                                                    public void onCancel() { }
+                                                });
+                                            }
+                                            public void onFailure( int err_code ) {
+                                                if( err_code == 2 ) {
+                                                    String text = String.format( "Area code %s has already been saved", new_area_code );
+                                                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                } else if ( err_code == 3 ) {
+                                                    //String text = String.format( "Already blocked by area code %s", new_area_code );
+                                                    String text = String.format( "%s already blocked by other area code", new_area_code );
+                                                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                } else if ( err_code == 4 ) {
                                                     main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                         public void onInit( AlertDialog ad, View view ) {
                                                             TextView tv = (TextView)view.findViewById( R.id.attention_text );
@@ -846,21 +861,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                         }
                                                     });
                                                 } else {
-                                                    main_activity.yy_data_source.onMedaProcess( YYCommand.ADD_NEW_AREA_CODE, new_area_code, null, new YYDataSource.onMedaListener() {
-                                                        public void onSuccessfully() {
-                                                            String title = "Successfully added to the\r\n BLOCKED list";
-                                                            String tips = "Press OK to finish";
-                                                            int nDrawableResID = R.drawable.successfully;
-                                                            int nOKResID = R.drawable.alert_dialog_ok;
-                                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                                                public void onOK() { }
-                                                                public void onCancel() { }
-                                                            });
-                                                        }
-                                                        public void onFailure() {
-                                                            Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
-                                                        }
-                                                    });
+                                                    Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
                                                 }
                                             }
                                         });
@@ -955,7 +956,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                     public void onCancel() { }
                                                 });
                                             }
-                                            public void onFailure() {
+                                            public void onFailure( int err_code ) {
                                                 Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
                                             }
                                         });
@@ -1060,8 +1061,9 @@ public class BTCallGuardianView extends YYViewBack {
                                 btn_obj.setOnClickListener( new View.OnClickListener() {
                                     public void onClick( View v ) {
                                         final String area_code = (String)yy_view_self.yy_temp_data.get( "area_code" );
-                                        main_activity.yy_input_number_view.showInputNumberView( "Add area code", area_code, 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
+                                        main_activity.yy_input_number_view.showInputNumberView( "Add area code", area_code, -1, 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
                                             public void onSave( String number ) {
+                                                final String new_area_code = number;
                                                 main_activity.yy_data_source.onMedaProcess( YYCommand.EDIT_ONE_AREA_CODE, number, area_code, new YYDataSource.onMedaListener() {
                                                     public void onSuccessfully() {
                                                         String title = "Successfully added to the\r\n BLOCKED list";
@@ -1076,8 +1078,36 @@ public class BTCallGuardianView extends YYViewBack {
                                                             public void onCancel() { }
                                                         });
                                                     }
-                                                    public void onFailure() {
-                                                        Toast.makeText( main_activity, "edit area code failed", Toast.LENGTH_LONG ).show();
+                                                    public void onFailure( int err_code ) {
+                                                        if( err_code == 2 ) {
+                                                            String text = String.format( "Area code %s has already been saved", new_area_code );
+                                                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                        } else if ( err_code == 3 ) {
+                                                            //String text = String.format( "Already blocked by area code %s", new_area_code );
+                                                            String text = String.format( "%s already blocked by other area code", new_area_code );
+                                                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                        } else if ( err_code == 4 ) {
+                                                            main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                                                                public void onInit( AlertDialog ad, View view ) {
+                                                                    TextView tv = (TextView)view.findViewById( R.id.attention_text );
+                                                                    tv.setText( "The area codes list is full.Please\r\npress OK to select an area code in\r\nthe list to replace or CANCEL to go\r\nback." );
+
+                                                                    // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
+                                                                    ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                                                    btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_cancel ) );
+
+                                                                    ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                                                    btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                                                }
+                                                                public void onOK() { }
+                                                                public void onCancel() {
+                                                                    area_codes_full_view.add_area_code = new_area_code;
+                                                                    area_codes_full_view.setView( true, main_activity.yy_input_number_view.getViewBackHandler() );
+                                                                }
+                                                            });
+                                                        } else {
+                                                            Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                        }
                                                     }
                                                 });
                                             }
@@ -1118,7 +1148,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                     public void onSuccessfully() {
                                                         YYViewBase.onBackClick();
                                                     }
-                                                    public void onFailure() {
+                                                    public void onFailure( int err_code ) {
                                                         Toast.makeText( main_activity, "delete area code failed", Toast.LENGTH_LONG ).show();
                                                     }
                                                 });
@@ -1218,7 +1248,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_ALLOW_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
                                         }
-                                        public void onFailure() {
+                                        public void onFailure( int err_code ) {
                                             Toast.makeText( main_activity, "delete all allow number failed", Toast.LENGTH_LONG ).show();
                                         }
                                     });

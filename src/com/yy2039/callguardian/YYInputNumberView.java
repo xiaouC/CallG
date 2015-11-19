@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.graphics.Color;
+import android.widget.Toast;
 
 public class YYInputNumberView extends YYViewBase {
     private YYInputNumberView yy_input_number;
@@ -18,6 +19,7 @@ public class YYInputNumberView extends YYViewBase {
     }
 
     private String in_title;
+    private int min_length;
     private int max_length;
     private ArrayList<Character> input_numbers = new ArrayList<Character>();
 
@@ -87,9 +89,10 @@ public class YYInputNumberView extends YYViewBase {
         return in_title;
     }
 
-    public void showInputNumberView( String title, String content, int nMaxLength, onViewBackHandler handler, final onYYInputNumberHandler in_handler )
+    public void showInputNumberView( String title, String content, int nMinLength, int nMaxLength, onViewBackHandler handler, final onYYInputNumberHandler in_handler )
     {
         in_title = title;
+        min_length = nMinLength;
         max_length = nMaxLength;
 
         setView( true, handler );
@@ -97,6 +100,13 @@ public class YYInputNumberView extends YYViewBase {
         // save
         ( (ImageButton)main_activity.findViewById( R.id.btn_number_save ) ).setOnClickListener( new View.OnClickListener () {
             public void onClick( View v ) {
+                if( min_length > 0 && yy_input_number.input_numbers.size() < min_length ) {
+                    String text = String.format( "At least %d characters", min_length );
+                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+
+                    return;
+                }
+
                 String number_text = "";
                 for( int i=0; i < yy_input_number.input_numbers.size(); ++i )
                     number_text = number_text + yy_input_number.input_numbers.get( i );
