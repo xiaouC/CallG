@@ -984,32 +984,36 @@ public class BTCallGuardianView extends YYViewBack {
                     super.setView( bIsPush, handler );
 
                     // 请求 area code list
-                    main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GACN_RESULT, new YYCommand.onCommandListener() {
-                        public void onSend() {
-                            main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GACN ) );
-                        }
-                        public void onRecv( String data ) {
-                            if( data == null ) {
-                                String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
-                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-                            }
-                            else {
-                                String[] results = data.split( "," );
-
-                                area_codes_list.clear();
-                                for( int i=0; i < results.length; ++i ) {
-                                    area_codes_list.add( results[i] );
+                    main_activity.yy_schedule.scheduleOnceTime( 100, new YYSchedule.onScheduleAction() {
+                        public void doSomething() {
+                            main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GACN_RESULT, new YYCommand.onCommandListener() {
+                                public void onSend() {
+                                    main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GACN ) );
                                 }
-                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                public void onRecv( String data ) {
+                                    if( data == null ) {
+                                        String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
+                                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                    }
+                                    else {
+                                        String[] results = data.split( "," );
 
-                                fillListView();
+                                        area_codes_list.clear();
+                                        for( int i=0; i < results.length; ++i ) {
+                                            area_codes_list.add( results[i] );
+                                        }
+                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
 
-                                area_codes_list.clear();
-                            }
-                        }
-                        public void onFailure() {
-                            Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
-                            main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                        fillListView();
+
+                                        area_codes_list.clear();
+                                    }
+                                }
+                                public void onFailure() {
+                                    Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
+                                    main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                }
+                            });
                         }
                     });
                 }
@@ -1065,7 +1069,10 @@ public class BTCallGuardianView extends YYViewBack {
                                                         int nDrawableResID = R.drawable.successfully;
                                                         int nOKResID = R.drawable.alert_dialog_ok;
                                                         main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                                            public void onOK() { YYViewBase.onBackClick(); }
+                                                            public void onOK() {
+                                                                YYViewBase.onBackClick();
+                                                                YYViewBase.onBackClick();
+                                                            }
                                                             public void onCancel() { }
                                                         });
                                                     }
