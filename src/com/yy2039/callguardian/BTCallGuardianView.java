@@ -1003,7 +1003,6 @@ public class BTCallGuardianView extends YYViewBack {
                                         for( int i=0; i < results.length; ++i ) {
                                             area_codes_list.add( results[i] );
                                         }
-                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
 
                                         fillListView();
 
@@ -1012,7 +1011,6 @@ public class BTCallGuardianView extends YYViewBack {
                                 }
                                 public void onFailure() {
                                     Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
-                                    main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
                                 }
                             });
                         }
