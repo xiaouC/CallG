@@ -940,7 +940,7 @@ public class BTCallGuardianView extends YYViewBack {
                             public void item_handle( Object view_obj ) {
                                 Button btn_obj = (Button)view_obj;
 
-                                btn_obj.setText( YYViewBase.transferText( "0431", "" ) );
+                                btn_obj.setText( YYViewBase.transferText( area_code, "" ) );
                                 btn_obj.setOnClickListener( new View.OnClickListener() {
                                     public void onClick( View v ) {
                                         main_activity.yy_data_source.onMedaProcess( YYCommand.ADD_NEW_AREA_CODE, add_area_code, area_code, new YYDataSource.onMedaListener() {
