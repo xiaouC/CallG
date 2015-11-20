@@ -126,27 +126,26 @@ public class YYCommand {
 
 	private BroadcastReceiver commandReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-			String data = intent.getExtras().getString("data");
+            try {
+                String action = intent.getAction();
+                String data = intent.getExtras().getString("data");
 
-            Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
-            Log.v( "cconn", "action : " + action );
-            Log.v( "cconn", "data : " + data );
-            Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
+                Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
+                Log.v( "cconn", "action : " + action );
+                Log.v( "cconn", "data : " + data );
+                Log.v( "cconn", "BroadcastReceiver ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
 
-            if( cur_command_info != null ) {
-                Log.v( "cconn", "cur_command_info.command_name : " + cur_command_info.command_name );
-                if( cur_command_info.command_name.equals( action ) ) {
-                    unregisterReceiver();
+                if( cur_command_info != null ) {
+                    Log.v( "cconn", "cur_command_info.command_name : " + cur_command_info.command_name );
+                    if( cur_command_info.command_name.equals( action ) ) {
+                        unregisterReceiver();
 
-                    onRecvActionListener ral = action_list.get( action );
-                    ral.onExecute( data );
+                        onRecvActionListener ral = action_list.get( action );
+                        ral.onExecute( data );
+                    }
                 }
+            } catch ( Exception e ) {
             }
-            //else {
-            //    onRecvActionListener ral = action_list.get( action );
-            //    ral.onExecute( data );
-            //}
         }
     };
 

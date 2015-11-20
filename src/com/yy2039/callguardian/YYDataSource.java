@@ -841,6 +841,13 @@ public class YYDataSource {
             }
         }
 
+        // 没有记录的话，就直接返回
+        if( total_count <= 0 ) {
+            sync_lisenter.onSuccessfully();
+
+            return;
+        }
+
         counter = 0;
         bSuccess = false;
         bFail = false;
