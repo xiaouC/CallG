@@ -123,7 +123,7 @@ public class OutgoingCallsView extends YYViewBackList {
                             public boolean isRadioChecked() { return main_activity.yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_BARRED; }
                         });
 
-                        main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Preminum rate calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                        main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Premium rate calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
                                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_preminum_rate_calls_mode" );
                                 if( nCurSel != null ) {
