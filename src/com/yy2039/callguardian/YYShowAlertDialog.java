@@ -21,6 +21,8 @@ import android.view.WindowManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 public class YYShowAlertDialog {
     private CallGuardianActivity main_activity;
@@ -174,6 +176,11 @@ public class YYShowAlertDialog {
 
                 ImageView iv = (ImageView)view.findViewById( R.id.alert_image );
                 iv.setBackgroundResource( image_id );
+
+                if( image_id == R.drawable.synchronising ) {
+                    Animation sync_anim = AnimationUtils.loadAnimation( main_activity, R.anim.sync_rotation );
+                    iv.startAnimation( sync_anim );
+                }
 
                 TextView tv_tips = (TextView)view.findViewById( R.id.alert_tips );
                 tv_tips.setText( tips );
