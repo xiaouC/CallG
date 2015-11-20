@@ -97,7 +97,7 @@ public class YYShowAlertDialog {
             });
         }
 
-        //cur_show_ad.setCanceledOnTouchOutside( true );   // 设置点击 Dialog 外部任意区域关闭 Dialog
+        cur_show_ad.setCanceledOnTouchOutside( false );   // 设置点击 Dialog 外部任意区域关闭 Dialog
         cur_show_ad.show();
 
         return cur_show_ad;
@@ -254,7 +254,7 @@ public class YYShowAlertDialog {
             });
         }
 
-        ad.setCanceledOnTouchOutside( true );   // 设置点击 Dialog 外部任意区域关闭 Dialog
+        ad.setCanceledOnTouchOutside( false );   // 设置点击 Dialog 外部任意区域关闭 Dialog
         ad.show();
     }
 
