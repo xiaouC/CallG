@@ -108,7 +108,9 @@ public class CallControlView extends YYViewBase {
                     public void onClick( View v ) {
                         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GDES_RESULT, new YYCommand.onCommandListener() {
                             public void onSend() {
-                                main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GDES ) );
+                                Intent gdesIntent = new Intent( YYCommand.CALL_GUARDIAN_GDES );
+                                gdesIntent.putExtra( "data", "00" );
+                                main_activity.sendBroadcast( gdesIntent );
                                 Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : send" );
                             }
                             public void onRecv( String data ) {
