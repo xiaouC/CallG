@@ -256,6 +256,9 @@ public class YYShowAlertDialog {
         if( !bShowWaiting ) {
             return;
         }
+        if( waiting_ad != null ) {
+            return;
+        }
 
         LayoutInflater li = LayoutInflater.from( main_activity );
         View view = li.inflate( R.layout.alert_waiting, null );
