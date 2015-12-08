@@ -595,10 +595,29 @@ public class BTCallGuardianView extends YYViewBack {
                                 });
                             }
                             public void onCancel() {
-                                main_activity.yy_data_source.setIsUseDefaultMessage( true );
+                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                    public void onSend() {
+                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                        tempIntent.putExtra( "operation", "1" );        // 1 : delete
+                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                                        main_activity.sendBroadcast( tempIntent );
+                                    }
+                                    public void onRecv( String data ) {
+                                        Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                                        if( data != null && data.equals( "SUCCESS" ) ) {
+                                            main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
-                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                task.execute();
+                                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                            task.execute();
+                                        }
+                                        else {
+                                            Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                        }
+                                    }
+                                    public void onFailure() {
+                                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                    }
+                                });
                             }
                         });
                     }
