@@ -31,6 +31,8 @@ public class CallGuardianActivity extends FragmentActivity
     public YYInputNumberView yy_input_number_view;
     public YYInputNumberPINView yy_input_number_pin_view;
 
+    public YYViewBase yy_current_view;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -118,6 +120,15 @@ public class CallGuardianActivity extends FragmentActivity
         yy_command.unregisterReceiver();
 		//unregisterReceiver( yy_command.commandReceiver );
 	}
+
+    @Override  
+    protected void onResume() {  
+        super.onResume();  
+
+        if( yy_current_view != null ) {
+            yy_current_view.onResume();
+        }
+    } 
 
 
     /**
