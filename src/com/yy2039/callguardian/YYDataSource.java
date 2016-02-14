@@ -518,6 +518,8 @@ public class YYDataSource {
     public List<contactsListItem> getContactsList() {
         Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
 
+        List<String> sortList = new ArrayList<String>();
+
         Cursor cursor = null;
         try {
             cursor = main_activity.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null );
@@ -529,6 +531,8 @@ public class YYDataSource {
                 if( number_list == null ) {
                     name_number_list.put( displayName, new ArrayList<String>() );
                     number_list = name_number_list.get( displayName );
+
+                    sortList.add( displayName );
                 }
                 number_list.add( number );
             }
@@ -542,15 +546,26 @@ public class YYDataSource {
         }
 
         List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
-        for( Map.Entry<String,List<String>> item_entry : name_number_list.entrySet() ) {
-            final String displayName = item_entry.getKey();
-            final List<String> numbers = item_entry.getValue();
+
+        for( int i=0; i < sortList.size(); ++i ) {
+            final String displayName = sortList.get( i );
+            final List<String> numbers = name_number_list.get( displayName );
 
             ret_contacts_list.add( new contactsListItem() {
                 public String getName() { return displayName; }
                 public List<String> getNumber() { return numbers; }
             });
         }
+
+        //for( Map.Entry<String,List<String>> item_entry : name_number_list.entrySet() ) {
+        //    final String displayName = item_entry.getKey();
+        //    final List<String> numbers = item_entry.getValue();
+
+        //    ret_contacts_list.add( new contactsListItem() {
+        //        public String getName() { return displayName; }
+        //        public List<String> getNumber() { return numbers; }
+        //    });
+        //}
 
         return ret_contacts_list;
     }
