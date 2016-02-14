@@ -108,7 +108,7 @@ public class AddNumberView extends YYViewBackList {
                                 // 移除这个 item
 
                                 // 弹窗提示成功
-                                String title = "Successfully added to the BLOCKED list";
+                                String title = "Successfully added to the ALLOWED list";
                                 String tips = "Press OK to finish";
                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public void onOK() {  }
