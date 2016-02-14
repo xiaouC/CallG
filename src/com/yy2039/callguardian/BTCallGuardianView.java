@@ -82,7 +82,7 @@ public class BTCallGuardianView extends YYViewBack {
                     List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                     item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                        public String getRadioText() { return "Announce(default)"; }
+                        public String getRadioText() { return "Announce (default)"; }
                         public void onRadioClick() { yy_view_self.yy_temp_data.put( "bt_call_guardian_mode", YYCommon.BT_CALL_GUARDIAN_MODE_ANNOUNCE ); }
                         public boolean isRadioChecked() { return main_activity.yy_data_source.getBTCallGuardianMode() == YYCommon.BT_CALL_GUARDIAN_MODE_ANNOUNCE; }
                     });
