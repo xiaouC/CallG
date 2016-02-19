@@ -25,7 +25,7 @@ public class AddNumberView extends YYViewBackList {
 
     public interface onViewHandler {
         void onEnterManuallySave( String number );
-        String getAttentionText();
+        String getAttentionText( String number );
         void onFromCallsListOK( String number );
     }
 
@@ -56,7 +56,13 @@ public class AddNumberView extends YYViewBackList {
                             }
                         });
                     }
-                    public String getAttentionText() { return "All future calls from this number will be BLOCKED.Are you sure you wish to continue?"; }
+                    public String getAttentionText( String number ) {
+                        if( number.equals( "" ) ) {
+                            return "No number to block!";
+                        } else {
+                            return "All future calls from this number will be BLOCKED.Are you sure you wish to continue?";
+                        }
+                    }
                     public void onFromCallsListOK( String number ) {
                         main_activity.yy_data_source.addBlockNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
@@ -101,7 +107,13 @@ public class AddNumberView extends YYViewBackList {
                             }
                         });
                     }
-                    public String getAttentionText() { return "All future calls from this number will be ALLOWED.Are you sure you wish to continue?"; }
+                    public String getAttentionText( String number ) {
+                        if( number.equals( "" ) ) {
+                            return "No number to allow!";
+                        } else {
+                            return "All future calls from this number will be ALLOWED.Are you sure you wish to continue?";
+                        }
+                    }
                     public void onFromCallsListOK( String number ) {
                         main_activity.yy_data_source.addAllowNumber( 2, number, new YYDataSource.onAddNumberSuccefully() {
                             public void onSuccessfully() {
@@ -224,21 +236,33 @@ public class AddNumberView extends YYViewBackList {
 
                         btn_obj.setOnClickListener( new View.OnClickListener() {
                             public void onClick( View v ) {
-                                main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                                final String number = item_info.getNumber();
+                                int nRes = R.layout.alert_attention;
+                                if( number.equals( "" ) ) {
+                                    nRes = R.layout.alert_attention_2;
+                                }
+                                main_activity.yy_show_alert_dialog.showAlertDialog( nRes, new YYShowAlertDialog.onAlertDialogHandler() {
                                     public void onInit( AlertDialog ad, View view ) {
-                                        String text1 = v_handler.getAttentionText();
                                         TextView tv = (TextView)view.findViewById( R.id.attention_text );
+
+                                        String text1 = v_handler.getAttentionText( number );
                                         tv.setText( text1 );
 
-                                        // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
-                                        ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
-                                        btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_cancel ) );
+                                        if( !number.equals( "" ) ) {
+                                            // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
+                                            ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_cancel ) );
 
-                                        ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
-                                        btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                            ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                        }
                                     }
                                     public void onOK() { }
-                                    public void onCancel() { v_handler.onFromCallsListOK( item_info.getNumber() ); }
+                                    public void onCancel() {
+                                        if( !number.equals( "" ) ) {
+                                            v_handler.onFromCallsListOK( item_info.getNumber() );
+                                        }
+                                    }
                                 });
                             }
                         });
