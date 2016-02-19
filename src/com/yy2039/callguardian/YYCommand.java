@@ -93,6 +93,9 @@ public class YYCommand {
     public final static String CALL_GUARDIAN_GDES = "andorid.intent.action.call.guardian.gdes";
     public final static String CALL_GUARDIAN_GDES_RESULT = "com.action.dect.call.guardian.gdes.result";
 
+    public final static String ANSWER_MACHINE_SDMS = "andorid.intent.action.answer.machine.sdms";
+    public final static String ANSWER_MACHINE_SDMS_RESULT = "com.action.dect.answer.machine.sdms.result";
+
     //private boolean settings_base_link = false;
     //private boolean call_list_link = false;
     //private boolean answer_machine_link = false;
@@ -406,7 +409,16 @@ public class YYCommand {
                 realExecuteCommand();
             }
         });
+        action_list.put( ANSWER_MACHINE_SDMS_RESULT, new onRecvActionListener() {
+            public void onExecute( String data ) {
+                if( cur_command_info != null ) {
+                    cur_command_info.command_listener.onRecv( data );
+                }
 
+                cur_command_info = null;
+                realExecuteCommand();
+            }
+        });
         //// 注册
         //IntentFilter filter = new IntentFilter();
         //for( Map.Entry<String,onRecvActionListener> entry : action_list.entrySet() ) {

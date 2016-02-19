@@ -265,6 +265,27 @@ public class YYDataSource {
 
     public void setIsUseDefaultMessage( boolean bDefault ) {
         bIsUseDefaultMessage = bDefault;
+
+        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.ANSWER_MACHINE_SDMS_RESULT, new YYCommand.onCommandListener() {
+            public void onSend() {
+                Intent dmIntent = new Intent( YYCommand.ANSWER_MACHINE_SDMS );
+                dmIntent.putExtra( "status", bIsUseDefaultMessage ? "0" : "1" );
+                dmIntent.putExtra( "type", "3" );
+                main_activity.sendBroadcast( dmIntent );
+            }
+            public void onRecv( String data ) {
+                if( data != null && data.equals( "SUCCESS" ) ) {
+                    // 成功
+                }
+                else {
+                    // 失败
+                    Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
+                }
+            }
+            public void onFailure() {
+				Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
+            }
+        });
     }
 
     public Integer getBTCallGuardianMode_Custom_BlockedNumber() {
