@@ -20,7 +20,7 @@ public class OutgoingCallsView extends YYViewBackList {
     public String getViewTitle() { return "Outgoing Calls"; }
 
     public void onResume() {
-        this.onBackClick();
+        YYViewBase.onBackClick();
 
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GDES_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
@@ -38,7 +38,7 @@ public class OutgoingCallsView extends YYViewBackList {
                 else {
                     final String pin_type = data.equals( "01" ) ? "first" : "enter";
                     String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
-                    main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
+                    main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", main_activity.yy_current_view.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
                         public void onSuccessful( String number ) {
                             yy_view_self.setView( true, yy_view_self.getViewBackHandler() );
 
