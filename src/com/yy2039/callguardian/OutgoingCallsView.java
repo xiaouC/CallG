@@ -82,7 +82,7 @@ public class OutgoingCallsView extends YYViewBackList {
                         List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                         item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                            public String getRadioText() { return "Allowed(default)"; }
+                            public String getRadioText() { return "Allowed (default)"; }
                             public void onRadioClick() { yy_view_self.yy_temp_data.put( "outgoing_calls_mobile_calls_mode", YYCommon.OUTGOING_CALLS_MOBILE_CALLS_MODE_ALLOWED ); }
                             public boolean isRadioChecked() { return main_activity.yy_data_source.getMobileCallsMode() == YYCommon.OUTGOING_CALLS_MOBILE_CALLS_MODE_ALLOWED; }
                         });
@@ -123,7 +123,7 @@ public class OutgoingCallsView extends YYViewBackList {
                         List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                         item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                            public String getRadioText() { return "Allowed(default)"; }
+                            public String getRadioText() { return "Allowed (default)"; }
                             public void onRadioClick() { yy_view_self.yy_temp_data.put( "outgoing_calls_international_calls_mode", YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED ); }
                             public boolean isRadioChecked() { return main_activity.yy_data_source.getInternationalCallsMode() == YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED; }
                         });
@@ -164,7 +164,7 @@ public class OutgoingCallsView extends YYViewBackList {
                         List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                         item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                            public String getRadioText() { return "Allowed(default)"; }
+                            public String getRadioText() { return "Allowed (default)"; }
                             public void onRadioClick() { yy_view_self.yy_temp_data.put( "outgoing_calls_preminum_rate_calls_mode", YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED ); }
                             public boolean isRadioChecked() { return main_activity.yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED; }
                         });
@@ -205,7 +205,7 @@ public class OutgoingCallsView extends YYViewBackList {
                         List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                         item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                            public String getRadioText() { return "Allowed(default)"; }
+                            public String getRadioText() { return "Allowed (default)"; }
                             public void onRadioClick() { yy_view_self.yy_temp_data.put( "outgoing_calls_all_dialled_calls_mode", YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED ); }
                             public boolean isRadioChecked() { return main_activity.yy_data_source.getAllDialledCallsMode() == YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED; }
                         });

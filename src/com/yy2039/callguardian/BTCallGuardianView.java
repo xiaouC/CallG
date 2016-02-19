@@ -254,7 +254,7 @@ public class BTCallGuardianView extends YYViewBack {
             public boolean isRadioChecked() { return se.getParam() == YYCommon.BT_CALL_GUARDIAN_MODE_CUSTOM_ANNOUNCE; }
         });
         item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-            public String getRadioText() { return "Block(default)"; }
+            public String getRadioText() { return "Block (default)"; }
             public void onRadioClick() { yy_view_self.yy_temp_data.put( data_type, YYCommon.BT_CALL_GUARDIAN_MODE_CUSTOM_BLOCK ); }
             public boolean isRadioChecked() { return se.getParam() == YYCommon.BT_CALL_GUARDIAN_MODE_CUSTOM_BLOCK; }
         });
@@ -513,7 +513,7 @@ public class BTCallGuardianView extends YYViewBack {
                             List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
 
                             item_list_data.add( new YYShowAlertDialog.onAlertDialogRadioItemHandler() {
-                                public String getRadioText() { return "On(default)"; }
+                                public String getRadioText() { return "On (default)"; }
                                 public void onRadioClick() { yy_view_self.yy_temp_data.put( "use_default_message", true ); }
                                 public boolean isRadioChecked() { return main_activity.yy_data_source.getIsUseDefaultMessage(); }
                             });
