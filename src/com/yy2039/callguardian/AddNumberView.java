@@ -144,7 +144,7 @@ public class AddNumberView extends YYViewBackList {
                 btn_obj.setText( YYViewBase.transferText( "Enter manually", "" ) );
                 btn_obj.setOnClickListener( new View.OnClickListener() {
                     public void onClick( View v ) {
-                        main_activity.yy_input_number_view.showInputNumberView( "Add number", "", -1, 110, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
+                        main_activity.yy_input_number_view.showInputNumberView( "Add number", "", 2, 24, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
                             public void onSave( String number ) { v_handler.onEnterManuallySave( number ); }
                         });
                     }
