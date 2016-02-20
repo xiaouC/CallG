@@ -16,6 +16,10 @@ import android.support.v4.app.FragmentActivity;
 import android.content.SharedPreferences;
 import android.os.RemoteException;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 
 public class CallGuardianActivity extends FragmentActivity
 {
@@ -32,6 +36,19 @@ public class CallGuardianActivity extends FragmentActivity
     public YYInputNumberPINView yy_input_number_pin_view;
 
     public YYViewBase yy_current_view;
+
+    private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if( intent.hasExtra( "state" ) ) {
+                if( intent.getIntExtra( "state", 0 ) == 0 ) {
+                    changeShengDao( 1 );
+                } else if( intent.getIntExtra( "state", 0 ) == 1 ) {
+                    changeShengDao( 0 );
+                }
+            }
+        }
+    };
 
     /** Called when the activity is first created. */
     @Override
@@ -96,6 +113,13 @@ public class CallGuardianActivity extends FragmentActivity
 
         loadSharedPreferences();
         saveSharedPreferences();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction( "android.intent.action.HEADSET_PLUG" );
+        registerReceiver( headsetPlugReceiver, filter );  
+
+        AudioManager localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
+        changeShengDao( localAudioManager.isWiredHeadsetOn() ? 0 : 1 );
     }
 
     public boolean onKeyDown( int keyCode, KeyEvent event )
@@ -108,10 +132,50 @@ public class CallGuardianActivity extends FragmentActivity
         return false;
     }
 
+    public final static String ANSWER_MACHINE_CHANGE_HEADSET = "andorid.intent.action.answer.machine.change.headset";           // 耳机
+    public final static String ANSWER_MACHINE_CHANGE_HANDFREE = "andorid.intent.action.answer.machine.change.handfree";         // 免提
+    public final static String ANSWER_MACHINE_CHANGE_NORMAL = "andorid.intent.action.answer.machine.change.normal";             // 普通
+    public void changeShengDao( int nType ) {
+        Intent intent = new Intent();  
+        switch( nType ) {
+            case 0:
+                intent.setAction( ANSWER_MACHINE_CHANGE_HEADSET );  
+                break;
+            case 1:
+                intent.setAction( ANSWER_MACHINE_CHANGE_HANDFREE );  
+                break;
+            default:
+                intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );  
+                break;
+        }
+        sendBroadcast( intent );
+    }
+
+	@Override
+	protected void onResume() {
+        super.onResume();
+
+        if( yy_current_view != null ) {
+            yy_current_view.onResume();
+        }
+
+        AudioManager localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
+        changeShengDao( localAudioManager.isWiredHeadsetOn() ? 0 : 1 );
+    }
+
+	@Override
+	protected void onPause() {
+        changeShengDao( 2 );
+
+        super.onPause();
+    }
+
 	@Override
 	protected void onDestroy()
 	{
         bIsDestroy = true;
+
+        unregisterReceiver( headsetPlugReceiver );
 
 		// TODO Auto-generated method stub
 		super.onDestroy();
@@ -120,16 +184,6 @@ public class CallGuardianActivity extends FragmentActivity
         yy_command.unregisterReceiver();
 		//unregisterReceiver( yy_command.commandReceiver );
 	}
-
-    @Override  
-    protected void onResume() {  
-        super.onResume();  
-
-        if( yy_current_view != null ) {
-            yy_current_view.onResume();
-        }
-    } 
-
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素
