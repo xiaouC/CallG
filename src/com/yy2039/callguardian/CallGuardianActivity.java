@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.app.AlertDialog;
 
 public class CallGuardianActivity extends FragmentActivity
 {
@@ -46,6 +47,17 @@ public class CallGuardianActivity extends FragmentActivity
                 } else if( intent.getIntExtra( "state", 0 ) == 1 ) {
                     changeShengDao( 0 );
                 }
+            }
+        }
+    };
+
+    public AlertDialog yy_playing_msg_dlg = null;
+    private BroadcastReceiver playingMsgEndReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if( yy_playing_msg_dlg != null ) {
+                yy_playing_msg_dlg.hide();
+                yy_playing_msg_dlg = null;
             }
         }
     };
@@ -118,6 +130,10 @@ public class CallGuardianActivity extends FragmentActivity
         filter.addAction( "android.intent.action.HEADSET_PLUG" );
         registerReceiver( headsetPlugReceiver, filter );  
 
+        IntentFilter filter2 = new IntentFilter();
+        filter2.addAction( "android.intent.action.PLAY_END" );
+        registerReceiver( playingMsgEndReceiver, filter2 );  
+
         AudioManager localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
         changeShengDao( localAudioManager.isWiredHeadsetOn() ? 0 : 1 );
     }
@@ -176,6 +192,7 @@ public class CallGuardianActivity extends FragmentActivity
         bIsDestroy = true;
 
         unregisterReceiver( headsetPlugReceiver );
+        unregisterReceiver( playingMsgEndReceiver );
 
 		// TODO Auto-generated method stub
 		super.onDestroy();

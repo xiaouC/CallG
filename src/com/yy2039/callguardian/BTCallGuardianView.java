@@ -577,8 +577,9 @@ public class BTCallGuardianView extends YYViewBack {
                     if( data != null && data.equals( "SUCCESS" ) ) {
                         String title = "Record name";
                         String tips = "Recording name";
-                        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                        main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
+                                main_activity.yy_playing_msg_dlg = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -595,6 +596,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 });
                             }
                             public void onCancel() {
+                                main_activity.yy_playing_msg_dlg = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -644,8 +646,9 @@ public class BTCallGuardianView extends YYViewBack {
                     if( data != null && data.equals( "SUCCESS" ) ) {
                         String title = "Play message";
                         String tips = "Playing announce message";
-                        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                        main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
+                                main_activity.yy_playing_msg_dlg = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -668,6 +671,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 });
                             }
                             public void onCancel() {
+                                main_activity.yy_playing_msg_dlg = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
