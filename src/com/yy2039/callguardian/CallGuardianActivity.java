@@ -62,6 +62,13 @@ public class CallGuardianActivity extends FragmentActivity
         }
     };
 
+    private BroadcastReceiver incomingCallReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -136,6 +143,10 @@ public class CallGuardianActivity extends FragmentActivity
         //filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
         registerReceiver( playingMsgEndReceiver, filter2 );  
 
+        IntentFilter filter3 = new IntentFilter();
+        filter3.addAction( "com.action.dect.page.incoming.call" );
+        registerReceiver( incomingCallReceiver, filter3 );  
+
         AudioManager localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
         changeShengDao( localAudioManager.isWiredHeadsetOn() ? 0 : 1 );
     }
@@ -197,6 +208,7 @@ public class CallGuardianActivity extends FragmentActivity
 
         unregisterReceiver( headsetPlugReceiver );
         unregisterReceiver( playingMsgEndReceiver );
+        unregisterReceiver( incomingCallReceiver );
 
 		// TODO Auto-generated method stub
 		super.onDestroy();
