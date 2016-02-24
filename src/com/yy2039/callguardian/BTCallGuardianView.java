@@ -1152,7 +1152,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         final String area_code = (String)yy_view_self.yy_temp_data.get( "area_code" );
                                         main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                             public void onInit( AlertDialog ad, View view ) {
-                                                String text1 = String.format( "Are you sure that you want to delete\r\nthe area code %s from your list?", area_code );
+                                                String text1 = String.format( "Are you sure that you want to delete the area code %s from your list?", area_code );
                                                 TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                                 tv.setText( text1 );
 
@@ -1253,7 +1253,7 @@ public class BTCallGuardianView extends YYViewBack {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                 public void onInit( AlertDialog ad, View view ) {
-                                    String text1 = "Are you sure that you want to delete\r\nall the allowed numbers stored on your telephone system?";
+                                    String text1 = "Are you sure that you want to delete all the allowed numbers stored on your telephone system?";
                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                     tv.setText( text1 );
 
