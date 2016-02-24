@@ -649,6 +649,7 @@ public class BTCallGuardianView extends YYViewBack {
                         main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
                                 main_activity.yy_playing_msg_dlg = null;
+                                main_activity.changeShengDao( true );
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -672,6 +673,7 @@ public class BTCallGuardianView extends YYViewBack {
                             }
                             public void onCancel() {
                                 main_activity.yy_playing_msg_dlg = null;
+                                main_activity.changeShengDao( true );
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -694,6 +696,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 });
                             }// End public void onCancel()
                         });
+                        main_activity.changeShengDao( false );
                     }
                     else {
                         Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
