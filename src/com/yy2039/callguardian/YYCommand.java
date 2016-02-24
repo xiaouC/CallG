@@ -93,6 +93,9 @@ public class YYCommand {
     public final static String CALL_GUARDIAN_GDES = "andorid.intent.action.call.guardian.gdes";
     public final static String CALL_GUARDIAN_GDES_RESULT = "com.action.dect.call.guardian.gdes.result";
 
+    public final static String ANSWER_MACHINE_GDMS = "andorid.intent.action.answer.machine.gdms";
+    public final static String ANSWER_MACHINE_GDMS_RESULT = "com.action.dect.answer.machine.gdms.result";
+
     public final static String ANSWER_MACHINE_SDMS = "andorid.intent.action.answer.machine.sdms";
     public final static String ANSWER_MACHINE_SDMS_RESULT = "com.action.dect.answer.machine.sdms.result";
 
@@ -410,6 +413,16 @@ public class YYCommand {
             }
         });
         action_list.put( ANSWER_MACHINE_SDMS_RESULT, new onRecvActionListener() {
+            public void onExecute( String data ) {
+                if( cur_command_info != null ) {
+                    cur_command_info.command_listener.onRecv( data );
+                }
+
+                cur_command_info = null;
+                realExecuteCommand();
+            }
+        });
+        action_list.put( ANSWER_MACHINE_GDMS_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
                 if( cur_command_info != null ) {
                     cur_command_info.command_listener.onRecv( data );

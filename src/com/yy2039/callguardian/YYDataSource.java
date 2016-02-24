@@ -171,6 +171,33 @@ public class YYDataSource {
 				Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
             }
         });
+
+        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.ANSWER_MACHINE_GDMS_RESULT, new YYCommand.onCommandListener() {
+            public void onSend() {
+                Intent dmIntent = new Intent( YYCommand.ANSWER_MACHINE_GDMS );
+                dmIntent.putExtra( "type", "3" );
+                main_activity.sendBroadcast( dmIntent );
+            }
+            public void onRecv( String data ) {
+                Log.v( "cconn", "gdms recv : " + data );
+                if( data == null ) {
+                    String text = String.format( "%s recv : null", YYCommand.ANSWER_MACHINE_GDMS_RESULT );
+                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                }
+                else {
+                    String[] results = data.split( "," );
+                    if( results.length < 2 ) {
+                        String text = String.format( "%s recv data error : %s", YYCommand.ANSWER_MACHINE_GDMS_RESULT, data );
+                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    } else {
+                        bIsUseDefaultMessage = ( Integer.parseInt( results[0] ) == 0 ? true : false );
+                    }
+                }
+            }
+            public void onFailure() {
+				Toast.makeText( main_activity, "load gdms failed", Toast.LENGTH_LONG ).show();
+            }
+        });
     }
 
     // 
@@ -261,6 +288,10 @@ public class YYDataSource {
 
     public boolean getIsUseDefaultMessage() {
         return bIsUseDefaultMessage;
+    }
+
+    public void initIsUseDefaultMessage( boolean bDefault ) {
+        bIsUseDefaultMessage = bDefault;
     }
 
     public void setIsUseDefaultMessage( boolean bDefault ) {

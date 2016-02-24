@@ -607,7 +607,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     public void onRecv( String data ) {
                                         Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
                                         if( data != null && data.equals( "SUCCESS" ) ) {
-                                            main_activity.yy_data_source.setIsUseDefaultMessage( true );
+                                            main_activity.yy_data_source.initIsUseDefaultMessage( true );
 
                                             YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                             task.execute();
@@ -657,13 +657,13 @@ public class BTCallGuardianView extends YYViewBack {
                                         main_activity.sendBroadcast( tempIntent );
                                     }
                                     public void onRecv( String data ) {
-                                        main_activity.yy_data_source.setIsUseDefaultMessage( false );
+                                        //main_activity.yy_data_source.initIsUseDefaultMessage( false );
 
                                         YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                         task.execute();
                                     }
                                     public void onFailure() {
-                                        main_activity.yy_data_source.setIsUseDefaultMessage( false );
+                                        //main_activity.yy_data_source.initIsUseDefaultMessage( false );
 
                                         YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                         task.execute();
