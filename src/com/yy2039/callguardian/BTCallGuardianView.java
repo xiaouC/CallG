@@ -288,7 +288,7 @@ public class BTCallGuardianView extends YYViewBack {
         if( main_activity.yy_data_source.getBTCallGuardianModeOn() )
             tv_tips.setText( "" );
         else
-            tv_tips.setText( "BT Call Guardian You will need Caller Display to use BT Call Guardian and other Call control features.Please contact your telephone service provide for more information." );
+            tv_tips.setText( "BT Call Guardian You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provide for more information." );
 
         // list view
         yy_list_adapter.list_data = getItemListData();
