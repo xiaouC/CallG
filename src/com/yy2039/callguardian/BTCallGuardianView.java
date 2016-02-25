@@ -580,6 +580,7 @@ public class BTCallGuardianView extends YYViewBack {
                         main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public void onOK() {
                                 main_activity.yy_playing_msg_dlg = null;
+                                main_activity.yy_auto_save_listener = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -597,6 +598,7 @@ public class BTCallGuardianView extends YYViewBack {
                             }
                             public void onCancel() {
                                 main_activity.yy_playing_msg_dlg = null;
+                                main_activity.yy_auto_save_listener = null;
                                 main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                                     public void onSend() {
                                         Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -622,6 +624,16 @@ public class BTCallGuardianView extends YYViewBack {
                                 });
                             }
                         });
+                        main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
+                            public void onAutoSave() {
+                                if( main_activity.yy_record_auto_save_dlg != null ) {
+                                    main_activity.yy_record_auto_save_dlg.hide();
+                                    main_activity.yy_record_auto_save_dlg = null;
+
+                                    showPlayMessageAlertDialog();
+                                }
+                            }
+                        };
                     }
                     else {
                         Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
