@@ -18,6 +18,9 @@ import android.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.AbsoluteSizeSpan;
+import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 import android.content.Intent;
 import android.widget.Toast;
@@ -59,6 +62,12 @@ public class BTCallGuardianView extends YYViewBack {
         btn_obj.setChecked( main_activity.yy_data_source.getBTCallGuardianModeOn() );
 
         bIsInitSwitchBtnState = false;
+
+        main_activity.yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
+            public void doSomething() {
+                updateState();
+            }
+        });
     }
 
     public String getViewTitle() {
@@ -285,10 +294,26 @@ public class BTCallGuardianView extends YYViewBack {
 
         // tips
         TextView tv_tips = (TextView)main_activity.findViewById( R.id.tips_text );
-        if( main_activity.yy_data_source.getBTCallGuardianModeOn() )
+        if( main_activity.yy_data_source.getBTCallGuardianModeOn() ) {
             tv_tips.setText( "" );
-        else
-            tv_tips.setText( "BT Call Guardian You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provide for more information." );
+        } else {
+            String text1 = "BT Call Guardian";
+            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provide for more information.";
+
+            String text = text1 + "\r\n" + text2;
+
+            SpannableString msp = new SpannableString( text );
+
+            msp.setSpan( new StyleSpan( android.graphics.Typeface.BOLD ), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+            msp.setSpan( new AbsoluteSizeSpan( 25 ), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+            msp.setSpan( new ForegroundColorSpan( Color.BLACK ), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+
+            msp.setSpan( new StyleSpan( android.graphics.Typeface.NORMAL ), text1.length(), text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+            msp.setSpan( new AbsoluteSizeSpan( 20 ), text1.length(), text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+            msp.setSpan( new ForegroundColorSpan( Color.GRAY ), text1.length(), text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE );
+
+            tv_tips.setText( msp );
+        }
 
         // list view
         yy_list_adapter.list_data = getItemListData();
