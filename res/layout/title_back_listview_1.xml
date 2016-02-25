@@ -53,7 +53,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="BT Call Guardian You will need Caller Dispaly to use BT Call Guardian and other Call control features.Please contact your telephone service provide for more information."
-            android:textSize="10pt"
+            android:textSize="25px"
             android:gravity="center"
             />
     </LinearLayout>
