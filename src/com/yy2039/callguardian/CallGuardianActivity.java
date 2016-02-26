@@ -151,8 +151,8 @@ public class CallGuardianActivity extends FragmentActivity
         registerReceiver( headsetPlugReceiver, filter );  
 
         IntentFilter filter2 = new IntentFilter();
-        filter2.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
-        //filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
+        //filter2.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
+        filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
         registerReceiver( playingMsgEndReceiver, filter2 );  
 
         IntentFilter filter3 = new IntentFilter();
