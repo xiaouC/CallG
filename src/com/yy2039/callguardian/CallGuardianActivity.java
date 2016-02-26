@@ -48,9 +48,18 @@ public class CallGuardianActivity extends FragmentActivity
     };
 
     public AlertDialog yy_playing_msg_dlg = null;
+    //public AlertDialog yy_record_auto_save_dlg = null;
+    public interface onAutoSaveListener {
+        public void onAutoSave();
+    }
+    public onAutoSaveListener yy_auto_save_listener = null;
     private BroadcastReceiver playingMsgEndReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if( yy_auto_save_listener != null ) {
+                yy_auto_save_listener.onAutoSave();
+                yy_auto_save_listener = null;
+            }
             if( yy_playing_msg_dlg != null ) {
                 yy_playing_msg_dlg.hide();
                 yy_playing_msg_dlg = null;
@@ -58,20 +67,15 @@ public class CallGuardianActivity extends FragmentActivity
         }
     };
 
-    public AlertDialog yy_record_auto_save_dlg = null;
-    public interface onAutoSaveListener {
-        public void onAutoSave();
-    }
-    public onAutoSaveListener yy_auto_save_listener = null;
-    private BroadcastReceiver autoSaveReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if( yy_auto_save_listener != null ) {
-                yy_auto_save_listener.onAutoSave();
-                yy_auto_save_listener = null;
-            }
-        }
-    };
+    //private BroadcastReceiver autoSaveReceiver = new BroadcastReceiver() {
+    //    @Override
+    //    public void onReceive(Context context, Intent intent) {
+    //        if( yy_auto_save_listener != null ) {
+    //            yy_auto_save_listener.onAutoSave();
+    //            yy_auto_save_listener = null;
+    //        }
+    //    }
+    //};
 
     private BroadcastReceiver incomingCallReceiver = new BroadcastReceiver() {
         @Override
@@ -152,6 +156,7 @@ public class CallGuardianActivity extends FragmentActivity
 
         IntentFilter filter2 = new IntentFilter();
         filter2.addAction( "com.action.dect.page.voicemsg.play.over" );
+        filter2.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
         //filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
         registerReceiver( playingMsgEndReceiver, filter2 );  
 
@@ -159,9 +164,9 @@ public class CallGuardianActivity extends FragmentActivity
         filter3.addAction( "com.action.dect.page.incoming.call" );
         registerReceiver( incomingCallReceiver, filter3 );  
 
-        IntentFilter filter5 = new IntentFilter();
-        filter5.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
-        registerReceiver( autoSaveReceiver, filter5 );  
+        //IntentFilter filter5 = new IntentFilter();
+        //filter5.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
+        //registerReceiver( autoSaveReceiver, filter5 );  
 
         localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
     }
@@ -181,7 +186,8 @@ public class CallGuardianActivity extends FragmentActivity
     public final static String ANSWER_MACHINE_CHANGE_NORMAL = "andorid.intent.action.answer.machine.change.normal";             // 普通
     public void changeShengDao( boolean bResumeNormal ) {
         if( !bResumeNormal ) {
-            if( yy_playing_msg_dlg != null || yy_record_auto_save_dlg != null ) {
+            //if( yy_playing_msg_dlg != null || yy_record_auto_save_dlg != null ) {
+            if( yy_playing_msg_dlg != null ) {
                 Intent intent = new Intent();  
                 if( localAudioManager.isWiredHeadsetOn() ) {
                     intent.setAction( ANSWER_MACHINE_CHANGE_HEADSET );
@@ -193,9 +199,9 @@ public class CallGuardianActivity extends FragmentActivity
                 if( yy_playing_msg_dlg != null ) {
                     yy_playing_msg_dlg.setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
                 }
-                if( yy_record_auto_save_dlg != null ) {
-                    yy_record_auto_save_dlg.setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
-                }
+                //if( yy_record_auto_save_dlg != null ) {
+                //    yy_record_auto_save_dlg.setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
+                //}
             }
         } else {
             Intent intent = new Intent();  
@@ -234,7 +240,7 @@ public class CallGuardianActivity extends FragmentActivity
         unregisterReceiver( headsetPlugReceiver );
         unregisterReceiver( playingMsgEndReceiver );
         unregisterReceiver( incomingCallReceiver );
-        unregisterReceiver( autoSaveReceiver );
+        //unregisterReceiver( autoSaveReceiver );
 
 		// TODO Auto-generated method stub
 		super.onDestroy();
