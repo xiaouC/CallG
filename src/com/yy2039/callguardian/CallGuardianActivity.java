@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.app.AlertDialog;
+import android.os.PowerManager;
 
 public class CallGuardianActivity extends FragmentActivity
 {
@@ -37,6 +38,7 @@ public class CallGuardianActivity extends FragmentActivity
     public YYInputNumberPINView yy_input_number_pin_view;
 
     public YYViewBase yy_current_view;
+    private PowerManager.WakeLock wakeLock = null;
 
     private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() {
         @Override
@@ -93,6 +95,10 @@ public class CallGuardianActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
 
         main_activity = this;
+
+        PowerManager pm = (PowerManager)getSystemService( Context.POWER_SERVICE );
+        wakeLock = pm.newWakeLock( PowerManager.PARTIAL_WAKE_LOCK, CallGuardianActivity.class.getName() );
+        wakeLock.acquire();
 
         yy_common = new YYCommon();
         yy_schedule = new YYSchedule( this );
@@ -227,6 +233,12 @@ public class CallGuardianActivity extends FragmentActivity
 	protected void onPause() {
         changeShengDao( true );
 
+        yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
+            public void doSomething() {
+                finish();
+            }
+        });
+
         super.onPause();
     }
 
@@ -241,6 +253,11 @@ public class CallGuardianActivity extends FragmentActivity
         unregisterReceiver( playingMsgEndReceiver );
         unregisterReceiver( incomingCallReceiver );
         //unregisterReceiver( autoSaveReceiver );
+
+        if( wakeLock != null ) {
+            wakeLock.release();
+            wakeLock = null;
+        }
 
 		// TODO Auto-generated method stub
 		super.onDestroy();
