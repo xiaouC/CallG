@@ -459,7 +459,7 @@ public class BTCallGuardianView extends YYViewBack {
         return new onUpdateTextHandler() {
             public SpannableString getText() {
                 String text1 = "Announce message";
-                String text2 = "Default";
+                String text2 = main_activity.yy_data_source.getIsUseDefaultMessage() ? "Default" : "";
 
                 return YYViewBase.transferText( text1, text2 );
             }
@@ -614,6 +614,11 @@ public class BTCallGuardianView extends YYViewBack {
                                         main_activity.sendBroadcast( tempIntent );
                                     }
                                     public void onRecv( String data ) {
+                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
+
+                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                        task.execute();
+
                                         showPlayMessageAlertDialog();
                                     }
                                     public void onFailure() {
@@ -696,13 +701,13 @@ public class BTCallGuardianView extends YYViewBack {
                                         main_activity.sendBroadcast( tempIntent );
                                     }
                                     public void onRecv( String data ) {
-                                        //main_activity.yy_data_source.initIsUseDefaultMessage( false );
+                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
 
                                         YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                         task.execute();
                                     }
                                     public void onFailure() {
-                                        //main_activity.yy_data_source.initIsUseDefaultMessage( false );
+                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
 
                                         YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                         task.execute();
