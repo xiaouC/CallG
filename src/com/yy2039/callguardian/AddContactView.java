@@ -164,6 +164,13 @@ public class AddContactView extends YYViewBackList {
             final YYDataSource.contactsListItem item_info = contacts_list.get( i );
 
             Map<Integer,YYListAdapter.onYYListItemHandler> map = new HashMap<Integer,YYListAdapter.onYYListItemHandler>();
+            map.put( R.id.item_image, new YYListAdapter.onYYListItemHandler() {
+                @Override
+                public void item_handle( Object view_obj ) {
+                    // TODO:需要先获取blocked list
+                    //((ImageView)view_obj).setBackgroundResource( item_info.getMsgType() == 0 ? R.drawable.blocked_1 : R.drawable.blocked_2 );
+                }
+            });
             map.put( R.id.item_button, new YYListAdapter.onYYListItemHandler() {
                 public void item_handle( Object view_obj ) {
                     Button btn_obj = (Button)view_obj;
