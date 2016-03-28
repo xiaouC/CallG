@@ -298,7 +298,7 @@ public class BTCallGuardianView extends YYViewBack {
             tv_tips.setText( "" );
         } else {
             String text1 = "BT Call Guardian";
-            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provide for more information.";
+            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice Provider for more information.";
 
             String text = text1 + "\r\n" + text2;
 
