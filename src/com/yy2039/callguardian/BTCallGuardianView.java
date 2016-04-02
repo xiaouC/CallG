@@ -619,71 +619,84 @@ public class BTCallGuardianView extends YYViewBack {
                 public void onRecv( String data ) {
                     Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
                     if( data != null && data.equals( "SUCCESS" ) ) {
-                        String title = "Record name";
-                        String tips = "Recording name";
-                        main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                            public void onOK() {
-                                main_activity.yy_playing_msg_dlg = null;
-                                main_activity.yy_auto_save_listener = null;
-                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                                    public void onSend() {
-                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                                        tempIntent.putExtra( "operation", "4" );        // 4 : stop change
-                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
-                                        main_activity.sendBroadcast( tempIntent );
-                                    }
-                                    public void onRecv( String data ) {
-                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
+                        String title = "Voice Prompt\r\nLoudspeaker Delivery";
+                        String tips = "Please say your name after the tone.\r\nTo end recording, press Save";
+                        final AlertDialog ad = main_activity.yy_show_alert_dialog.showVoicePromptAlertDialog( title, R.drawable.play_message, tips, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public void onOK() { }
+                            public void onCancel() { }
+                        });
 
-                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                        task.execute();
+                        main_activity.yy_schedule.scheduleOnceTime( 5000, new YYSchedule.onScheduleAction() {
+                            public void doSomething() {
+                                ad.hide();
 
-                                        showPlayMessageAlertDialog();
+                                String title = "Record name";
+                                String tips = "Recording name";
+                                main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public void onOK() {
+                                        main_activity.yy_playing_msg_dlg = null;
+                                        main_activity.yy_auto_save_listener = null;
+                                        main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                            public void onSend() {
+                                                Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                                tempIntent.putExtra( "operation", "4" );        // 4 : stop change
+                                                tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                                                main_activity.sendBroadcast( tempIntent );
+                                            }
+                                            public void onRecv( String data ) {
+                                                main_activity.yy_data_source.initIsUseDefaultMessage( false );
+
+                                                YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                                task.execute();
+
+                                                showPlayMessageAlertDialog();
+                                            }
+                                            public void onFailure() {
+                                                showPlayMessageAlertDialog();
+                                            }
+                                        });
                                     }
-                                    public void onFailure() {
-                                        showPlayMessageAlertDialog();
+                                    public void onCancel() {
+                                        main_activity.yy_playing_msg_dlg = null;
+                                        main_activity.yy_auto_save_listener = null;
+                                        main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                                            public void onSend() {
+                                                Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                                                tempIntent.putExtra( "operation", "1" );        // 1 : delete
+                                                tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                                                main_activity.sendBroadcast( tempIntent );
+                                            }
+                                            public void onRecv( String data ) {
+                                                Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                                                if( data != null && data.equals( "SUCCESS" ) ) {
+                                                    main_activity.yy_data_source.initIsUseDefaultMessage( true );
+
+                                                    YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                                    task.execute();
+                                                }
+                                                else {
+                                                    Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                                }
+                                            }
+                                            public void onFailure() {
+                                                Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                            }
+                                        });
                                     }
                                 });
-                            }
-                            public void onCancel() {
-                                main_activity.yy_playing_msg_dlg = null;
-                                main_activity.yy_auto_save_listener = null;
-                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                                    public void onSend() {
-                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                                        tempIntent.putExtra( "operation", "1" );        // 1 : delete
-                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
-                                        main_activity.sendBroadcast( tempIntent );
-                                    }
-                                    public void onRecv( String data ) {
-                                        Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
-                                        if( data != null && data.equals( "SUCCESS" ) ) {
-                                            main_activity.yy_data_source.initIsUseDefaultMessage( true );
-
-                                            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                            task.execute();
-                                        }
-                                        else {
-                                            Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
+                                    public void onAutoSave() {
+                                        if( main_activity.yy_playing_msg_dlg != null ) {
+                                            main_activity.yy_schedule.scheduleOnceTime( 100, new YYSchedule.onScheduleAction() {
+                                                public void doSomething() {
+                                                    showPlayMessageAlertDialog();
+                                                }
+                                            });
                                         }
                                     }
-                                    public void onFailure() {
-                                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
-                                    }
-                                });
+                                };
                             }
                         });
-                        main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
-                            public void onAutoSave() {
-                                if( main_activity.yy_playing_msg_dlg != null ) {
-                                    main_activity.yy_schedule.scheduleOnceTime( 100, new YYSchedule.onScheduleAction() {
-                                        public void doSomething() {
-                                            showPlayMessageAlertDialog();
-                                        }
-                                    });
-                                }
-                            }
-                        };
                     }
                     else {
                         Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();

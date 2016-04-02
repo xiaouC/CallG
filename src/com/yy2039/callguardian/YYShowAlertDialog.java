@@ -287,6 +287,24 @@ public class YYShowAlertDialog {
         });
     }
 
+    public AlertDialog showVoicePromptAlertDialog( final String title, final int image_id, final String tips, final onAlertDialogClickHandler click_handler ) {
+        return showAlertDialog( R.layout.alert_voice_prompt, new onAlertDialogHandler() {
+            public void onInit( AlertDialog ad, View view ) {
+                TextView tv_title = (TextView)view.findViewById( R.id.alert_title );
+                tv_title.setText( title );
+
+                ImageView iv = (ImageView)view.findViewById( R.id.alert_image );
+                iv.setBackgroundResource( image_id );
+
+                TextView tv_tips = (TextView)view.findViewById( R.id.alert_tips );
+                tv_tips.setText( tips );
+            }
+            public void onOK() { click_handler.onOK(); }
+            public void onCancel() { click_handler.onCancel(); }
+        });
+    }
+
+
     public boolean bShowWaiting = true;
     public void showWaitingAlertDialog() {
         if( !bShowWaiting ) {
