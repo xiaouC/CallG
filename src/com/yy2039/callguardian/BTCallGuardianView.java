@@ -46,14 +46,33 @@ public class BTCallGuardianView extends YYViewBack {
         bIsInitSwitchBtnState = true;
 
         // 
-        Switch btn_obj = (Switch)main_activity.findViewById( R.id.button_state );
+        final Switch btn_obj = (Switch)main_activity.findViewById( R.id.button_state );
         btn_obj.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
+            public void onCheckedChanged( CompoundButton buttonView, final boolean isChecked ) {
                 if( !bIsInitSwitchBtnState ) {
-                    main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
+                    if( isChecked ) {
+                        String title = "BT Call Guardian";
+                        String content = "You will need Caller Display to use\r\nBT Call Guardian and other call control\r\nfeatures. Please contact your\r\ntelephone service provide for more\r\ninformation.";
+                        String tips = "Switch on BT Call Guardian?";
+                        main_activity.yy_show_alert_dialog.showContentTipsAlertDialog( title, content, tips, R.drawable.alert_no, R.drawable.alert_yes, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public void onOK() {
+                                bIsInitSwitchBtnState = true;
+                                btn_obj.setChecked( main_activity.yy_data_source.getBTCallGuardianModeOn() );
+                                bIsInitSwitchBtnState = false;
+                                updateState();
+                            }
+                            public void onCancel() {
+                                main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
+                                updateState();
+                            }// End public void onCancel()
+                        });
+                    } else {
+                        main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
+                        updateState();
+                    }
+                } else {
+                    updateState();
                 }
-
-                updateState();
             }
         });
 

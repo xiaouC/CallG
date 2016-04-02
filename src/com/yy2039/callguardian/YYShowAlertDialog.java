@@ -258,6 +258,35 @@ public class YYShowAlertDialog {
         ad.show();
     }
 
+    public AlertDialog showContentTipsAlertDialog( final String title, final String content, final String tips, final int btn_ok_image_id, final int btn_cancel_image_id, final onAlertDialogClickHandler click_handler ) {
+        return showAlertDialog( R.layout.alert_content_tips, new onAlertDialogHandler() {
+            public void onInit( AlertDialog ad, View view ) {
+                TextView tv_title = (TextView)view.findViewById( R.id.alert_title );
+                tv_title.setText( title );
+
+                TextView tv_content = (TextView)view.findViewById( R.id.alert_content );
+                tv_content.setText( content );
+
+                TextView tv_tips = (TextView)view.findViewById( R.id.alert_tips );
+                tv_tips.setText( tips );
+
+                if( btn_ok_image_id != 0 ) {
+                    ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                    if( btn_ok != null )
+                        btn_ok.setImageDrawable( main_activity.getResources().getDrawable( btn_ok_image_id ) );
+                }
+
+                if( btn_cancel_image_id != 0 ) {
+                    ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                    if( btn_cancel != null )
+                        btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( btn_cancel_image_id ) );
+                }
+            }
+            public void onOK() { click_handler.onOK(); }
+            public void onCancel() { click_handler.onCancel(); }
+        });
+    }
+
     public boolean bShowWaiting = true;
     public void showWaitingAlertDialog() {
         if( !bShowWaiting ) {
