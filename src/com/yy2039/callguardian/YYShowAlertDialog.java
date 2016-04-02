@@ -28,6 +28,8 @@ public class YYShowAlertDialog {
     private CallGuardianActivity main_activity;
 
     public interface onAlertDialogClickHandler {
+        boolean getIsCancelEnable();
+        boolean getKeybackIsCancel();
         void onOK();
         void onCancel();
     }
@@ -35,6 +37,8 @@ public class YYShowAlertDialog {
     // 
     public interface onAlertDialogHandler {
         void onInit( AlertDialog ad, View view );
+        boolean getIsCancelEnable();
+        boolean getKeybackIsCancel();
         void onOK();
         void onCancel();
     }
@@ -61,7 +65,22 @@ public class YYShowAlertDialog {
 
         AlertDialog.Builder builder = new AlertDialog.Builder( new ContextThemeWrapper( main_activity, R.style.BT_Call_Guardian_Mode ) );
         builder.setView( view );
-        builder.setCancelable( false );
+        builder.setCancelable( handler.getIsCancelEnable() );
+        if( handler.getIsCancelEnable() ) {
+            builder.setOnKeyListener( new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey( DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                        if( handler.getKeybackIsCancel() ) {
+                            handler.onCancel();
+                        } else {
+                            handler.onOK();
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
 
         cur_show_ad = builder.create();
 
@@ -163,6 +182,8 @@ public class YYShowAlertDialog {
                 }
             }
 
+            public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
+            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
         });
@@ -197,6 +218,8 @@ public class YYShowAlertDialog {
                         btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( btn_cancel_image_id ) );
                 }
             }
+            public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
+            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
         });
@@ -220,6 +243,8 @@ public class YYShowAlertDialog {
                         btn_ok.setImageDrawable( main_activity.getResources().getDrawable( btn_ok_image_id ) );
                 }
             }
+            public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
+            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
         });
@@ -282,6 +307,8 @@ public class YYShowAlertDialog {
                         btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( btn_cancel_image_id ) );
                 }
             }
+            public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
+            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
         });
@@ -299,6 +326,8 @@ public class YYShowAlertDialog {
                 TextView tv_tips = (TextView)view.findViewById( R.id.alert_tips );
                 tv_tips.setText( tips );
             }
+            public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
+            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
         });

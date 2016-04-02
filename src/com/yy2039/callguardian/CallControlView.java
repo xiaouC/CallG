@@ -135,6 +135,8 @@ public class CallControlView extends YYViewBase {
                                                         TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                                         tv.setText( text1 );
                                                     }
+                                                    public boolean getIsCancelEnable() { return false; }
+                                                    public boolean getKeybackIsCancel() { return false; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
                                                 });

@@ -84,6 +84,8 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                             }
                         });
                     }
+                    public boolean getIsCancelEnable() { return false; }
+                    public boolean getKeybackIsCancel() { return false; }
                     public void onOK() { }
                     public void onCancel() { }
                 });
@@ -144,6 +146,8 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                 });
 
                 main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Only allow priority interruptions", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                    public boolean getIsCancelEnable() { return false; }
+                    public boolean getKeybackIsCancel() { return false; }
                     public void onOK() {
                         Integer priority = (Integer)yy_view_self.yy_temp_data.get( "do_not_disturb_priority" );
                         if( priority != null ) {
@@ -229,6 +233,8 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                             }
                         });
                     }
+                    public boolean getIsCancelEnable() { return false; }
+                    public boolean getKeybackIsCancel() { return false; }
                     public void onOK() { }
                     public void onCancel() { }
                 });
@@ -342,6 +348,8 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         cb_sunday.setButtonDrawable( bSunday ? R.drawable.check_box_select : R.drawable.check_box_normal );
                         yy_view_self.yy_temp_data.put( "do_not_disturb_sunday", bSunday );
                     }
+                    public boolean getIsCancelEnable() { return false; }
+                    public boolean getKeybackIsCancel() { return false; }
                     public void onOK() {
                         main_activity.yy_data_source.setDoNotDisturbMonday( (Boolean)yy_view_self.yy_temp_data.get( "do_not_disturb_monday" ) );
                         main_activity.yy_data_source.setDoNotDisturbTuesday( (Boolean)yy_view_self.yy_temp_data.get( "do_not_disturb_tuesday" ) );

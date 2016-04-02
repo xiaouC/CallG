@@ -51,6 +51,8 @@ public class OutgoingCallsView extends YYViewBackList {
                                         TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                         tv.setText( text1 );
                                     }
+                                    public boolean getIsCancelEnable() { return false; }
+                                    public boolean getKeybackIsCancel() { return false; }
                                     public void onOK() { }
                                     public void onCancel() { }
                                 });
@@ -93,6 +95,8 @@ public class OutgoingCallsView extends YYViewBackList {
                         });
 
                         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Mobile calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return true; }
                             public void onOK() {
                                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_mobile_calls_mode" );
                                 if( nCurSel != null ) {
@@ -134,6 +138,8 @@ public class OutgoingCallsView extends YYViewBackList {
                         });
 
                         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "International calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return true; }
                             public void onOK() {
                                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_international_calls_mode" );
                                 if( nCurSel != null ) {
@@ -175,6 +181,8 @@ public class OutgoingCallsView extends YYViewBackList {
                         });
 
                         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Premium rate calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return true; }
                             public void onOK() {
                                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_preminum_rate_calls_mode" );
                                 if( nCurSel != null ) {
@@ -216,6 +224,8 @@ public class OutgoingCallsView extends YYViewBackList {
                         });
 
                         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "All dialled calls", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return true; }
                             public void onOK() {
                                 main_activity.yy_data_source.setAllDialledCallsMode( (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_all_dialled_calls_mode" ) );
 
@@ -252,6 +262,8 @@ public class OutgoingCallsView extends YYViewBackList {
                                         TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                         tv.setText( text1 );
                                     }
+                                    public boolean getIsCancelEnable() { return false; }
+                                    public boolean getKeybackIsCancel() { return false; }
                                     public void onOK() { }
                                     public void onCancel() { }
                                 });

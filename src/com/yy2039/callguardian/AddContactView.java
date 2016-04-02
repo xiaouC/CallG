@@ -69,6 +69,8 @@ public class AddContactView extends YYViewBackList {
                                             String title = "Successfully added to the\r\nBLOCKED list";
                                             String tips = "Press OK to finish";
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public boolean getKeybackIsCancel() { return true; }
                                                 public void onOK() {  }
                                                 public void onCancel() { }
                                             });
@@ -125,6 +127,8 @@ public class AddContactView extends YYViewBackList {
                                             String title = "Successfully added to the\r\nALLOWED list";
                                             String tips = "Press OK to finish";
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public boolean getKeybackIsCancel() { return true; }
                                                 public void onOK() {  }
                                                 public void onCancel() { }
                                             });
@@ -191,6 +195,8 @@ public class AddContactView extends YYViewBackList {
                                     ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
+                                public boolean getIsCancelEnable() { return false; }
+                                public boolean getKeybackIsCancel() { return false; }
                                 public void onOK() { }
                                 public void onCancel() { v_handler.onAttentionOK( item_info ); }
                             });

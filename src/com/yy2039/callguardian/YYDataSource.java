@@ -244,9 +244,11 @@ public class YYDataSource {
     }
 
     public void showContactSynchronisingDialog() {
-        String title_1 = "Contacts synchronising";
+        String title_1 = "Adding contacts to allowed list";
         String tips_1 = "Busy\r\n Synchronisation in progress";
         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title_1, R.drawable.sync_base, tips_1, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public boolean getIsCancelEnable() { return true; }
+            public boolean getKeybackIsCancel() { return true; }
             public void onOK() { }
             public void onCancel() { showContactSyncWithBaseAttentionDialog(); }
         });
@@ -264,6 +266,8 @@ public class YYDataSource {
                 ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                 btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
             }
+            public boolean getIsCancelEnable() { return true; }
+            public boolean getKeybackIsCancel() { return true; }
             public void onOK() { showContactSynchronisingDialog(); }
             public void onCancel() { stopContactSyncWithBase(); }
         });

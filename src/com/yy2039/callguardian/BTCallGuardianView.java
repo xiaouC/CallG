@@ -55,6 +55,8 @@ public class BTCallGuardianView extends YYViewBack {
                         String content = "You will need Caller Display to use\r\nBT Call Guardian and other call control\r\nfeatures. Please contact your\r\ntelephone service provide for more\r\ninformation.";
                         String tips = "Switch on BT Call Guardian?";
                         main_activity.yy_show_alert_dialog.showContentTipsAlertDialog( title, content, tips, R.drawable.alert_no, R.drawable.alert_yes, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return false; }
                             public void onOK() {
                                 bIsInitSwitchBtnState = true;
                                 btn_obj.setChecked( main_activity.yy_data_source.getBTCallGuardianModeOn() );
@@ -131,6 +133,8 @@ public class BTCallGuardianView extends YYViewBack {
                     });
 
                     main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "BT Call Guardian Mode", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                        public boolean getIsCancelEnable() { return true; }
+                        public boolean getKeybackIsCancel() { return true; }
                         public void onOK() {
                             Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "bt_call_guardian_mode" );
                             if( nCurSel != null ) {
@@ -293,6 +297,8 @@ public class BTCallGuardianView extends YYViewBack {
         });
 
         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( title, item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public boolean getIsCancelEnable() { return true; }
+            public boolean getKeybackIsCancel() { return true; }
             public void onOK() {
                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( data_type );
                 if( nCurSel != null ) {
@@ -568,6 +574,8 @@ public class BTCallGuardianView extends YYViewBack {
                             });
 
                             main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Use default message", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                public boolean getIsCancelEnable() { return true; }
+                                public boolean getKeybackIsCancel() { return true; }
                                 public void onOK() {
                                     Boolean use_default_msg = (Boolean)yy_view_self.yy_temp_data.get( "use_default_message" );
                                     if( use_default_msg != null ) {
@@ -622,6 +630,8 @@ public class BTCallGuardianView extends YYViewBack {
                         String title = "Voice Prompt\r\nLoudspeaker Delivery";
                         String tips = "Please say your name after the tone.\r\nTo end recording, press Save";
                         final AlertDialog ad = main_activity.yy_show_alert_dialog.showVoicePromptAlertDialog( title, R.drawable.play_message, tips, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return false; }
+                            public boolean getKeybackIsCancel() { return false; }
                             public void onOK() { }
                             public void onCancel() { }
                         });
@@ -633,6 +643,8 @@ public class BTCallGuardianView extends YYViewBack {
                                 String title = "Record name";
                                 String tips = "Recording name";
                                 main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public boolean getIsCancelEnable() { return false; }
+                                    public boolean getKeybackIsCancel() { return false; }
                                     public void onOK() {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
@@ -708,6 +720,58 @@ public class BTCallGuardianView extends YYViewBack {
             });
         }
 
+        public void defaultMSGOn_okFunc() {
+            main_activity.yy_data_source.initIsUseDefaultMessage( false );
+
+            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+            task.execute();
+        }
+
+        public void defaultMSGOff_okFunc() {
+            main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                public void onSend() {
+                    Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                    tempIntent.putExtra( "operation", "3" );        // 3 : stop play
+                    tempIntent.putExtra( "type", "3" );             // 3 : announce message
+                    main_activity.sendBroadcast( tempIntent );
+                }
+                public void onRecv( String data ) {
+                    main_activity.yy_data_source.initIsUseDefaultMessage( false );
+
+                    YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                    task.execute();
+                }
+                public void onFailure() {
+                    //main_activity.yy_data_source.initIsUseDefaultMessage( false );
+
+                    YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                    task.execute();
+                }
+            });
+        }
+
+        public void defaultMSGOff_deleteFunc() {
+            main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
+                public void onSend() {
+                    Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
+                    tempIntent.putExtra( "operation", "1" );       // 1 : delete , 3 : announce message
+                    tempIntent.putExtra( "type", "3" );       // 1 : play , 3 : announce message
+                    main_activity.sendBroadcast( tempIntent );
+                }
+                public void onRecv( String data ) {
+                    Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
+                    if( data != null && data.equals( "SUCCESS" ) ) {
+                        main_activity.yy_data_source.initIsUseDefaultMessage( true );
+                    } else {
+                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                    }
+                }
+                public void onFailure() {
+                    Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                }
+            });
+        }
+
         public void showPlayMessageAlertDialog() {
             main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                 public void onSend() {
@@ -719,56 +783,36 @@ public class BTCallGuardianView extends YYViewBack {
                 public void onRecv( String data ) {
                     Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
                     if( data != null && data.equals( "SUCCESS" ) ) {
+                        int n_OK_id = R.drawable.alert_dialog_ok;
+                        int n_Cancel_id = R.drawable.alert_delete;
+                        if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
+                            n_OK_id = 0;
+                            n_Cancel_id = R.drawable.alert_dialog_ok;
+                        }
                         String title = "Play message";
                         String tips = "Playing announce message";
-                        main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, R.drawable.alert_dialog_ok, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                        main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, n_OK_id, n_Cancel_id, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                            public boolean getIsCancelEnable() { return true; }
+                            public boolean getKeybackIsCancel() { return false; }
                             public void onOK() {
                                 main_activity.yy_playing_msg_dlg = null;
                                 main_activity.changeShengDao( true );
-                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                                    public void onSend() {
-                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                                        tempIntent.putExtra( "operation", "3" );        // 3 : stop play
-                                        tempIntent.putExtra( "type", "3" );             // 3 : announce message
-                                        main_activity.sendBroadcast( tempIntent );
-                                    }
-                                    public void onRecv( String data ) {
-                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
 
-                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                        task.execute();
-                                    }
-                                    public void onFailure() {
-                                        main_activity.yy_data_source.initIsUseDefaultMessage( false );
-
-                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                                        task.execute();
-                                    }
-                                });
+                                if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
+                                } else {
+                                    defaultMSGOff_okFunc();
+                                }
+                                
                             }
                             public void onCancel() {
                                 main_activity.yy_playing_msg_dlg = null;
                                 main_activity.changeShengDao( true );
-                                main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                                    public void onSend() {
-                                        Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                                        tempIntent.putExtra( "operation", "1" );       // 1 : delete , 3 : announce message
-                                        tempIntent.putExtra( "type", "3" );       // 1 : play , 3 : announce message
-                                        main_activity.sendBroadcast( tempIntent );
-                                    }
-                                    public void onRecv( String data ) {
-                                        Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
-                                        if( data != null && data.equals( "SUCCESS" ) ) {
-                                            //showRecordNameAlertDialog();
-                                        }
-                                        else {
-                                            Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
-                                        }
-                                    }
-                                    public void onFailure() {
-                                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
-                                    }
-                                });
+
+                                if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
+                                    defaultMSGOn_okFunc();
+                                } else {
+                                    defaultMSGOff_deleteFunc();
+                                }
                             }// End public void onCancel()
                         });
                         main_activity.changeShengDao( false );
@@ -875,6 +919,8 @@ public class BTCallGuardianView extends YYViewBack {
                                     ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
+                                public boolean getIsCancelEnable() { return false; }
+                                public boolean getKeybackIsCancel() { return false; }
                                 public void onOK() {
                                 }
                                 public void onCancel() {
@@ -930,6 +976,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                 int nDrawableResID = R.drawable.successfully;
                                                 int nOKResID = R.drawable.alert_dialog_ok;
                                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                    public boolean getIsCancelEnable() { return true; }
+                                                    public boolean getKeybackIsCancel() { return false; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
                                                 });
@@ -955,6 +1003,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                             ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                                             btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                         }
+                                                        public boolean getIsCancelEnable() { return false; }
+                                                        public boolean getKeybackIsCancel() { return false; }
                                                         public void onOK() { }
                                                         public void onCancel() {
                                                             area_codes_full_view.add_area_code = new_area_code;
@@ -1053,6 +1103,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                 int nDrawableResID = R.drawable.successfully;
                                                 int nOKResID = R.drawable.alert_dialog_ok;
                                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                    public boolean getIsCancelEnable() { return true; }
+                                                    public boolean getKeybackIsCancel() { return false; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
                                                 });
@@ -1170,6 +1222,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                         int nDrawableResID = R.drawable.successfully;
                                                         int nOKResID = R.drawable.alert_dialog_ok;
                                                         main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                            public boolean getIsCancelEnable() { return true; }
+                                                            public boolean getKeybackIsCancel() { return true; }
                                                             public void onOK() {
                                                                 YYViewBase.onBackClick();
                                                                 YYViewBase.onBackClick();
@@ -1198,6 +1252,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                                     ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                                 }
+                                                                public boolean getIsCancelEnable() { return false; }
+                                                                public boolean getKeybackIsCancel() { return false; }
                                                                 public void onOK() { }
                                                                 public void onCancel() {
                                                                     area_codes_full_view.add_area_code = new_area_code;
@@ -1241,6 +1297,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                 ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                                 btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                             }
+                                            public boolean getIsCancelEnable() { return false; }
+                                            public boolean getKeybackIsCancel() { return false; }
                                             public void onOK() { }
                                             public void onCancel() {
                                                 main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ONE_AREA_CODE, null, area_code, new YYDataSource.onMedaListener() {
@@ -1342,6 +1400,8 @@ public class BTCallGuardianView extends YYViewBack {
                                     ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
+                                public boolean getIsCancelEnable() { return false; }
+                                public boolean getKeybackIsCancel() { return false; }
                                 public void onOK() { }
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_ALLOW_NUMBER, null, null, new YYDataSource.onMedaListener() {
@@ -1366,17 +1426,21 @@ public class BTCallGuardianView extends YYViewBack {
                 public void item_handle( Object view_obj ) {
                     Button btn_obj = (Button)view_obj;
 
-                    btn_obj.setText( YYViewBase.transferText( "Synchronise contacts to base", "" ) );
+                    btn_obj.setText( YYViewBase.transferText( "Adding contacts to allowed list", "" ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
-                            String title = "Contact sync with base?";
+                            String title = "Adding contacts to allowed list";
                             String tips = "This could take up to ten minutes";
                             main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.sync_base, tips, R.drawable.alert_yes, R.drawable.alert_no, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                public boolean getIsCancelEnable() { return true; }
+                                public boolean getKeybackIsCancel() { return true; }
                                 public void onCancel() { }
                                 public void onOK() {
-                                    String title = "Contacts synchronising";
+                                    String title = "Adding contacts to allowed list";
                                     String tips = "Busy\r\nSynchronisation in progress";
                                     main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                        public boolean getIsCancelEnable() { return true; }
+                                        public boolean getKeybackIsCancel() { return false; }
                                         public void onOK() { }
                                         public void onCancel() {
                                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
@@ -1391,6 +1455,8 @@ public class BTCallGuardianView extends YYViewBack {
                                                     ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
                                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                 }
+                                                public boolean getIsCancelEnable() { return false; }
+                                                public boolean getKeybackIsCancel() { return false; }
                                                 public void onOK() { }
                                                 public void onCancel() {
                                                     main_activity.yy_show_alert_dialog.bShowWaiting = true;
