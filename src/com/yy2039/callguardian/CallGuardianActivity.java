@@ -40,6 +40,8 @@ public class CallGuardianActivity extends FragmentActivity
     public YYViewBase yy_current_view;
     private PowerManager.WakeLock wakeLock = null;
 
+    public boolean bContactSynchronising = false;
+
     private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -176,6 +178,12 @@ public class CallGuardianActivity extends FragmentActivity
         //registerReceiver( autoSaveReceiver, filter5 );  
 
         localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
+
+        if( bContactSynchronising ) {
+            yy_data_source.syncContactFailure();
+
+            bContactSynchronising = false;
+        }
     }
 
     public boolean onKeyDown( int keyCode, KeyEvent event )
@@ -298,6 +306,7 @@ public class CallGuardianActivity extends FragmentActivity
         yy_data_source.setPreminumRateCallsMode( share.getBoolean( "Premium", true ) ? YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_BARRED );
         yy_data_source.setInternationalCallsMode( share.getBoolean( "International", true ) ? YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_BARRED );
         yy_data_source.setAllDialledCallsMode( share.getBoolean( "AllDialled", true ) ? YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_BARRED );
+        bContactSynchronising = share.getBoolean( "ContactSynchronising", false );
 
         bIsLoading = false;
     }
@@ -313,6 +322,7 @@ public class CallGuardianActivity extends FragmentActivity
         editor.putBoolean( "Premium", yy_data_source.getPreminumRateCallsMode() == YYCommon.OUTGOING_CALLS_PREMINUM_RATE_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "International", yy_data_source.getInternationalCallsMode() == YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "AllDialled", yy_data_source.getAllDialledCallsMode() == YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED ? true : false );
+        editor.putBoolean( "ContactSynchronising", bContactSynchronising );
 
         editor.commit();
     }

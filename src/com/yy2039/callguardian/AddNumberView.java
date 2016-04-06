@@ -54,7 +54,7 @@ public class AddNumberView extends YYViewBackList {
                                 });
                             }
                             public void onFailure() {
-                                Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
+                                //Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -87,7 +87,7 @@ public class AddNumberView extends YYViewBackList {
                                 task.execute();
                             }
                             public void onFailure() {
-                                Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
+                                //Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -109,7 +109,7 @@ public class AddNumberView extends YYViewBackList {
                                 });
                             }
                             public void onFailure() {
-                                Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
+                                //Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -142,7 +142,7 @@ public class AddNumberView extends YYViewBackList {
                                 task.execute();
                             }
                             public void onFailure() {
-                                Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
+                                //Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
                             }
                         });
                     }
@@ -188,7 +188,7 @@ public class AddNumberView extends YYViewBackList {
                                 from_calls_list_view.setView( true, yy_view_self.getViewBackHandler() );
                             }
                             public void onFailure() {
-                                Toast.makeText( main_activity, "get calls list failed", Toast.LENGTH_LONG ).show();
+                                //Toast.makeText( main_activity, "get calls list failed", Toast.LENGTH_LONG ).show();
                             }
                         });
                     }

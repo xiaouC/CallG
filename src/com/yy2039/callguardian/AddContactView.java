@@ -60,7 +60,7 @@ public class AddContactView extends YYViewBackList {
                                     // 如果全部返回了，并且没有失败
                                     if( nCounter >= total ) {
                                         if( bFail ) {
-                                            Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                            //Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
                                         } else {
                                             // 移除这个 item
                                             blockedNames.add( name );
@@ -89,7 +89,7 @@ public class AddContactView extends YYViewBackList {
 
                                     // 如果全部返回了，但有失败的
                                     if( nCounter >= total ) {
-                                        Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        //Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
                                     }
                                 }
                             });
@@ -118,7 +118,7 @@ public class AddContactView extends YYViewBackList {
                                     // 如果全部返回了，并且没有失败
                                     if( nCounter >= total ) {
                                         if( bFail ) {
-                                            Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                            //Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
                                         } else {
                                             // 移除这个 item
                                             allowedNames.add( name );
@@ -147,7 +147,7 @@ public class AddContactView extends YYViewBackList {
 
                                     // 如果全部返回了，但有失败的
                                     if( nCounter >= total ) {
-                                        Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        //Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
                                     }
                                 }
                             });

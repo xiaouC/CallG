@@ -323,7 +323,7 @@ public class BTCallGuardianView extends YYViewBack {
             tv_tips.setText( "" );
         } else {
             String text1 = "BT Call Guardian";
-            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice Provider for more information.";
+            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provider for more information.";
 
             String text = text1 + "\r\n" + text2;
 
@@ -711,63 +711,11 @@ public class BTCallGuardianView extends YYViewBack {
                         });
                     }
                     else {
-                        Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
                     }
                 }
                 public void onFailure() {
-                    Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
-                }
-            });
-        }
-
-        public void defaultMSGOn_okFunc() {
-            main_activity.yy_data_source.initIsUseDefaultMessage( false );
-
-            YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-            task.execute();
-        }
-
-        public void defaultMSGOff_okFunc() {
-            main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                public void onSend() {
-                    Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                    tempIntent.putExtra( "operation", "3" );        // 3 : stop play
-                    tempIntent.putExtra( "type", "3" );             // 3 : announce message
-                    main_activity.sendBroadcast( tempIntent );
-                }
-                public void onRecv( String data ) {
-                    main_activity.yy_data_source.initIsUseDefaultMessage( false );
-
-                    YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                    task.execute();
-                }
-                public void onFailure() {
-                    //main_activity.yy_data_source.initIsUseDefaultMessage( false );
-
-                    YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
-                    task.execute();
-                }
-            });
-        }
-
-        public void defaultMSGOff_deleteFunc() {
-            main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
-                public void onSend() {
-                    Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                    tempIntent.putExtra( "operation", "1" );       // 1 : delete , 3 : announce message
-                    tempIntent.putExtra( "type", "3" );       // 1 : play , 3 : announce message
-                    main_activity.sendBroadcast( tempIntent );
-                }
-                public void onRecv( String data ) {
-                    Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
-                    if( data != null && data.equals( "SUCCESS" ) ) {
-                        main_activity.yy_data_source.initIsUseDefaultMessage( true );
-                    } else {
-                        Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
-                    }
-                }
-                public void onFailure() {
-                    Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
                 }
             });
         }
@@ -818,11 +766,11 @@ public class BTCallGuardianView extends YYViewBack {
                         main_activity.changeShengDao( false );
                     }
                     else {
-                        Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
                     }
                 }
                 public void onFailure() {
-                    Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
                 }
             });
         }
@@ -928,7 +876,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         public void onSuccessfully() {
                                         }
                                         public void onFailure( int err_code ) {
-                                            Toast.makeText( main_activity, "delete all block number failed", Toast.LENGTH_LONG ).show();
+                                            //Toast.makeText( main_activity, "delete all block number failed", Toast.LENGTH_LONG ).show();
                                         }
                                     });
                                 }
@@ -985,11 +933,11 @@ public class BTCallGuardianView extends YYViewBack {
                                             public void onFailure( int err_code ) {
                                                 if( err_code == 2 ) {
                                                     String text = String.format( "Area code %s has already been saved", new_area_code );
-                                                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                                 } else if ( err_code == 3 ) {
                                                     //String text = String.format( "Already blocked by area code %s", new_area_code );
                                                     String text = String.format( "%s already blocked by other area code", new_area_code );
-                                                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                                 } else if ( err_code == 4 ) {
                                                     main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                         public void onInit( AlertDialog ad, View view ) {
@@ -1012,7 +960,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                         }
                                                     });
                                                 } else {
-                                                    Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                    //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
                                                 }
                                             }
                                         });
@@ -1059,7 +1007,7 @@ public class BTCallGuardianView extends YYViewBack {
                         public void onRecv( String data ) {
                             if( data == null ) {
                                 String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
-                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
                             else {
                                 String[] results = data.split( "," );
@@ -1075,7 +1023,7 @@ public class BTCallGuardianView extends YYViewBack {
                             }
                         }
                         public void onFailure() {
-                            Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
+                            //Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
                         }
                     });
                 }
@@ -1110,7 +1058,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                 });
                                             }
                                             public void onFailure( int err_code ) {
-                                                Toast.makeText( main_activity, "edit area code failed", Toast.LENGTH_LONG ).show();
+                                                //Toast.makeText( main_activity, "edit area code failed", Toast.LENGTH_LONG ).show();
                                             }
                                         });
                                     }
@@ -1147,7 +1095,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 public void onRecv( String data ) {
                                     if( data == null ) {
                                         String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GACN_RESULT );
-                                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                     }
                                     else {
                                         String[] results = data.split( "," );
@@ -1163,7 +1111,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     }
                                 }
                                 public void onFailure() {
-                                    Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
+                                    //Toast.makeText( main_activity, "get area code list failed", Toast.LENGTH_LONG ).show();
                                 }
                             });
                         }
@@ -1234,11 +1182,11 @@ public class BTCallGuardianView extends YYViewBack {
                                                     public void onFailure( int err_code ) {
                                                         if( err_code == 2 ) {
                                                             String text = String.format( "Area code %s has already been saved", new_area_code );
-                                                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                                         } else if ( err_code == 3 ) {
                                                             //String text = String.format( "Already blocked by area code %s", new_area_code );
                                                             String text = String.format( "%s already blocked by other area code", new_area_code );
-                                                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                                         } else if ( err_code == 4 ) {
                                                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                                 public void onInit( AlertDialog ad, View view ) {
@@ -1261,7 +1209,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                                 }
                                                             });
                                                         } else {
-                                                            Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                            //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
                                                         }
                                                     }
                                                 });
@@ -1306,7 +1254,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                         YYViewBase.onBackClick();
                                                     }
                                                     public void onFailure( int err_code ) {
-                                                        Toast.makeText( main_activity, "delete area code failed", Toast.LENGTH_LONG ).show();
+                                                        //Toast.makeText( main_activity, "delete area code failed", Toast.LENGTH_LONG ).show();
                                                     }
                                                 });
                                             }
@@ -1408,7 +1356,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         public void onSuccessfully() {
                                         }
                                         public void onFailure( int err_code ) {
-                                            Toast.makeText( main_activity, "delete all allow number failed", Toast.LENGTH_LONG ).show();
+                                            //Toast.makeText( main_activity, "delete all allow number failed", Toast.LENGTH_LONG ).show();
                                         }
                                     });
                                 }
