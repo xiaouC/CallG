@@ -102,7 +102,7 @@ public class YYInputNumberView extends YYViewBase {
             public void onClick( View v ) {
                 if( min_length > 0 && yy_input_number.input_numbers.size() < min_length ) {
                     String text = String.format( "At least %d characters", min_length );
-                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
 
                     return;
                 }

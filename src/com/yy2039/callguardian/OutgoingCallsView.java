@@ -33,7 +33,7 @@ public class OutgoingCallsView extends YYViewBackList {
                 Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : recv " + data );
                 if( data == null ) {
                     String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GDES_RESULT );
-                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
                     final String pin_type = data.equals( "01" ) ? "first" : "enter";
@@ -62,7 +62,7 @@ public class OutgoingCallsView extends YYViewBackList {
             public void onFailure() {
                 Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : failed " );
                 String text = String.format( "%s recv failed", YYCommand.CALL_GUARDIAN_GDES_RESULT );
-                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
             }
         });
     }

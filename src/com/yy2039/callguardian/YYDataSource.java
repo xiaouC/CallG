@@ -128,13 +128,13 @@ public class YYDataSource {
             public void onRecv( String data ) {
                 if( data == null ) {
                     String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
-                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
                     String[] results = data.split( "," );
                     if( results.length < 3 ) {
                         String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                     }
                     else {
                         try {
@@ -148,7 +148,7 @@ public class YYDataSource {
                             char[] ch_custom = results[2].toCharArray();
                             if( ch_custom.length < 8 ) {
                                 String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                                Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
                             else {
                                 nBTCallGuardianMode_Custom_BlockedNumber = Integer.valueOf( String.valueOf( ch_custom[0] ) );
@@ -162,13 +162,13 @@ public class YYDataSource {
                             }
                         } catch ( Exception e ) {
                             String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                            Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                         }
                     }
                 }
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
+				//Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
             }
         });
 
@@ -182,20 +182,20 @@ public class YYDataSource {
                 Log.v( "cconn", "gdms recv : " + data );
                 if( data == null ) {
                     String text = String.format( "%s recv : null", YYCommand.ANSWER_MACHINE_GDMS_RESULT );
-                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
                     String[] results = data.split( "," );
                     if( results.length < 2 ) {
                         String text = String.format( "%s recv data error : %s", YYCommand.ANSWER_MACHINE_GDMS_RESULT, data );
-                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                     } else {
                         bIsUseDefaultMessage = ( Integer.parseInt( results[0] ) == 0 ? true : false );
                     }
                 }
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "load gdms failed", Toast.LENGTH_LONG ).show();
+				//Toast.makeText( main_activity, "load gdms failed", Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -310,11 +310,11 @@ public class YYDataSource {
                 }
                 else {
                     // 失败
-                    Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
                 }
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
+				//Toast.makeText( main_activity, "operation failed", Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -414,7 +414,7 @@ public class YYDataSource {
                 Log.v( "cconn", "CALL_GUARDIAN_SCCS_RESULT : " + data );
             }
             public void onFailure() {
-				Toast.makeText( main_activity, "update BT Call Guardian settings failed", Toast.LENGTH_SHORT ).show();
+				//Toast.makeText( main_activity, "update BT Call Guardian settings failed", Toast.LENGTH_SHORT ).show();
             }
         });
     }
@@ -501,7 +501,7 @@ public class YYDataSource {
                 Log.v( "cconn", "get calls list recv : " + data );
                 if( data == null ) {
                     String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
-                    Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
                     String[] results = data.split( "," );
@@ -555,7 +555,7 @@ public class YYDataSource {
                         calls_list_listener.onSuccessfully();
                     } catch ( Exception e ) {
                         String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                         Log.v( "cconn", text );
                     }
                 }
@@ -640,12 +640,12 @@ public class YYDataSource {
                     area_code_listener.onAreaCodeFullCallback( false );
                 }
                 else {
-                    Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
+                    //Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
                 }
             }
             public void onFailure() {
                 Log.v( "cconn", "areaCodesIsFull : failed" );
-                Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
+                //Toast.makeText( main_activity, "request area code is full failed", Toast.LENGTH_SHORT ).show();
             }
         });
     }
@@ -679,7 +679,7 @@ public class YYDataSource {
                         }
                     } catch ( Exception e ) {
                         String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_MDEA_RESULT, data );
-                        Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                     }
                 } else {
                     medaListener.onFailure( 1 );

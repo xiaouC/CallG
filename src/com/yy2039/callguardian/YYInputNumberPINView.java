@@ -188,7 +188,7 @@ public class YYInputNumberPINView extends YYViewBase {
                     }
                     public void onFailure() {
                         Log.v( "cconn", "CALL_GUARDIAN_SCCP : failed" );
-                        Toast.makeText( main_activity, "change pin number failed", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "change pin number failed", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
@@ -242,7 +242,7 @@ public class YYInputNumberPINView extends YYViewBase {
                 }
                 public void onFailure() {
                     Log.v( "cconn", "CALL_GUARDIAN_CMPC : failed" );
-                    Toast.makeText( main_activity, "request pin number failed", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "request pin number failed", Toast.LENGTH_LONG ).show();
                 }
             });
 

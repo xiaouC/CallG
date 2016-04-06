@@ -486,13 +486,13 @@ public class YYCommand {
                     }
                     public void onFailure() {
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                        Toast.makeText( main_activity, "settings base link failed!", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "settings base link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
             public void onFailure() {
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
+                //Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -547,13 +547,13 @@ public class YYCommand {
                     }
                     public void onFailure() {
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                        Toast.makeText( main_activity, "call list link failed!", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "call list link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
             public void onFailure() {
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
+                //Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -578,13 +578,13 @@ public class YYCommand {
                     }
                     public void onFailure() {
                         main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                        Toast.makeText( main_activity, "answer machine link failed!", Toast.LENGTH_LONG ).show();
+                        //Toast.makeText( main_activity, "answer machine link failed!", Toast.LENGTH_LONG ).show();
                     }
                 });
             }
             public void onFailure() {
                 main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
-                Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
+                //Toast.makeText( main_activity, "disconnect link failed!", Toast.LENGTH_LONG ).show();
             }
         });
     }
@@ -687,7 +687,7 @@ public class YYCommand {
                 }
                 public void onFailure() {
                     Log.v( "cconn", "disconnect settings base failed" );
-                    Toast.makeText( main_activity, "disconnect settings base link failed!", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "disconnect settings base link failed!", Toast.LENGTH_LONG ).show();
                 }
             });
         //}
@@ -711,7 +711,7 @@ public class YYCommand {
                 }
                 public void onFailure() {
                     Log.v( "cconn", "disconnect call list failed" );
-                    Toast.makeText( main_activity, "disconnect call list link failed!", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "disconnect call list link failed!", Toast.LENGTH_LONG ).show();
                 }
             });
         //}
@@ -735,7 +735,7 @@ public class YYCommand {
                 }
                 public void onFailure() {
                     Log.v( "cconn", "disconnect answer machine failed" );
-                    Toast.makeText( main_activity, "disconnect answer machine link failed!", Toast.LENGTH_LONG ).show();
+                    //Toast.makeText( main_activity, "disconnect answer machine link failed!", Toast.LENGTH_LONG ).show();
                 }
             });
         //}
