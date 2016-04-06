@@ -948,5 +948,24 @@ public class YYDataSource {
             }
         }
     }
+
+    public void syncContactSuccessfully() {
+        String title = "Contact sync with base?";
+        String tips = "synchronisation contacts to base ok";
+        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public void onOK() { }
+            public void onCancel() { }
+        });
+    }
+
+    public void syncContactFailure() {
+        String title = "Contact sync with base?";
+        String tips = "synchronisation contacts to base failed";
+        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public void onOK() { }
+            public void onCancel() { }
+        });
+    }
+
 }
 

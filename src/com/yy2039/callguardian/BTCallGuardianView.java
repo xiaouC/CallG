@@ -1370,17 +1370,25 @@ public class BTCallGuardianView extends YYViewBack {
                                         }
                                     });
 
+                                    main_activity.bContactSynchronising = true;
+
                                     main_activity.yy_show_alert_dialog.bShowWaiting = false;
                                     main_activity.yy_data_source.syncContactToBase( new YYDataSource.syncLisenter() {
                                         public void onSuccessfully() {
+                                            main_activity.bContactSynchronising = false;
+
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
-                                            Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+
+                                            main_activity.yy_data_source.syncContactSuccessfully();
                                         }
                                         public void onFailure() {
+                                            main_activity.bContactSynchronising = false;
+
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
-                                            Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+
+                                            main_activity.yy_data_source.syncContactFailure();
                                         }
                                     });
                                 }
