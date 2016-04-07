@@ -135,6 +135,14 @@ public class YYInputNumberView extends YYViewBase {
 
         TextView view = (TextView)main_activity.findViewById( R.id.input_text );
         view.setText( text );
+
+        TextView tv_match = (TextView)main_activity.findViewById( R.id.match_text );
+        String pb_name = main_activity.yy_data_source.getMessageName( text );
+        if( !pb_name.equals( "" ) ) {
+            tv_match.setText( transferText( pb_name, main_activity.yy_data_source.mLastMatchNumber ) );
+        } else {
+            tv_match.setText( "" );
+        }
     }
 
     public void appendNumber( Character ch )

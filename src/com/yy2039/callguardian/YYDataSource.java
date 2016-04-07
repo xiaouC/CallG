@@ -979,5 +979,136 @@ public class YYDataSource {
         });
     }
 
+    public List<contactsListItem> contacts_list = null;
+    public List<contactsListItem> getMatchContactsList() {
+        Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
+
+        List<String> sortList = new ArrayList<String>();
+
+        Cursor cursor = null;
+        try {
+            cursor = main_activity.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null );
+            while( cursor.moveToNext() ) {
+                String displayName = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME ) );
+                String number = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.NUMBER ) );
+                String new_number = number.replace(" ", "").replace("-", "").replace("(", "").replace(")", "");
+
+                List<String> number_list = name_number_list.get( displayName );
+                if( number_list == null ) {
+                    name_number_list.put( displayName, new ArrayList<String>() );
+                    number_list = name_number_list.get( displayName );
+
+                    sortList.add( displayName );
+                }
+                number_list.add( new_number );
+            }
+        } catch ( Exception e ) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            if( cursor != null ){
+                cursor.close();
+            }
+        }
+
+        List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
+
+        for( int i=0; i < sortList.size(); ++i ) {
+            final String displayName = sortList.get( i );
+            final List<String> numbers = name_number_list.get( displayName );
+
+            ret_contacts_list.add( new contactsListItem() {
+                public String getName() { return displayName; }
+                public List<String> getNumber() { return numbers; }
+            });
+        }
+
+        return ret_contacts_list;
+    }
+
+    public String mLastMatchNumber = "";
+    public String getNameByNumber( String number )
+    {
+        Log.v( "cocos", "getNameByNumber number 1 : " + number );
+        String name = "";
+
+        number = number.replace(" ", "").replace("-", "").replace("(", "").replace(")", "");		
+        Log.v( "cocos", "getNameByNumber number 2 : " + number );
+        name = getContactNameByPhoneNumber( number, 0 );
+        Log.v( "cocos", "getNameByNumber name 1 : " + name );
+        if( TextUtils.isEmpty( name ) ) {
+            if( number.length() >= 11 ) {
+                String number_11 = number.substring( number.length() - 11, number.length() );
+                name = getContactNameByPhoneNumber( number_11, 1 );
+                Log.v( "cocos", "getNameByNumber name 2 : " + name );
+                if( TextUtils.isEmpty( name ) ) {
+                    String number_6 = number.substring( number.length() - 6, number.length() );
+                    name = getContactNameByPhoneNumber( number_6, 1 );
+                    Log.v( "cocos", "getNameByNumber name 3 : " + name );
+                }
+            } else {
+                if( number.length() >= 6 ) {
+                    String number_6 = number.substring( number.length() - 6, number.length() );
+                    name = getContactNameByPhoneNumber( number_6, 1 );
+                    Log.v( "cocos", "getNameByNumber name 4 : " + name );
+                }
+            }
+        }
+
+        Log.v( "cocos", "getNameByNumber return name 5 : " + name );
+        return name;
+    }
+
+    public String getContactNameByPhoneNumber( String number, int type ) {
+        Log.v( "cocos", "getContactNameByPhoneNumber number : " + number );
+        Log.v( "cocos", "getContactNameByPhoneNumber type : " + type );
+
+        String ret_name = "";
+        mLastMatchNumber = "";
+
+        for( int i=0; i < contacts_list.size(); ++i ) {
+            List<String> num_list = contacts_list.get( i ).getNumber();
+            for( int j=0; j < num_list.size(); ++j ) {
+                String number_tmp = num_list.get( j );
+                Log.v( "cocos", "getContactNameByPhoneNumber number_tmp : " + number_tmp );
+                if( type == 0 ) {
+                    if( number_tmp.equals( number ) ) {
+                        ret_name = contacts_list.get( i ).getName();
+                        Log.v( "cocos", "getContactNameByPhoneNumber ret_name 0 : " + ret_name );
+                    }
+                } else {
+                    if( number_tmp.endsWith( number ) ) {
+                        ret_name = contacts_list.get( i ).getName();
+                        Log.v( "cocos", "getContactNameByPhoneNumber ret_name 1 : " + ret_name );
+                    }
+                }
+
+                if( !TextUtils.isEmpty( ret_name ) ) {
+                    Log.v( "cocos", "getContactNameByPhoneNumber ret_name 3 : " + ret_name );
+                    mLastMatchNumber = number_tmp;
+                    return ret_name;
+                }
+            }
+        }
+
+        Log.v( "cocos", "getContactNameByPhoneNumber ret_name 4 : " + ret_name );
+        return ret_name;
+    }
+
+    public String getMessageName( String number ) {
+        if( contacts_list == null ) {
+            contacts_list = getMatchContactsList();
+        }
+
+        Log.v( "cocos", "getMessageName number : " + number );
+        String ret_name = getNameByNumber( number );
+        Log.v( "cocos", "getMessageName ret_name : " + ret_name );
+        if( !ret_name.equals( "" ) ) {
+            return ret_name;
+        }
+
+        return "";
+    }
+
 }
 
