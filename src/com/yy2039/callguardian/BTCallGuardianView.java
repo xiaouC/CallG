@@ -975,12 +975,29 @@ public class BTCallGuardianView extends YYViewBack {
                                             }
                                             public void onFailure( int err_code ) {
                                                 if( err_code == 2 ) {
-                                                    String text = String.format( "Area code %s has already been saved", new_area_code );
-                                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                    String title = String.format( "%s already on\r\nthe BLOCKED List", new_area_code );
+                                                    String tips = "Press OK to return";
+                                                    int nDrawableResID = R.drawable.failure;
+                                                    int nOKResID = R.drawable.alert_dialog_ok;
+                                                    main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                        public boolean getIsCancelEnable() { return true; }
+                                                        public int getKeybackIsCancel() { return 1; }
+                                                        public void onOK() { }
+                                                        public void onCancel() { }
+                                                        public void onKeyback() {}
+                                                    });
                                                 } else if ( err_code == 3 ) {
-                                                    //String text = String.format( "Already blocked by area code %s", new_area_code );
-                                                    String text = String.format( "%s already blocked by other area code", new_area_code );
-                                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                    String title = String.format( "%s already blocked\r\nby other area code", new_area_code );
+                                                    String tips = "Press OK to return";
+                                                    int nDrawableResID = R.drawable.failure;
+                                                    int nOKResID = R.drawable.alert_dialog_ok;
+                                                    main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                        public boolean getIsCancelEnable() { return true; }
+                                                        public int getKeybackIsCancel() { return 1; }
+                                                        public void onOK() { }
+                                                        public void onCancel() { }
+                                                        public void onKeyback() {}
+                                                    });
                                                 } else if ( err_code == 4 ) {
                                                     main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                         public void onInit( AlertDialog ad, View view ) {
@@ -1004,7 +1021,17 @@ public class BTCallGuardianView extends YYViewBack {
                                                         public void onKeyback() {}
                                                     });
                                                 } else {
-                                                    //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                    String title = "Error adding to the\r\n BLOCKED list";
+                                                    String tips = "Press OK to return";
+                                                    int nDrawableResID = R.drawable.failure;
+                                                    int nOKResID = R.drawable.alert_dialog_ok;
+                                                    main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                        public boolean getIsCancelEnable() { return true; }
+                                                        public int getKeybackIsCancel() { return 1; }
+                                                        public void onOK() { }
+                                                        public void onCancel() { }
+                                                        public void onKeyback() {}
+                                                    });
                                                 }
                                             }
                                         });
@@ -1103,7 +1130,17 @@ public class BTCallGuardianView extends YYViewBack {
                                                 });
                                             }
                                             public void onFailure( int err_code ) {
-                                                //Toast.makeText( main_activity, "edit area code failed", Toast.LENGTH_LONG ).show();
+                                                String title = "Error adding to the\r\n BLOCKED list";
+                                                String tips = "Press OK to return";
+                                                int nDrawableResID = R.drawable.failure;
+                                                int nOKResID = R.drawable.alert_dialog_ok;
+                                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                    public boolean getIsCancelEnable() { return true; }
+                                                    public int getKeybackIsCancel() { return 1; }
+                                                    public void onOK() { }
+                                                    public void onCancel() { }
+                                                    public void onKeyback() {}
+                                                });
                                             }
                                         });
                                     }
@@ -1227,12 +1264,29 @@ public class BTCallGuardianView extends YYViewBack {
                                                     }
                                                     public void onFailure( int err_code ) {
                                                         if( err_code == 2 ) {
-                                                            String text = String.format( "Area code %s has already been saved", new_area_code );
-                                                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                            String title = String.format( "%s already on\r\nthe BLOCKED List", new_area_code );
+                                                            String tips = "Press OK to return";
+                                                            int nDrawableResID = R.drawable.failure;
+                                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                                public boolean getIsCancelEnable() { return true; }
+                                                                public int getKeybackIsCancel() { return 1; }
+                                                                public void onOK() { }
+                                                                public void onCancel() { }
+                                                                public void onKeyback() {}
+                                                            });
                                                         } else if ( err_code == 3 ) {
-                                                            //String text = String.format( "Already blocked by area code %s", new_area_code );
-                                                            String text = String.format( "%s already blocked by other area code", new_area_code );
-                                                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                                            String title = String.format( "%s already blocked\r\nby other area code", new_area_code );
+                                                            String tips = "Press OK to return";
+                                                            int nDrawableResID = R.drawable.failure;
+                                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                                public boolean getIsCancelEnable() { return true; }
+                                                                public int getKeybackIsCancel() { return 1; }
+                                                                public void onOK() { }
+                                                                public void onCancel() { }
+                                                                public void onKeyback() {}
+                                                            });
                                                         } else if ( err_code == 4 ) {
                                                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                                 public void onInit( AlertDialog ad, View view ) {
@@ -1256,7 +1310,17 @@ public class BTCallGuardianView extends YYViewBack {
                                                                 public void onKeyback() {}
                                                             });
                                                         } else {
-                                                            //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
+                                                            String title = "Error adding to the\r\n BLOCKED list";
+                                                            String tips = "Press OK to return";
+                                                            int nDrawableResID = R.drawable.failure;
+                                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                                public boolean getIsCancelEnable() { return true; }
+                                                                public int getKeybackIsCancel() { return 1; }
+                                                                public void onOK() { }
+                                                                public void onCancel() { }
+                                                                public void onKeyback() {}
+                                                            });
                                                         }
                                                     }
                                                 });
@@ -1281,7 +1345,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         final String area_code = (String)yy_view_self.yy_temp_data.get( "area_code" );
                                         main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                             public void onInit( AlertDialog ad, View view ) {
-                                                String text1 = String.format( "Are you sure that you want to delete the area code %s from your list?", area_code );
+                                                String text1 = String.format( "Are you sure that you want to delete\r\nthe area code %s from\r\nyour list?", area_code );
                                                 TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                                 tv.setText( text1 );
 
@@ -1298,10 +1362,30 @@ public class BTCallGuardianView extends YYViewBack {
                                             public void onCancel() {
                                                 main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ONE_AREA_CODE, null, area_code, new YYDataSource.onMedaListener() {
                                                     public void onSuccessfully() {
-                                                        YYViewBase.onBackClick();
+                                                        String title = String.format( "%s deleted\r\nSUCCESSFULLY", area_code );
+                                                        String tips = "Press OK to finish";
+                                                        int nDrawableResID = R.drawable.successfully;
+                                                        int nOKResID = R.drawable.alert_dialog_ok;
+                                                        main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                            public boolean getIsCancelEnable() { return true; }
+                                                            public int getKeybackIsCancel() { return 0; }
+                                                            public void onOK() { YYViewBase.onBackClick(); }
+                                                            public void onCancel() { YYViewBase.onBackClick(); }
+                                                            public void onKeyback() { YYViewBase.onBackClick(); }
+                                                        });
                                                     }
                                                     public void onFailure( int err_code ) {
-                                                        //Toast.makeText( main_activity, "delete area code failed", Toast.LENGTH_LONG ).show();
+                                                        String title = String.format( "Error deleting\r\n%s", area_code );
+                                                        String tips = "Press OK to return";
+                                                        int nDrawableResID = R.drawable.failure;
+                                                        int nOKResID = R.drawable.alert_dialog_ok;
+                                                        main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                            public boolean getIsCancelEnable() { return true; }
+                                                            public int getKeybackIsCancel() { return 0; }
+                                                            public void onOK() { YYViewBase.onBackClick(); }
+                                                            public void onCancel() { YYViewBase.onBackClick(); }
+                                                            public void onKeyback() { YYViewBase.onBackClick(); }
+                                                        });
                                                     }
                                                 });
                                             }
