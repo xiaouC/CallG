@@ -915,9 +915,30 @@ public class BTCallGuardianView extends YYViewBack {
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_BLOCK_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
+                                            String title = String.format( "all blocked numbers\r\nSUCCESSFULLY deleted" );
+                                            String tips = "Press OK to finish";
+                                            int nDrawableResID = R.drawable.successfully;
+                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
+                                                public void onOK() { YYViewBase.onBackClick(); }
+                                                public void onCancel() { YYViewBase.onBackClick(); }
+                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                            });
                                         }
                                         public void onFailure( int err_code ) {
-                                            //Toast.makeText( main_activity, "delete all block number failed", Toast.LENGTH_LONG ).show();
+                                            String title = "Error deleting\r\nall blocked numbers";
+                                            String tips = "Press OK to return";
+                                            int nDrawableResID = R.drawable.failure;
+                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
+                                                public void onOK() { YYViewBase.onBackClick(); }
+                                                public void onCancel() { YYViewBase.onBackClick(); }
+                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                            });
                                         }
                                     });
                                 }
