@@ -922,9 +922,9 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
                                                 public int getKeybackIsCancel() { return 0; }
-                                                public void onOK() { YYViewBase.onBackClick(); }
-                                                public void onCancel() { YYViewBase.onBackClick(); }
-                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
                                             });
                                         }
                                         public void onFailure( int err_code ) {
@@ -935,9 +935,9 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
                                                 public int getKeybackIsCancel() { return 0; }
-                                                public void onOK() { YYViewBase.onBackClick(); }
-                                                public void onCancel() { YYViewBase.onBackClick(); }
-                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
                                             });
                                         }
                                     });
@@ -1390,9 +1390,9 @@ public class BTCallGuardianView extends YYViewBack {
                                                         main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                             public boolean getIsCancelEnable() { return true; }
                                                             public int getKeybackIsCancel() { return 0; }
-                                                            public void onOK() { YYViewBase.onBackClick(); }
-                                                            public void onCancel() { YYViewBase.onBackClick(); }
-                                                            public void onKeyback() { YYViewBase.onBackClick(); }
+                                                            public void onOK() { }
+                                                            public void onCancel() { }
+                                                            public void onKeyback() { }
                                                         });
                                                     }
                                                     public void onFailure( int err_code ) {
@@ -1403,9 +1403,9 @@ public class BTCallGuardianView extends YYViewBack {
                                                         main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                             public boolean getIsCancelEnable() { return true; }
                                                             public int getKeybackIsCancel() { return 0; }
-                                                            public void onOK() { YYViewBase.onBackClick(); }
-                                                            public void onCancel() { YYViewBase.onBackClick(); }
-                                                            public void onKeyback() { YYViewBase.onBackClick(); }
+                                                            public void onOK() { }
+                                                            public void onCancel() { }
+                                                            public void onKeyback() { }
                                                         });
                                                     }
                                                 });
@@ -1503,7 +1503,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 }
                                 public boolean getIsCancelEnable() { return true; }
                                 public int getKeybackIsCancel() { return 1; }
-                                public void onOK() { YYViewBase.onBackClick(); }
+                                public void onOK() { }
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_ALLOW_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
@@ -1514,9 +1514,9 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
                                                 public int getKeybackIsCancel() { return 0; }
-                                                public void onOK() { YYViewBase.onBackClick(); }
-                                                public void onCancel() { YYViewBase.onBackClick(); }
-                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
                                             });
                                         }
                                         public void onFailure( int err_code ) {
@@ -1527,9 +1527,9 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
                                                 public int getKeybackIsCancel() { return 0; }
-                                                public void onOK() { YYViewBase.onBackClick(); }
-                                                public void onCancel() { YYViewBase.onBackClick(); }
-                                                public void onKeyback() { YYViewBase.onBackClick(); }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
                                             });
                                         }
                                     });
@@ -1549,49 +1549,17 @@ public class BTCallGuardianView extends YYViewBack {
                 public void item_handle( Object view_obj ) {
                     Button btn_obj = (Button)view_obj;
 
-                    btn_obj.setText( YYViewBase.transferText( "Adding contacts to allowed list", "" ) );
+                    btn_obj.setText( YYViewBase.transferText( "Add contacts to allowed list", "" ) );
                     btn_obj.setOnClickListener( new View.OnClickListener() {
                         public void onClick( View v ) {
-                            String title = "Adding contacts to allowed list";
-                            String tips = "This could take up to ten minutes";
+                            String title = "Add contacts to allowed\r\nlist";
+                            String tips = "This could take up to ten\r\nminutes";
                             main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.sync_base, tips, R.drawable.alert_yes, R.drawable.alert_no, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                 public boolean getIsCancelEnable() { return true; }
                                 public int getKeybackIsCancel() { return 2; }
                                 public void onCancel() { }
                                 public void onOK() {
-                                    String title = "Adding contacts to allowed list";
-                                    String tips = "Busy\r\nSynchronisation in progress";
-                                    main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                        public boolean getIsCancelEnable() { return true; }
-                                        public int getKeybackIsCancel() { return 1; }
-                                        public void onOK() { }
-                                        public void onCancel() {
-                                            main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
-                                                public void onInit( AlertDialog ad, View view ) {
-                                                    String text1 = "If you cancel this synchronisation new.your contacts will need to announce their names when they call.Are you sure?";
-                                                    TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                                    tv.setText( text1 );
-
-                                                    ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
-                                                    btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
-
-                                                    ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
-                                                    btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
-                                                }
-                                                public boolean getIsCancelEnable() { return false; }
-                                                public int getKeybackIsCancel() { return 0; }
-                                                public void onOK() { }
-                                                public void onCancel() {
-                                                    main_activity.yy_show_alert_dialog.bShowWaiting = true;
-                                                    main_activity.yy_command.unregisterReceiver();
-                                                    main_activity.yy_command.cur_command_info = null;
-                                                    main_activity.yy_command.request_command_list.clear();
-                                                }
-                                                public void onKeyback() {}
-                                            });
-                                        }
-                                        public void onKeyback() {}
-                                    });
+                                    showSyncProgressAlertDialog();
 
                                     main_activity.yy_show_alert_dialog.bShowWaiting = false;
                                     main_activity.yy_data_source.syncContactToBase( new YYDataSource.syncLisenter() {
@@ -1599,11 +1567,35 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
                                             Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+
+                                            String title = String.format( "Contacts added to the\r\nallowed list" );
+                                            String tips = "Press OK to finish";
+                                            int nDrawableResID = R.drawable.successfully;
+                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
+                                            });
                                         }
                                         public void onFailure() {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
                                             Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+
+                                            String title = "Error adding contacts to the allowed list";
+                                            String tips = "Press OK to return";
+                                            int nDrawableResID = R.drawable.failure;
+                                            int nOKResID = R.drawable.alert_dialog_ok;
+                                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                                public boolean getIsCancelEnable() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
+                                                public void onOK() { }
+                                                public void onCancel() { }
+                                                public void onKeyback() { }
+                                            });
                                         }
                                     });
                                 }
@@ -1619,6 +1611,53 @@ public class BTCallGuardianView extends YYViewBack {
             return ret_list_data;
         }
 
+        public void showSyncProgressAlertDialog() {
+            String title = "Adding contacts to allowed\r\nlist";
+            String tips = "Busy\r\nSynchronisation in progress";
+            main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                public boolean getIsCancelEnable() { return false; }
+                public int getKeybackIsCancel() { return 1; }
+                public void onOK() { }
+                public void onCancel() {
+                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                        public void onInit( AlertDialog ad, View view ) {
+                            String text1 = "If you cancel this synchronisation\r\nnow, your contacts will need to\r\nannounce their names when they call.\r\nAre you sure?";
+                            TextView tv = (TextView)view.findViewById( R.id.attention_text );
+                            tv.setText( text1 );
+
+                            ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
+
+                            ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                        }
+                        public boolean getIsCancelEnable() { return false; }
+                        public int getKeybackIsCancel() { return 0; }
+                        public void onOK() { showSyncProgressAlertDialog(); }
+                        public void onCancel() {
+                            main_activity.yy_show_alert_dialog.bShowWaiting = true;
+                            main_activity.yy_command.unregisterReceiver();
+                            main_activity.yy_command.cur_command_info = null;
+                            main_activity.yy_command.request_command_list.clear();
+
+                            String title = "Canceled adding contacts\r\nto the allowed list";
+                            String tips = "Press OK to return";
+                            int nDrawableResID = R.drawable.failure;
+                            int nOKResID = R.drawable.alert_dialog_ok;
+                            main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                public boolean getIsCancelEnable() { return true; }
+                                public int getKeybackIsCancel() { return 0; }
+                                public void onOK() { }
+                                public void onCancel() { }
+                                public void onKeyback() { }
+                            });
+                        }
+                        public void onKeyback() {}
+                    });
+                }
+                public void onKeyback() {}
+            });
+        }
     }
 
 }

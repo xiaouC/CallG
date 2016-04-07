@@ -987,15 +987,18 @@ public class YYDataSource {
     }
 
     public void syncContactFailure() {
-        String title = "Contact sync with base?";
-        String tips = "synchronisation contacts to base failed";
-        main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+        String title = "Error adding contacts to the allowed list";
+        String tips = "Press OK to return";
+        int nDrawableResID = R.drawable.failure;
+        int nOKResID = R.drawable.alert_dialog_ok;
+        main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
             public boolean getIsCancelEnable() { return true; }
             public int getKeybackIsCancel() { return 0; }
             public void onOK() { }
             public void onCancel() { }
-            public void onKeyback() {}
+            public void onKeyback() { }
         });
+
     }
 
     public List<contactsListItem> contacts_list = null;
