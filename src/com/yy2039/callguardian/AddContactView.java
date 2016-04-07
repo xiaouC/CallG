@@ -28,7 +28,7 @@ public class AddContactView extends YYViewBackList {
     private boolean bFail = false;
 
     public interface onViewHandler {
-        String getAttentionText();
+        String getAttentionText( String name );
         void onAttentionOK( YYDataSource.contactsListItem item_info );
     }
 
@@ -41,7 +41,9 @@ public class AddContactView extends YYViewBackList {
         switch( view_type ) {
             case ADD_CONTACT_VIEW_TYPE_BLOCK_NUMBER: {
                 v_handler = new onViewHandler() {
-                    public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nBLOCKED list.Are you sure you\r\nwish to continue?"; }
+                    public String getAttentionText( String name ) {
+                        return String.format( "All numbers asscociated with \r\n%s will be added to\r\nthe BLOCKED list. Are you sure you\r\nwish to continue?", name );
+                    }
                     public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
                         final String name = item_info.getName();
                         List<String> number_list = item_info.getNumber();
@@ -90,7 +92,16 @@ public class AddContactView extends YYViewBackList {
 
                                     // 如果全部返回了，但有失败的
                                     if( nCounter >= total ) {
-                                        //Toast.makeText( main_activity, "Add block number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        // 弹窗提示失败
+                                        String title = "Error adding to the\r\nBLOCKED list";
+                                        String tips = "Press OK to return";
+                                        main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                            public boolean getIsCancelEnable() { return true; }
+                                            public int getKeybackIsCancel() { return 0; }
+                                            public void onOK() {  }
+                                            public void onCancel() { }
+                                            public void onKeyback() {}
+                                        });
                                     }
                                 }
                             });
@@ -101,7 +112,9 @@ public class AddContactView extends YYViewBackList {
             break;
             case ADD_CONTACT_VIEW_TYPE_ALLOW_NUMBER: {
                 v_handler = new onViewHandler() {
-                    public String getAttentionText() { return "All numbers asscociated with this\r\ncontact will be added to the\r\nALLOWED list.Are you sure you\r\nwish to continue?"; }
+                    public String getAttentionText( String name ) {
+                        return String.format( "All numbers asscociated with\r\n%s will be added to\r\nthe ALLOWED list. Are you sure you\r\nwish to continue?", name );
+                    }
                     public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
                         final String name = item_info.getName();
                         List<String> number_list = item_info.getNumber();
@@ -149,7 +162,16 @@ public class AddContactView extends YYViewBackList {
 
                                     // 如果全部返回了，但有失败的
                                     if( nCounter >= total ) {
-                                        //Toast.makeText( main_activity, "Add allow number from contacts : failure", Toast.LENGTH_SHORT ).show();
+                                        // 弹窗提示失败
+                                        String title = "Error adding to the\r\nALLOWED list";
+                                        String tips = "Press OK to return";
+                                        main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                            public boolean getIsCancelEnable() { return true; }
+                                            public int getKeybackIsCancel() { return 0; }
+                                            public void onOK() {  }
+                                            public void onCancel() { }
+                                            public void onKeyback() {}
+                                        });
                                     }
                                 }
                             });
@@ -186,7 +208,7 @@ public class AddContactView extends YYViewBackList {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                 public void onInit( AlertDialog ad, View view ) {
-                                    String text1 = v_handler.getAttentionText();
+                                    String text1 = v_handler.getAttentionText( item_info.getName() );
                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                     tv.setText( text1 );
 
