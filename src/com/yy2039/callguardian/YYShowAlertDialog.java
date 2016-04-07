@@ -73,18 +73,25 @@ public class YYShowAlertDialog {
                 @Override
                 public boolean onKey( DialogInterface dialog, int keyCode, KeyEvent event) {
                     if( keyCode == KeyEvent.KEYCODE_BACK ) {
-                        switch( handler.getKeybackIsCancel() ) {
-                            case 1:
-                                handler.onOK();
-                                break;
-                            case 2:
-                                handler.onCancel();
-                                break;
-                            default:
-                                handler.onKeyback();
-                                break;
-                        }
+                        cur_show_ad = null;
+
+                        main_activity.yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
+                            public void doSomething() {
+                                switch( handler.getKeybackIsCancel() ) {
+                                    case 1:
+                                        handler.onOK();
+                                        break;
+                                    case 2:
+                                        handler.onCancel();
+                                        break;
+                                    default:
+                                        handler.onKeyback();
+                                        break;
+                                }
+                            }
+                        });
                     }
+
                     return false;
                 }
             });
