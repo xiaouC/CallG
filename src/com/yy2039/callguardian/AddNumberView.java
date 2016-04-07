@@ -55,7 +55,15 @@ public class AddNumberView extends YYViewBackList {
                                 });
                             }
                             public void onFailure() {
-                                //Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
+                                String title = "Error adding to the BLOCKED list";
+                                String tips = "Press OK to return";
+                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public boolean getIsCancelEnable() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
+                                    public void onOK() { }
+                                    public void onCancel() { }
+                                    public void onKeyback() { }
+                                });
                             }
                         });
                     }
@@ -90,6 +98,15 @@ public class AddNumberView extends YYViewBackList {
                             }
                             public void onFailure() {
                                 //Toast.makeText( main_activity, "add block number failed", Toast.LENGTH_SHORT ).show();
+                                String title = "Error adding to the BLOCKED list";
+                                String tips = "Press OK to return";
+                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public boolean getIsCancelEnable() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
+                                    public void onOK() { }
+                                    public void onCancel() { }
+                                    public void onKeyback() { }
+                                });
                             }
                         });
                     }
@@ -113,6 +130,15 @@ public class AddNumberView extends YYViewBackList {
                             }
                             public void onFailure() {
                                 //Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
+                                String title = "Error adding to the ALLOWED list";
+                                String tips = "Press OK to return";
+                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public boolean getIsCancelEnable() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
+                                    public void onOK() { }
+                                    public void onCancel() { }
+                                    public void onKeyback() { }
+                                });
                             }
                         });
                     }
@@ -147,6 +173,15 @@ public class AddNumberView extends YYViewBackList {
                             }
                             public void onFailure() {
                                 //Toast.makeText( main_activity, "add allow number failed", Toast.LENGTH_SHORT ).show();
+                                String title = "Error adding to the ALLOWED list";
+                                String tips = "Press OK to return";
+                                main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.failure, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                                    public boolean getIsCancelEnable() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
+                                    public void onOK() { }
+                                    public void onCancel() { }
+                                    public void onKeyback() { }
+                                });
                             }
                         });
                     }
