@@ -648,8 +648,8 @@ public class BTCallGuardianView extends YYViewBack {
                                 String title = "Record name";
                                 String tips = "Recording name";
                                 main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                                    public boolean getIsCancelEnable() { return false; }
-                                    public int getKeybackIsCancel() { return 1; }
+                                    public boolean getIsCancelEnable() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
@@ -692,15 +692,23 @@ public class BTCallGuardianView extends YYViewBack {
                                                     task.execute();
                                                 }
                                                 else {
-                                                    Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                                    //Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
                                                 }
                                             }
                                             public void onFailure() {
-                                                Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
+                                                //Toast.makeText( main_activity, "delete announce message failed", Toast.LENGTH_LONG ).show();
                                             }
                                         });
                                     }
-                                    public void onKeyback() {}
+                                    public void onKeyback() {
+                                        main_activity.yy_playing_msg_dlg = null;
+                                        main_activity.yy_auto_save_listener = null;
+
+                                        main_activity.yy_data_source.setIsUseDefaultMessage( true );
+
+                                        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+                                        task.execute();
+                                    }
                                 });
                                 main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
                                     public void onAutoSave() {
