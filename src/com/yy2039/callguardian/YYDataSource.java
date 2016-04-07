@@ -550,7 +550,26 @@ public class YYDataSource {
                             final String min = msg_datetime.substring( 10 );
                             Log.v( "cconn", "min : " + min );
 
+                            //final String pb_name = main_activity.yy_data_source.getMessageName( msg_number );
+
+                            //String show_name = "";
+                            //if( msg_number.equals( "" ) ) {
+                            //    if( msg_name.equals( "Message" ) ) {
+                            //        show_name = "No Number";
+                            //    } else {
+                            //        show_name = msg_name;
+                            //    }
+                            //} else {
+                            //    if( pb_name.equals( "" ) ) {
+                            //        show_name = msg_number;
+                            //    } else {
+                            //        show_name = pb_name;
+                            //    }
+                            //}
+
+                            //final String show_msg_name = show_name;
                             cur_calls_list.add( new callsListItem() {
+                                //public String getName() { return show_msg_name; }
                                 public String getName() { return msg_name; }
                                 public String getNumber() { return msg_number; }
                                 public String getCallTime() { return String.format( "%s/%s/%s %s:%s", month, day, year, hour, min ); }

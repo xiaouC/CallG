@@ -25,7 +25,7 @@ public class AddNumberView extends YYViewBackList {
 
     public interface onViewHandler {
         void onEnterManuallySave( String number );
-        String getAttentionText( String number );
+        String getAttentionText( YYDataSource.callsListItem item_info );
         void onFromCallsListOK( String number );
     }
 
@@ -67,11 +67,15 @@ public class AddNumberView extends YYViewBackList {
                             }
                         });
                     }
-                    public String getAttentionText( String number ) {
-                        if( number.equals( "" ) ) {
+                    public String getAttentionText( YYDataSource.callsListItem item_info ) {
+                        if( item_info.getNumber().equals( "" ) ) {
                             return "No number to block!";
                         } else {
-                            return "All future calls from this number will be BLOCKED.Are you sure you wish to continue?";
+                            if( item_info.getName().equals( "" ) ) {
+                                return String.format( "All future calls from %s will be BLOCKED. Are you sure you wish to continue?", item_info.getNumber() );
+                            } else {
+                                return String.format( "All numbers asscociated with %s will be added to the BLOCKED list. Are you sure you wish to continue?", item_info.getName() );
+                            }
                         }
                     }
                     public void onFromCallsListOK( String number ) {
@@ -142,11 +146,15 @@ public class AddNumberView extends YYViewBackList {
                             }
                         });
                     }
-                    public String getAttentionText( String number ) {
-                        if( number.equals( "" ) ) {
+                    public String getAttentionText( YYDataSource.callsListItem item_info ) {
+                        if( item_info.getNumber().equals( "" ) ) {
                             return "No number to allow!";
                         } else {
-                            return "All future calls from this number will be ALLOWED.Are you sure you wish to continue?";
+                            if( item_info.getName().equals( "" ) ) {
+                                return String.format( "All future calls from %s will be ALLOWED. Are you sure you wish to continue?", item_info.getNumber() );
+                            } else {
+                                return String.format( "All numbers asscociated with %s will be added to the ALLOWED list. Are you sure you wish to continue?", item_info.getName() );
+                            }
                         }
                     }
                     public void onFromCallsListOK( String number ) {
@@ -259,9 +267,9 @@ public class AddNumberView extends YYViewBackList {
                     public void item_handle( Object view_obj ) {
                         final Button btn_obj = (Button)view_obj;
 
-                        String name = item_info.getNumber();
+                        String name = item_info.getName();
                         if( name.equals( "" ) ) {
-                            name = item_info.getName();
+                            name = item_info.getNumber();
                         }
                         String callTime = item_info.getCallTime();
                         int state = item_info.getState();
@@ -292,7 +300,7 @@ public class AddNumberView extends YYViewBackList {
                                     public void onInit( AlertDialog ad, View view ) {
                                         TextView tv = (TextView)view.findViewById( R.id.attention_text );
 
-                                        String text1 = v_handler.getAttentionText( number );
+                                        String text1 = v_handler.getAttentionText( item_info );
                                         tv.setText( text1 );
 
                                         if( !number.equals( "" ) ) {
