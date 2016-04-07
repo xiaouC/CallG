@@ -29,18 +29,20 @@ public class YYShowAlertDialog {
 
     public interface onAlertDialogClickHandler {
         boolean getIsCancelEnable();
-        boolean getKeybackIsCancel();
+        int getKeybackIsCancel();   // 1 onOK, 2 onCancel, else onKeyback
         void onOK();
         void onCancel();
+        void onKeyback();
     }
 
     // 
     public interface onAlertDialogHandler {
         void onInit( AlertDialog ad, View view );
         boolean getIsCancelEnable();
-        boolean getKeybackIsCancel();
+        int getKeybackIsCancel();
         void onOK();
         void onCancel();
+        void onKeyback();
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,10 +73,16 @@ public class YYShowAlertDialog {
                 @Override
                 public boolean onKey( DialogInterface dialog, int keyCode, KeyEvent event) {
                     if( keyCode == KeyEvent.KEYCODE_BACK ) {
-                        if( handler.getKeybackIsCancel() ) {
-                            handler.onCancel();
-                        } else {
-                            handler.onOK();
+                        switch( handler.getKeybackIsCancel() ) {
+                            case 1:
+                                handler.onOK();
+                                break;
+                            case 2:
+                                handler.onCancel();
+                                break;
+                            default:
+                                handler.onKeyback();
+                                break;
                         }
                     }
                     return false;
@@ -183,9 +191,10 @@ public class YYShowAlertDialog {
             }
 
             public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
-            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
+            public int getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
+            public void onKeyback() { click_handler.onKeyback(); }
         });
     }
 
@@ -219,9 +228,10 @@ public class YYShowAlertDialog {
                 }
             }
             public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
-            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
+            public int getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
+            public void onKeyback() { click_handler.onKeyback(); }
         });
     }
 
@@ -244,9 +254,10 @@ public class YYShowAlertDialog {
                 }
             }
             public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
-            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
+            public int getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
+            public void onKeyback() { click_handler.onKeyback(); }
         });
     }
 
@@ -308,9 +319,10 @@ public class YYShowAlertDialog {
                 }
             }
             public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
-            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
+            public int getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
+            public void onKeyback() { click_handler.onKeyback(); }
         });
     }
 
@@ -327,9 +339,10 @@ public class YYShowAlertDialog {
                 tv_tips.setText( tips );
             }
             public boolean getIsCancelEnable() { return click_handler.getIsCancelEnable(); }
-            public boolean getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
+            public int getKeybackIsCancel() { return click_handler.getKeybackIsCancel(); }
             public void onOK() { click_handler.onOK(); }
             public void onCancel() { click_handler.onCancel(); }
+            public void onKeyback() { click_handler.onKeyback(); }
         });
     }
 

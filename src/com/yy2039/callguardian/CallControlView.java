@@ -136,9 +136,10 @@ public class CallControlView extends YYViewBase {
                                                         tv.setText( text1 );
                                                     }
                                                     public boolean getIsCancelEnable() { return false; }
-                                                    public boolean getKeybackIsCancel() { return false; }
+                                                    public int getKeybackIsCancel() { return 0; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
+                                                    public void onKeyback() {}
                                                 });
                                             }
                                         }

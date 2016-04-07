@@ -48,9 +48,10 @@ public class AddNumberView extends YYViewBackList {
                                 String tips = "Press OK to finish";
                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public boolean getIsCancelEnable() { return true; }
-                                    public boolean getKeybackIsCancel() { return false; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() { }
                                     public void onCancel() { }
+                                    public void onKeyback() { }
                                 });
                             }
                             public void onFailure() {
@@ -75,9 +76,10 @@ public class AddNumberView extends YYViewBackList {
                                 String tips = "Press OK to finish";
                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public boolean getIsCancelEnable() { return true; }
-                                    public boolean getKeybackIsCancel() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() {  }
                                     public void onCancel() { }
+                                    public void onKeyback() { }
                                 });
 
                                 // 更新列表
@@ -103,9 +105,10 @@ public class AddNumberView extends YYViewBackList {
                                 String tips = "Press OK to finish";
                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public boolean getIsCancelEnable() { return true; }
-                                    public boolean getKeybackIsCancel() { return false; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() { }
                                     public void onCancel() { }
+                                    public void onKeyback() { }
                                 });
                             }
                             public void onFailure() {
@@ -130,9 +133,10 @@ public class AddNumberView extends YYViewBackList {
                                 String tips = "Press OK to finish";
                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public boolean getIsCancelEnable() { return true; }
-                                    public boolean getKeybackIsCancel() { return true; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() {  }
                                     public void onCancel() { }
+                                    public void onKeyback() { }
                                 });
 
                                 // 更新列表
@@ -266,13 +270,14 @@ public class AddNumberView extends YYViewBackList {
                                         }
                                     }
                                     public boolean getIsCancelEnable() { return false; }
-                                    public boolean getKeybackIsCancel() { return false; }
+                                    public int getKeybackIsCancel() { return 0; }
                                     public void onOK() { }
                                     public void onCancel() {
                                         if( !number.equals( "" ) ) {
                                             v_handler.onFromCallsListOK( item_info.getNumber() );
                                         }
                                     }
+                                    public void onKeyback() { }
                                 });
                             }
                         });

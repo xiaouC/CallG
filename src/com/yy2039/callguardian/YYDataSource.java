@@ -248,9 +248,10 @@ public class YYDataSource {
         String tips_1 = "Busy\r\n Synchronisation in progress";
         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title_1, R.drawable.sync_base, tips_1, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
             public boolean getIsCancelEnable() { return true; }
-            public boolean getKeybackIsCancel() { return true; }
+            public int getKeybackIsCancel() { return 2; }
             public void onOK() { }
             public void onCancel() { showContactSyncWithBaseAttentionDialog(); }
+            public void onKeyback() {}
         });
     }
 
@@ -267,9 +268,10 @@ public class YYDataSource {
                 btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
             }
             public boolean getIsCancelEnable() { return true; }
-            public boolean getKeybackIsCancel() { return true; }
+            public int getKeybackIsCancel() { return 1; }
             public void onOK() { showContactSynchronisingDialog(); }
             public void onCancel() { stopContactSyncWithBase(); }
+            public void onKeyback() {}
         });
     }
 
@@ -957,8 +959,11 @@ public class YYDataSource {
         String title = "Contact sync with base?";
         String tips = "synchronisation contacts to base ok";
         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public boolean getIsCancelEnable() { return true; }
+            public int getKeybackIsCancel() { return 0; }
             public void onOK() { }
             public void onCancel() { }
+            public void onKeyback() {}
         });
     }
 
@@ -966,8 +971,11 @@ public class YYDataSource {
         String title = "Contact sync with base?";
         String tips = "synchronisation contacts to base failed";
         main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
+            public boolean getIsCancelEnable() { return true; }
+            public int getKeybackIsCancel() { return 0; }
             public void onOK() { }
             public void onCancel() { }
+            public void onKeyback() {}
         });
     }
 

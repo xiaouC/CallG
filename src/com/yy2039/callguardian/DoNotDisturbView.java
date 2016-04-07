@@ -85,9 +85,10 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         });
                     }
                     public boolean getIsCancelEnable() { return false; }
-                    public boolean getKeybackIsCancel() { return false; }
+                    public int getKeybackIsCancel() { return 0; }
                     public void onOK() { }
                     public void onCancel() { }
+                    public void onKeyback() {}
                 });
             }
         });
@@ -147,7 +148,7 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
 
                 main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Only allow priority interruptions", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
                     public boolean getIsCancelEnable() { return false; }
-                    public boolean getKeybackIsCancel() { return false; }
+                    public int getKeybackIsCancel() { return 0; }
                     public void onOK() {
                         Integer priority = (Integer)yy_view_self.yy_temp_data.get( "do_not_disturb_priority" );
                         if( priority != null ) {
@@ -157,6 +158,7 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         }
                     }
                     public void onCancel() { }
+                    public void onKeyback() {}
                 });
             }
         });
@@ -234,9 +236,10 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         });
                     }
                     public boolean getIsCancelEnable() { return false; }
-                    public boolean getKeybackIsCancel() { return false; }
+                    public int getKeybackIsCancel() { return 0; }
                     public void onOK() { }
                     public void onCancel() { }
+                    public void onKeyback() {}
                 });
             }
         });
@@ -349,7 +352,7 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         yy_view_self.yy_temp_data.put( "do_not_disturb_sunday", bSunday );
                     }
                     public boolean getIsCancelEnable() { return false; }
-                    public boolean getKeybackIsCancel() { return false; }
+                    public int getKeybackIsCancel() { return 0; }
                     public void onOK() {
                         main_activity.yy_data_source.setDoNotDisturbMonday( (Boolean)yy_view_self.yy_temp_data.get( "do_not_disturb_monday" ) );
                         main_activity.yy_data_source.setDoNotDisturbTuesday( (Boolean)yy_view_self.yy_temp_data.get( "do_not_disturb_tuesday" ) );
@@ -362,6 +365,7 @@ public class DoNotDisturbView extends YYViewBack implements TimePickerDialog.OnT
                         updateDaysButton();
                     }
                     public void onCancel() { }
+                    public void onKeyback() {}
                 });
             }
         });

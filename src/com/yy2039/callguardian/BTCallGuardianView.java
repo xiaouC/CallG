@@ -56,7 +56,7 @@ public class BTCallGuardianView extends YYViewBack {
                         String tips = "Switch on BT Call Guardian?";
                         main_activity.yy_show_alert_dialog.showContentTipsAlertDialog( title, content, tips, R.drawable.alert_no, R.drawable.alert_yes, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public boolean getIsCancelEnable() { return true; }
-                            public boolean getKeybackIsCancel() { return false; }
+                            public int getKeybackIsCancel() { return 1; }
                             public void onOK() {
                                 bIsInitSwitchBtnState = true;
                                 btn_obj.setChecked( main_activity.yy_data_source.getBTCallGuardianModeOn() );
@@ -67,6 +67,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
                                 updateState();
                             }// End public void onCancel()
+                            public void onKeyback() {}
                         });
                     } else {
                         main_activity.yy_data_source.setBTCallGuardianModeOn( isChecked );
@@ -134,7 +135,7 @@ public class BTCallGuardianView extends YYViewBack {
 
                     main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "BT Call Guardian Mode", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
                         public boolean getIsCancelEnable() { return true; }
-                        public boolean getKeybackIsCancel() { return true; }
+                        public int getKeybackIsCancel() { return 2; }
                         public void onOK() {
                             Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( "bt_call_guardian_mode" );
                             if( nCurSel != null ) {
@@ -147,6 +148,7 @@ public class BTCallGuardianView extends YYViewBack {
                             }
                         }
                         public void onCancel() { }
+                        public void onKeyback() {}
                     });
                 }
             });
@@ -298,7 +300,7 @@ public class BTCallGuardianView extends YYViewBack {
 
         main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( title, item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
             public boolean getIsCancelEnable() { return true; }
-            public boolean getKeybackIsCancel() { return true; }
+            public int getKeybackIsCancel() { return 2; }
             public void onOK() {
                 Integer nCurSel = (Integer)yy_view_self.yy_temp_data.get( data_type );
                 if( nCurSel != null ) {
@@ -309,6 +311,7 @@ public class BTCallGuardianView extends YYViewBack {
                 }
             }
             public void onCancel() { }
+            public void onKeyback() {}
         });
     }
 
@@ -575,7 +578,7 @@ public class BTCallGuardianView extends YYViewBack {
 
                             main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "Use default message", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                 public boolean getIsCancelEnable() { return true; }
-                                public boolean getKeybackIsCancel() { return true; }
+                                public int getKeybackIsCancel() { return 2; }
                                 public void onOK() {
                                     Boolean use_default_msg = (Boolean)yy_view_self.yy_temp_data.get( "use_default_message" );
                                     if( use_default_msg != null ) {
@@ -586,6 +589,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     }
                                 }
                                 public void onCancel() { }
+                                public void onKeyback() {}
                             });
                         }
                     });
@@ -631,9 +635,10 @@ public class BTCallGuardianView extends YYViewBack {
                         String tips = "Please say your name after the tone.\r\nTo end recording, press Save";
                         final AlertDialog ad = main_activity.yy_show_alert_dialog.showVoicePromptAlertDialog( title, R.drawable.play_message, tips, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public boolean getIsCancelEnable() { return false; }
-                            public boolean getKeybackIsCancel() { return false; }
+                            public int getKeybackIsCancel() { return 0; }
                             public void onOK() { }
                             public void onCancel() { }
+                            public void onKeyback() {}
                         });
 
                         main_activity.yy_schedule.scheduleOnceTime( 5000, new YYSchedule.onScheduleAction() {
@@ -644,7 +649,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 String tips = "Recording name";
                                 main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.record_name, tips, R.drawable.alert_save, R.drawable.alert_delete, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                     public boolean getIsCancelEnable() { return false; }
-                                    public boolean getKeybackIsCancel() { return false; }
+                                    public int getKeybackIsCancel() { return 1; }
                                     public void onOK() {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
@@ -695,6 +700,7 @@ public class BTCallGuardianView extends YYViewBack {
                                             }
                                         });
                                     }
+                                    public void onKeyback() {}
                                 });
                                 main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
                                     public void onAutoSave() {
@@ -741,14 +747,14 @@ public class BTCallGuardianView extends YYViewBack {
                         String tips = "Playing announce message";
                         main_activity.yy_playing_msg_dlg = main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.play_message, tips, n_OK_id, n_Cancel_id, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public boolean getIsCancelEnable() { return true; }
-                            public boolean getKeybackIsCancel() { return false; }
+                            public int getKeybackIsCancel() { return 1; }
                             public void onOK() {
                                 main_activity.yy_playing_msg_dlg = null;
                                 main_activity.changeShengDao( true );
 
                                 if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
                                 } else {
-                                    defaultMSGOff_okFunc();
+                                    //defaultMSGOff_okFunc();
                                 }
                                 
                             }
@@ -757,11 +763,12 @@ public class BTCallGuardianView extends YYViewBack {
                                 main_activity.changeShengDao( true );
 
                                 if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
-                                    defaultMSGOn_okFunc();
+                                    //defaultMSGOn_okFunc();
                                 } else {
-                                    defaultMSGOff_deleteFunc();
+                                    //defaultMSGOff_deleteFunc();
                                 }
                             }// End public void onCancel()
+                            public void onKeyback() {}
                         });
                         main_activity.changeShengDao( false );
                     }
@@ -868,7 +875,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
                                 public boolean getIsCancelEnable() { return false; }
-                                public boolean getKeybackIsCancel() { return false; }
+                                public int getKeybackIsCancel() { return 1; }
                                 public void onOK() {
                                 }
                                 public void onCancel() {
@@ -880,6 +887,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         }
                                     });
                                 }
+                                public void onKeyback() {}
                             });
                         }
                     });
@@ -925,9 +933,10 @@ public class BTCallGuardianView extends YYViewBack {
                                                 int nOKResID = R.drawable.alert_dialog_ok;
                                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                     public boolean getIsCancelEnable() { return true; }
-                                                    public boolean getKeybackIsCancel() { return false; }
+                                                    public int getKeybackIsCancel() { return 1; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
+                                                    public void onKeyback() {}
                                                 });
                                             }
                                             public void onFailure( int err_code ) {
@@ -952,12 +961,13 @@ public class BTCallGuardianView extends YYViewBack {
                                                             btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                         }
                                                         public boolean getIsCancelEnable() { return false; }
-                                                        public boolean getKeybackIsCancel() { return false; }
+                                                        public int getKeybackIsCancel() { return 1; }
                                                         public void onOK() { }
                                                         public void onCancel() {
                                                             area_codes_full_view.add_area_code = new_area_code;
                                                             area_codes_full_view.setView( true, main_activity.yy_input_number_view.getViewBackHandler() );
                                                         }
+                                                        public void onKeyback() {}
                                                     });
                                                 } else {
                                                     //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
@@ -1052,9 +1062,10 @@ public class BTCallGuardianView extends YYViewBack {
                                                 int nOKResID = R.drawable.alert_dialog_ok;
                                                 main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                     public boolean getIsCancelEnable() { return true; }
-                                                    public boolean getKeybackIsCancel() { return false; }
+                                                    public int getKeybackIsCancel() { return 1; }
                                                     public void onOK() { }
                                                     public void onCancel() { }
+                                                    public void onKeyback() {}
                                                 });
                                             }
                                             public void onFailure( int err_code ) {
@@ -1171,12 +1182,13 @@ public class BTCallGuardianView extends YYViewBack {
                                                         int nOKResID = R.drawable.alert_dialog_ok;
                                                         main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                             public boolean getIsCancelEnable() { return true; }
-                                                            public boolean getKeybackIsCancel() { return true; }
+                                                            public int getKeybackIsCancel() { return 2; }
                                                             public void onOK() {
                                                                 YYViewBase.onBackClick();
                                                                 YYViewBase.onBackClick();
                                                             }
                                                             public void onCancel() { }
+                                                            public void onKeyback() {}
                                                         });
                                                     }
                                                     public void onFailure( int err_code ) {
@@ -1201,12 +1213,13 @@ public class BTCallGuardianView extends YYViewBack {
                                                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                                 }
                                                                 public boolean getIsCancelEnable() { return false; }
-                                                                public boolean getKeybackIsCancel() { return false; }
+                                                                public int getKeybackIsCancel() { return 1; }
                                                                 public void onOK() { }
                                                                 public void onCancel() {
                                                                     area_codes_full_view.add_area_code = new_area_code;
                                                                     area_codes_full_view.setView( true, main_activity.yy_input_number_view.getViewBackHandler() );
                                                                 }
+                                                                public void onKeyback() {}
                                                             });
                                                         } else {
                                                             //Toast.makeText( main_activity, "add area code failed", Toast.LENGTH_LONG ).show();
@@ -1246,7 +1259,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                 btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                             }
                                             public boolean getIsCancelEnable() { return false; }
-                                            public boolean getKeybackIsCancel() { return false; }
+                                            public int getKeybackIsCancel() { return 1; }
                                             public void onOK() { }
                                             public void onCancel() {
                                                 main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ONE_AREA_CODE, null, area_code, new YYDataSource.onMedaListener() {
@@ -1258,6 +1271,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                     }
                                                 });
                                             }
+                                            public void onKeyback() {}
                                         });
                                     }
                                 });
@@ -1349,7 +1363,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
                                 public boolean getIsCancelEnable() { return false; }
-                                public boolean getKeybackIsCancel() { return false; }
+                                public int getKeybackIsCancel() { return 1; }
                                 public void onOK() { }
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_ALLOW_NUMBER, null, null, new YYDataSource.onMedaListener() {
@@ -1360,6 +1374,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         }
                                     });
                                 }
+                                public void onKeyback() {}
                             });
                         }
                     });
@@ -1381,14 +1396,14 @@ public class BTCallGuardianView extends YYViewBack {
                             String tips = "This could take up to ten minutes";
                             main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.sync_base, tips, R.drawable.alert_yes, R.drawable.alert_no, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                 public boolean getIsCancelEnable() { return true; }
-                                public boolean getKeybackIsCancel() { return true; }
+                                public int getKeybackIsCancel() { return 2; }
                                 public void onCancel() { }
                                 public void onOK() {
                                     String title = "Adding contacts to allowed list";
                                     String tips = "Busy\r\nSynchronisation in progress";
                                     main_activity.yy_show_alert_dialog.showImageTipsAlertDialog( title, R.drawable.synchronising, tips, 0, R.drawable.alert_cancel, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                         public boolean getIsCancelEnable() { return true; }
-                                        public boolean getKeybackIsCancel() { return false; }
+                                        public int getKeybackIsCancel() { return 1; }
                                         public void onOK() { }
                                         public void onCancel() {
                                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
@@ -1404,7 +1419,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                                 }
                                                 public boolean getIsCancelEnable() { return false; }
-                                                public boolean getKeybackIsCancel() { return false; }
+                                                public int getKeybackIsCancel() { return 0; }
                                                 public void onOK() { }
                                                 public void onCancel() {
                                                     main_activity.yy_show_alert_dialog.bShowWaiting = true;
@@ -1412,8 +1427,10 @@ public class BTCallGuardianView extends YYViewBack {
                                                     main_activity.yy_command.cur_command_info = null;
                                                     main_activity.yy_command.request_command_list.clear();
                                                 }
+                                                public void onKeyback() {}
                                             });
                                         }
+                                        public void onKeyback() {}
                                     });
 
                                     main_activity.yy_show_alert_dialog.bShowWaiting = false;
@@ -1430,6 +1447,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         }
                                     });
                                 }
+                                public void onKeyback() {}
                             });
                         }
                     });

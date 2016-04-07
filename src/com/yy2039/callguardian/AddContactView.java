@@ -70,9 +70,10 @@ public class AddContactView extends YYViewBackList {
                                             String tips = "Press OK to finish";
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
-                                                public boolean getKeybackIsCancel() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
                                                 public void onOK() {  }
                                                 public void onCancel() { }
+                                                public void onKeyback() {}
                                             });
 
                                             // 更新列表
@@ -128,9 +129,10 @@ public class AddContactView extends YYViewBackList {
                                             String tips = "Press OK to finish";
                                             main_activity.yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, R.drawable.successfully, tips, R.drawable.alert_dialog_ok, new YYShowAlertDialog.onAlertDialogClickHandler() {
                                                 public boolean getIsCancelEnable() { return true; }
-                                                public boolean getKeybackIsCancel() { return true; }
+                                                public int getKeybackIsCancel() { return 0; }
                                                 public void onOK() {  }
                                                 public void onCancel() { }
+                                                public void onKeyback() {}
                                             });
 
                                             // 更新列表
@@ -196,9 +198,10 @@ public class AddContactView extends YYViewBackList {
                                     btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                 }
                                 public boolean getIsCancelEnable() { return false; }
-                                public boolean getKeybackIsCancel() { return false; }
+                                public int getKeybackIsCancel() { return 0; }
                                 public void onOK() { }
                                 public void onCancel() { v_handler.onAttentionOK( item_info ); }
+                                public void onKeyback() {}
                             });
                         }
                     });
