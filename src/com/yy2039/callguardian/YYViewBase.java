@@ -74,6 +74,9 @@ public class YYViewBase {
         return null;
     }
 
+    public void updateView() {
+    }
+
     // 返回到自己界面
     public onViewBackHandler getViewBackHandler() {
         if( vb_handler == null )

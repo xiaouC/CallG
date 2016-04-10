@@ -163,4 +163,9 @@ public class CallControlView extends YYViewBase {
 
         return ret_data;
     }
+
+    public void updateView() {
+        YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
+        task.execute();
+    }
 }

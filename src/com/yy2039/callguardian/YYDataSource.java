@@ -166,6 +166,8 @@ public class YYDataSource {
                         }
                     }
                 }
+
+                main_activity.yy_current_view.updateView();
             }
             public void onFailure() {
 				//Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
