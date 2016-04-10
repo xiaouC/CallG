@@ -101,6 +101,8 @@ public class OutgoingCallsView extends YYViewBackList {
                             public void onOK() {
                                 main_activity.yy_data_source.setAllDialledCallsMode( (Integer)yy_view_self.yy_temp_data.get( "outgoing_calls_all_dialled_calls_mode" ) );
 
+                                yy_list_adapter.list_data = getItemListData();
+
                                 YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
                                 task.execute();
                             }
