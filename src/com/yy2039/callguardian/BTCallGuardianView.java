@@ -1562,11 +1562,15 @@ public class BTCallGuardianView extends YYViewBack {
                                     showSyncProgressAlertDialog();
 
                                     main_activity.yy_show_alert_dialog.bShowWaiting = false;
+                                    main_activity.bContactSynchronising = true;
+                                    main_activity.saveSharedPreferences();
                                     main_activity.yy_data_source.syncContactToBase( new YYDataSource.syncLisenter() {
                                         public void onSuccessfully() {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
                                             Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+                                            main_activity.bContactSynchronising = false;
+                                            main_activity.saveSharedPreferences();
 
                                             String title = String.format( "Contacts added to the\r\nallowed list" );
                                             String tips = "Press OK to finish";
@@ -1584,6 +1588,8 @@ public class BTCallGuardianView extends YYViewBack {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
                                             Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
+                                            main_activity.bContactSynchronising = false;
+                                            main_activity.saveSharedPreferences();
 
                                             String title = "Error adding contacts to the allowed list";
                                             String tips = "Press OK to return";

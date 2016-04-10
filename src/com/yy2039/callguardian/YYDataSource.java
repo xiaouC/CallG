@@ -119,7 +119,9 @@ public class YYDataSource {
         nAllDialledCallsMode = YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED;
         bIsFirstTimeUse = false;
         //strPINNumber = "";
+    }
 
+    public void initDataSource() {
         // 请求 BTＣall Guardian 设置
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {

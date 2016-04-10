@@ -180,9 +180,24 @@ public class CallGuardianActivity extends FragmentActivity
         localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
 
         if( bContactSynchronising ) {
-            yy_data_source.syncContactFailure();
+            String title = "Error adding contacts to\r\nthe allowed list";
+            String tips = "Press OK to return";
+            int nDrawableResID = R.drawable.failure;
+            int nOKResID = R.drawable.alert_dialog_ok;
+            yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                public boolean getIsCancelEnable() { return true; }
+                public int getKeybackIsCancel() { return 0; }
+                public void onOK() {
+                    yy_data_source.initDataSource();
+                }
+                public void onCancel() { }
+                public void onKeyback() { }
+            });
 
             bContactSynchronising = false;
+            saveSharedPreferences();
+        } else {
+            yy_data_source.initDataSource();
         }
     }
 
