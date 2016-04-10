@@ -1071,7 +1071,7 @@ public class BTCallGuardianView extends YYViewBack {
                     public void item_handle( Object view_obj ) {
                         Button btn_obj = (Button)view_obj;
 
-                        btn_obj.setText( YYViewBase.transferText( "View area codes", "" ) );
+                        btn_obj.setText( YYViewBase.transferText( "View blocked area codes", "" ) );
                         btn_obj.setOnClickListener( new View.OnClickListener() {
                             public void onClick( View v ) { view_area_codes_view.setView( true, yy_view_self.getViewBackHandler() ); }
                         });
