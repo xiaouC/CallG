@@ -56,7 +56,10 @@ public class CallControlView extends YYViewBase {
             public void item_handle( Object view_obj ) {
                 Button btn_obj = (Button)view_obj;
 
-                btn_obj.setText( "BT Call Guardian" );
+                String text1 = "BT Call Guardian";
+                String text2 = main_activity.yy_data_source.getBTCallGuardianModeOn() ? "On" : "Off";
+
+                btn_obj.setText( YYViewBase.transferText( text1, text2 ) );
                 btn_obj.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick( View v ) { bt_call_guardian.setView( true, yy_view_self.getViewBackHandler() ); }

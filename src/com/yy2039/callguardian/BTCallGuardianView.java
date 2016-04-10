@@ -318,7 +318,7 @@ public class BTCallGuardianView extends YYViewBack {
     public void updateState() {
         // "on" or "off"
         TextView tv_state = (TextView)main_activity.findViewById( R.id.state_text );
-        tv_state.setText( main_activity.yy_data_source.getBTCallGuardianModeOn() ? "on" : "off" );
+        tv_state.setText( main_activity.yy_data_source.getBTCallGuardianModeOn() ? "On" : "Off" );
 
         // tips
         TextView tv_tips = (TextView)main_activity.findViewById( R.id.tips_text );
