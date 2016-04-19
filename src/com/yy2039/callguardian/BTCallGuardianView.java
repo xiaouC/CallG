@@ -750,7 +750,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 stopPlayMsg( false, true );
                             }
                         });
-                        main_activity.changeShengDao( false );
+                        main_activity.changeShengDao( true );
                     }
                     else {
                         //Toast.makeText( main_activity, "play announce message failed", Toast.LENGTH_LONG ).show();
