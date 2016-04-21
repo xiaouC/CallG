@@ -122,84 +122,120 @@ public class YYDataSource {
     }
 
     public void initDataSource() {
-        // 请求 BTＣall Guardian 设置
-        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
-            public void onSend() {
-                main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GCCS ) );
-            }
-            public void onRecv( String data ) {
-                if( data == null ) {
-                    String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
-                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-                }
-                else {
-                    String[] results = data.split( "," );
-                    if( results.length < 3 ) {
-                        String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+        main_activity.yy_command.connectSettingsBase( new YYCommand.onConnLisenter() {
+            public void onSuccessfully() {
+                // 请求 BTＣall Guardian 设置
+                main_activity.yy_command.executeCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
+                    public void onSend() {
+                        main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GCCS ) );
                     }
-                    else {
-                        try {
-                            // 00 为关，01 为开
-                            bBTCallGuardianModeOn = results[0].equals( "01" );
-
-                            // 00 : announce, 01 : international, 02 : answerphone, 03 : custom
-                            nBTCallGuardianMode = Integer.parseInt( results[1] );
-
-                            // 0 : allow, 1 : announce, 2 : block, 3 : answerphone
-                            char[] ch_custom = results[2].toCharArray();
-                            if( ch_custom.length < 8 ) {
+                    public void onRecv( String data ) {
+                        Log.v( "cconn", "recv data : " + data );
+                        if( data == null ) {
+                            String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GCCS_RESULT );
+                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                        }
+                        else {
+                            String[] results = data.split( "," );
+                            if( results.length < 3 ) {
                                 String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
                                 //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                             }
                             else {
-                                nBTCallGuardianMode_Custom_BlockedNumber = Integer.valueOf( String.valueOf( ch_custom[0] ) );
-                                nBTCallGuardianMode_Custom_AllowedNumber = Integer.valueOf( String.valueOf( ch_custom[1] ) );
-                                nBTCallGuardianMode_Custom_International = Integer.valueOf( String.valueOf( ch_custom[2] ) );
-                                nBTCallGuardianMode_Custom_Withheld = Integer.valueOf( String.valueOf( ch_custom[3] ) );
-                                nBTCallGuardianMode_Custom_Payphones = Integer.valueOf( String.valueOf( ch_custom[4] ) );
-                                nBTCallGuardianMode_Custom_MobileNumbers = Integer.valueOf( String.valueOf( ch_custom[5] ) );
-                                nBTCallGuardianMode_Custom_Unavailable = Integer.valueOf( String.valueOf( ch_custom[6] ) );
-                                nBTCallGuardianMode_Custom_AllOtherNumbers = Integer.valueOf( String.valueOf( ch_custom[7] ) );
+                                try {
+                                    // 00 为关，01 为开
+                                    bBTCallGuardianModeOn = results[0].equals( "01" );
+
+                                    // 00 : announce, 01 : international, 02 : answerphone, 03 : custom
+                                    nBTCallGuardianMode = Integer.parseInt( results[1] );
+
+                                    // 0 : allow, 1 : announce, 2 : block, 3 : answerphone
+                                    char[] ch_custom = results[2].toCharArray();
+                                    if( ch_custom.length < 8 ) {
+                                        String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                    }
+                                    else {
+                                        nBTCallGuardianMode_Custom_BlockedNumber = Integer.valueOf( String.valueOf( ch_custom[0] ) );
+                                        nBTCallGuardianMode_Custom_AllowedNumber = Integer.valueOf( String.valueOf( ch_custom[1] ) );
+                                        nBTCallGuardianMode_Custom_International = Integer.valueOf( String.valueOf( ch_custom[2] ) );
+                                        nBTCallGuardianMode_Custom_Withheld = Integer.valueOf( String.valueOf( ch_custom[3] ) );
+                                        nBTCallGuardianMode_Custom_Payphones = Integer.valueOf( String.valueOf( ch_custom[4] ) );
+                                        nBTCallGuardianMode_Custom_MobileNumbers = Integer.valueOf( String.valueOf( ch_custom[5] ) );
+                                        nBTCallGuardianMode_Custom_Unavailable = Integer.valueOf( String.valueOf( ch_custom[6] ) );
+                                        nBTCallGuardianMode_Custom_AllOtherNumbers = Integer.valueOf( String.valueOf( ch_custom[7] ) );
+                                    }
+                                } catch ( Exception e ) {
+                                    String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
+                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                }
                             }
-                        } catch ( Exception e ) {
-                            String text = String.format( "%s recv data error : %s", YYCommand.CALL_GUARDIAN_GCCS_RESULT, data );
-                            //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                         }
-                    }
-                }
 
-                main_activity.yy_current_view.updateView();
-            }
-            public void onFailure() {
-				//Toast.makeText( main_activity, "load BT Call Guardian settings failed", Toast.LENGTH_LONG ).show();
-            }
-        });
+                        main_activity.yy_current_view.updateView();
 
-        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.ANSWER_MACHINE_GDMS_RESULT, new YYCommand.onCommandListener() {
-            public void onSend() {
-                Intent dmIntent = new Intent( YYCommand.ANSWER_MACHINE_GDMS );
-                dmIntent.putExtra( "type", "3" );
-                main_activity.sendBroadcast( dmIntent );
-            }
-            public void onRecv( String data ) {
-                Log.v( "cconn", "gdms recv : " + data );
-                if( data == null ) {
-                    String text = String.format( "%s recv : null", YYCommand.ANSWER_MACHINE_GDMS_RESULT );
-                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-                }
-                else {
-                    String[] results = data.split( "," );
-                    if( results.length < 2 ) {
-                        String text = String.format( "%s recv data error : %s", YYCommand.ANSWER_MACHINE_GDMS_RESULT, data );
-                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-                    } else {
-                        bIsUseDefaultMessage = ( Integer.parseInt( results[0] ) == 0 ? true : false );
+                        // 
+                        main_activity.yy_command.executeCommand( YYCommand.ANSWER_MACHINE_GDMS_RESULT, new YYCommand.onCommandListener() {
+                            public void onSend() {
+                                Intent dmIntent = new Intent( YYCommand.ANSWER_MACHINE_GDMS );
+                                dmIntent.putExtra( "type", "3" );
+                                main_activity.sendBroadcast( dmIntent );
+                            }
+                            public void onRecv( String data ) {
+                                Log.v( "cconn", "gdms recv : " + data );
+                                if( data == null ) {
+                                    String text = String.format( "%s recv : null", YYCommand.ANSWER_MACHINE_GDMS_RESULT );
+                                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                }
+                                else {
+                                    String[] results = data.split( "," );
+                                    if( results.length < 2 ) {
+                                        String text = String.format( "%s recv data error : %s", YYCommand.ANSWER_MACHINE_GDMS_RESULT, data );
+                                        //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
+                                    } else {
+                                        bIsUseDefaultMessage = ( Integer.parseInt( results[0] ) == 0 ? true : false );
+                                    }
+                                }
+
+                                // 处理完后，马上断开
+                                main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                                    public void onSuccessfully() {
+                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                    }
+                                    public void onFailure() {
+                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                    }
+                                });
+                            }
+                            public void onFailure() {           // executeCommand failed YYCommand.ANSWER_MACHINE_GDMS
+                                // 处理完后，马上断开
+                                main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                                    public void onSuccessfully() {
+                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                    }
+                                    public void onFailure() {
+                                        main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                                    }
+                                });
+                            }
+                        });
                     }
-                }
+                    public void onFailure() {           // executeCommand failed YYCommand.CALL_GUARDIAN_GCCS
+                        // 处理完后，马上断开
+                        main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                            public void onSuccessfully() {
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                            public void onFailure() {
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                        });
+                    }
+                });
             }
-            public void onFailure() {
-				//Toast.makeText( main_activity, "load gdms failed", Toast.LENGTH_LONG ).show();
+            public void onFailure() {   // connectSettingsBase failed
+                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                //Toast.makeText( main_activity, "settings base link failed!", Toast.LENGTH_LONG ).show();
             }
         });
     }
