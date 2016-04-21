@@ -122,8 +122,10 @@ public class YYDataSource {
     }
 
     public void initDataSource() {
+        main_activity.yy_show_alert_dialog.showWaitingAlertDialog();
         main_activity.yy_command.connectSettingsBase( new YYCommand.onConnLisenter() {
             public void onSuccessfully() {
+                //Toast.makeText( main_activity, "settings base link successed!", Toast.LENGTH_LONG ).show();
                 // 请求 BTＣall Guardian 设置
                 main_activity.yy_command.executeCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
                     public void onSend() {

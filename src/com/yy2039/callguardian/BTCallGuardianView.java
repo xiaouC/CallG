@@ -736,7 +736,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 main_activity.changeShengDao( true );
 
                                 if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
-                                    stopPlayMsg( false, true );
+                                    stopPlayMsg( false, false );
                                     //defaultMSGOn_okFunc();
                                 } else {
                                     deleteRecordMsg();
