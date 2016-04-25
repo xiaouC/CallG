@@ -653,12 +653,14 @@ public class BTCallGuardianView extends YYViewBack {
                                     public void onOK() {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
+                                        main_activity.changeShengDao( true );
 
                                         stopPlayMsg( true, true );
                                     }
                                     public void onCancel() {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
+                                        main_activity.changeShengDao( true );
 
                                         deleteRecordMsg();
                                     }
@@ -674,6 +676,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         task.execute();
                                     }
                                 });
+                                main_activity.changeShengDao( true );
                                 main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
                                     public void onAutoSave() {
                                         if( main_activity.yy_playing_msg_dlg != null ) {

@@ -68,6 +68,7 @@ public class CallGuardianActivity extends FragmentActivity
                 yy_playing_msg_dlg.hide();
                 yy_playing_msg_dlg = null;
             }
+            changeShengDao( true );
         }
     };
 
