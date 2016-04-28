@@ -283,7 +283,9 @@ public class CallGuardianActivity extends FragmentActivity
 	{
         bIsDestroy = true;
 
-        changeShengDao( true );
+        Intent intent = new Intent();  
+        intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
+        sendBroadcast( intent );
 
         unregisterReceiver( headsetPlugReceiver );
         unregisterReceiver( playingMsgEndReceiver );
