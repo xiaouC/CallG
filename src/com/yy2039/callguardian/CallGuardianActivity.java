@@ -239,6 +239,19 @@ public class CallGuardianActivity extends FragmentActivity
         }
     }
 
+    public void changeShengDaoRecordStart( AlertDialog ad ) {
+        Intent intent = new Intent();  
+        if( localAudioManager.isWiredHeadsetOn() ) {
+            intent.setAction( ANSWER_MACHINE_CHANGE_HEADSET );
+        } else {
+            intent.setAction( ANSWER_MACHINE_CHANGE_HANDFREE );
+        }
+        sendBroadcast( intent );
+
+        setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
+        ad.setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
+    }
+
 	@Override
 	protected void onResume() {
         super.onResume();
