@@ -15,60 +15,10 @@ import android.util.Log;
 
 public class OutgoingCallsView extends YYViewBackList {
     public OutgoingCallsView() {
+        bQuitPause = true;
     }
 
     public String getViewTitle() { return "Outgoing Calls"; }
-
-    public void onResume() {
-        YYViewBase.onBackClick();
-
-        main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_GDES_RESULT, new YYCommand.onCommandListener() {
-            public void onSend() {
-                Intent gdesIntent = new Intent( YYCommand.CALL_GUARDIAN_GDES );
-                gdesIntent.putExtra( "data", "00" );
-                main_activity.sendBroadcast( gdesIntent );
-                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : send" );
-            }
-            public void onRecv( String data ) {
-                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : recv " + data );
-                if( data == null ) {
-                    String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GDES_RESULT );
-                    //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-                }
-                else {
-                    final String pin_type = data.equals( "01" ) ? "first" : "enter";
-                    String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
-                    main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", main_activity.yy_current_view.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
-                        public void onSuccessful( String number ) {
-                            yy_view_self.setView( true, yy_view_self.getViewBackHandler() );
-
-                            if( pin_type.equals( "first" ) ) {
-                                main_activity.yy_data_source.setIsFirstTimeUse( false );
-
-                                main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention_2, new YYShowAlertDialog.onAlertDialogHandler() {
-                                    public void onInit( AlertDialog ad, View view ) {
-                                        String text1 = "Please remember this Access PIN is used for both remote access and outgoing call control";
-                                        TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                        tv.setText( text1 );
-                                    }
-                                    public boolean getIsCancelEnable() { return false; }
-                                    public int getKeybackIsCancel() { return 0; }
-                                    public void onOK() { }
-                                    public void onCancel() { }
-                                    public void onKeyback() {}
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-            public void onFailure() {
-                Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : failed " );
-                String text = String.format( "%s recv failed", YYCommand.CALL_GUARDIAN_GDES_RESULT );
-                //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
-            }
-        });
-    }
 
     public List<Map<Integer,YYListAdapter.onYYListItemHandler>> getItemListData() {
         List<Map<Integer,YYListAdapter.onYYListItemHandler>> ret_list_data = new ArrayList<Map<Integer,YYListAdapter.onYYListItemHandler>>();

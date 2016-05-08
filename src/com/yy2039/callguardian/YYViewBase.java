@@ -36,6 +36,8 @@ public class YYViewBase {
     protected YYListAdapter yy_list_adapter = null;
     protected onViewBackHandler vb_handler;             // 返回到自己界面
 
+    public boolean bQuitPause = false;
+
     public YYViewBase() {
         main_activity = CallGuardianActivity.main_activity;
         yy_view_self = this;
@@ -59,9 +61,6 @@ public class YYViewBase {
 
     public String getViewTitle() {
         return "";
-    }
-
-    public void onResume() {  
     }
 
     public void fillListView() {
