@@ -214,15 +214,16 @@ public class CallGuardianActivity extends FragmentActivity
 
     public final static String ANSWER_MACHINE_CHANGE_HEADSET = "andorid.intent.action.answer.machine.change.headset";           // 耳机
     public final static String ANSWER_MACHINE_CHANGE_HANDFREE = "andorid.intent.action.answer.machine.change.handfree";         // 免提
+    public final static String ANSWER_MACHINE_CHANGE_CALL = "andorid.intent.action.answer.machine.change.call";                 // private
     public final static String ANSWER_MACHINE_CHANGE_NORMAL = "andorid.intent.action.answer.machine.change.normal";             // 普通
-    public void changeShengDao( boolean bNormal ) {
+    public void changeShengDao( boolean bHandFree ) {
         if( yy_playing_msg_dlg != null ) {
             Intent intent = new Intent();  
             if( localAudioManager.isWiredHeadsetOn() ) {
                 intent.setAction( ANSWER_MACHINE_CHANGE_HEADSET );
             } else {
-                if( bNormal ) {
-                    intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
+                if( !bHandFree ) {
+                    intent.setAction( ANSWER_MACHINE_CHANGE_CALL );
                 } else {
                     intent.setAction( ANSWER_MACHINE_CHANGE_HANDFREE );
                 }
@@ -236,6 +237,19 @@ public class CallGuardianActivity extends FragmentActivity
             intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
             sendBroadcast( intent );
         }
+    }
+
+    public void changeShengDaoRecordStart( AlertDialog ad ) {
+        Intent intent = new Intent();  
+        if( localAudioManager.isWiredHeadsetOn() ) {
+            intent.setAction( ANSWER_MACHINE_CHANGE_HEADSET );
+        } else {
+            intent.setAction( ANSWER_MACHINE_CHANGE_HANDFREE );
+        }
+        sendBroadcast( intent );
+
+        setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
+        ad.setVolumeControlStream( AudioManager.STREAM_VOICE_CALL );
     }
 
 	@Override
