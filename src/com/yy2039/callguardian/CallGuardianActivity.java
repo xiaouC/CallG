@@ -256,10 +256,6 @@ public class CallGuardianActivity extends FragmentActivity
 	protected void onResume() {
         super.onResume();
 
-        if( yy_current_view != null ) {
-            yy_current_view.onResume();
-        }
-
         if( localAudioManager != null ) {
             changeShengDao( true );
         }
@@ -269,11 +265,13 @@ public class CallGuardianActivity extends FragmentActivity
 	protected void onPause() {
         changeShengDao( true );
 
-        yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
-            public void doSomething() {
-                finish();
-            }
-        });
+        if( yy_current_view.bQuitPause ) {
+            yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
+                public void doSomething() {
+                    finish();
+                }
+            });
+        }
 
         super.onPause();
     }
