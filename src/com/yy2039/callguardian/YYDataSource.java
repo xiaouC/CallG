@@ -180,7 +180,7 @@ public class YYDataSource {
                         main_activity.yy_command.executeCommand( YYCommand.ANSWER_MACHINE_GDMS_RESULT, new YYCommand.onCommandListener() {
                             public void onSend() {
                                 Intent dmIntent = new Intent( YYCommand.ANSWER_MACHINE_GDMS );
-                                dmIntent.putExtra( "type", "3" );
+                                dmIntent.putExtra( "data", "3" );
                                 main_activity.sendBroadcast( dmIntent );
                             }
                             public void onRecv( String data ) {
