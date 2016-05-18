@@ -263,7 +263,9 @@ public class CallGuardianActivity extends FragmentActivity
 
 	@Override
 	protected void onPause() {
-        changeShengDao( true );
+        Intent intent = new Intent();  
+        intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
+        sendBroadcast( intent );
 
         if( yy_current_view.bQuitPause ) {
             yy_schedule.scheduleOnceTime( 20, new YYSchedule.onScheduleAction() {
@@ -280,10 +282,6 @@ public class CallGuardianActivity extends FragmentActivity
 	protected void onDestroy()
 	{
         bIsDestroy = true;
-
-        Intent intent = new Intent();  
-        intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
-        sendBroadcast( intent );
 
         unregisterReceiver( headsetPlugReceiver );
         unregisterReceiver( playingMsgEndReceiver );
