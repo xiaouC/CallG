@@ -1266,7 +1266,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 btn_obj.setOnClickListener( new View.OnClickListener() {
                                     public void onClick( View v ) {
                                         final String area_code = (String)yy_view_self.yy_temp_data.get( "area_code" );
-                                        main_activity.yy_input_number_view.showInputNumberView( "Edit area code", area_code, -1, 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
+                                        main_activity.yy_input_number_view.showInputNumberView( "Edit area code", area_code, 2, 8, yy_view_self.getViewBackHandler(), new YYInputNumberView.onYYInputNumberHandler() {
                                             public void onSave( String number ) {
                                                 final String new_area_code = number;
                                                 main_activity.yy_data_source.onMedaProcess( YYCommand.EDIT_ONE_AREA_CODE, number, area_code, new YYDataSource.onMedaListener() {
