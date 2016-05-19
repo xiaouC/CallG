@@ -62,7 +62,10 @@ public class CallControlView extends YYViewBase {
                 btn_obj.setText( YYViewBase.transferText( text1, text2 ) );
                 btn_obj.setOnClickListener( new View.OnClickListener() {
                     @Override
-                    public void onClick( View v ) { bt_call_guardian.setView( true, yy_view_self.getViewBackHandler() ); }
+                    public void onClick( View v ) {
+                        bt_call_guardian.resetLastPosition();
+                        bt_call_guardian.setView( true, yy_view_self.getViewBackHandler() );
+                    }
                 });
             }
         });

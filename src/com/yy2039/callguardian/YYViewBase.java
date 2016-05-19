@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.reflect.Field; 
+import android.view.View;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.text.SpannableString;
@@ -14,6 +15,9 @@ import android.graphics.Color;
 import android.text.Html.ImageGetter;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.util.Log;
 
 public class YYViewBase {
     ////////////////////////////////////////////////////////////////////////////////////
@@ -34,8 +38,9 @@ public class YYViewBase {
     protected Map<String,Object> yy_temp_data = new HashMap<String,Object>();
     protected int view_layout_res_id;
     protected YYListAdapter yy_list_adapter = null;
+    protected Integer yy_scrolled_x = null;
+    protected Integer yy_scrolled_y = null;
     protected onViewBackHandler vb_handler;             // 返回到自己界面
-
     public boolean bQuitPause = false;
 
     public YYViewBase() {
@@ -64,9 +69,60 @@ public class YYViewBase {
     }
 
     public void fillListView() {
+        final ListView lv = (ListView)main_activity.findViewById( R.id.item_list );
+        lv.setOnScrollListener( new OnScrollListener() {
+            /**
+             * 滚动状态改变时调用
+             */
+            @Override
+            public void onScrollStateChanged( AbsListView view, int scrollState ) {
+                // 不滚动时保存当前滚动到的位置
+                if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+                    /*
+                    yy_scrolled_x = view.getScrollX();   
+                    yy_scrolled_y = view.getScrollY();
+                    Log.v( "sdk", "end yy_scrolled_x : " + yy_scrolled_x );
+                    Log.v( "sdk", "end yy_scrolled_y : " + yy_scrolled_y );
+                    View c = lv.getChildAt( 0 );
+                    if( c == null ) {
+                        yy_scrolled_x = 0;
+                        yy_scrolled_y = 0;
+                    } else {
+                        yy_scrolled_x = 0;
+
+                        int firstVisiblePosition = lv.getFirstVisiblePosition();
+                        int top = c.getTop();
+                        yy_scrolled_y = top - firstVisiblePosition * c.getHeight() ;
+                    }
+                    */
+                    yy_scrolled_x = lv.getFirstVisiblePosition();
+                    yy_scrolled_y = lv.getFirstVisiblePosition();
+                }
+            }
+
+            /**
+             * 滚动时调用
+             */
+            @Override
+            public void onScroll( AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount ) {
+            }
+        });
+
         yy_list_adapter = new YYListAdapter( main_activity, R.layout.listview_item_image_button, getItemListData() );
-        ListView lv = (ListView)main_activity.findViewById( R.id.item_list );
         lv.setAdapter( yy_list_adapter );
+
+        //Log.v( "sdk", "set view yy_scrolled_x : " + yy_scrolled_x );
+        //Log.v( "sdk", "set view yy_scrolled_y : " + yy_scrolled_y );
+        if( yy_scrolled_x != null && yy_scrolled_y != null ) {
+            //lv.scrollTo( yy_scrolled_x, yy_scrolled_y );
+            lv.setSelection( yy_scrolled_x );
+        }
+    }
+
+    public void resetLastPosition() {
+        //Log.v( "sdk", "resetLastPosition" );
+        yy_scrolled_x = null;
+        yy_scrolled_y = null;
     }
 
     public List<Map<Integer,YYListAdapter.onYYListItemHandler>> getItemListData() {
