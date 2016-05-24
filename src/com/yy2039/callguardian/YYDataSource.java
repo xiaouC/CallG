@@ -126,7 +126,7 @@ public class YYDataSource {
         main_activity.yy_command.connectSettingsBase( new YYCommand.onConnLisenter() {
             public void onSuccessfully() {
                 //Toast.makeText( main_activity, "settings base link successed!", Toast.LENGTH_LONG ).show();
-                // 请求 BTＣall Guardian 设置
+                // 请求 BTＣall Control 设置
                 main_activity.yy_command.executeCommand( YYCommand.CALL_GUARDIAN_GCCS_RESULT, new YYCommand.onCommandListener() {
                     public void onSend() {
                         main_activity.sendBroadcast( new Intent( YYCommand.CALL_GUARDIAN_GCCS ) );
@@ -448,7 +448,7 @@ public class YYDataSource {
     }
 
     public void updateBTCallGuardianConfig() {
-        // 更新 BTＣall Guardian 设置
+        // 更新 BTＣall Control 设置
         main_activity.yy_command.executeSettingsBaseCommand( YYCommand.CALL_GUARDIAN_SCCS_RESULT, new YYCommand.onCommandListener() {
             public void onSend() {
                 Intent banbIntent = new Intent( YYCommand.CALL_GUARDIAN_SCCS );
@@ -462,7 +462,7 @@ public class YYDataSource {
                 Log.v( "cconn", "CALL_GUARDIAN_SCCS_RESULT : " + data );
             }
             public void onFailure() {
-				//Toast.makeText( main_activity, "update BT Call Guardian settings failed", Toast.LENGTH_SHORT ).show();
+				//Toast.makeText( main_activity, "update BT Call Control settings failed", Toast.LENGTH_SHORT ).show();
             }
         });
     }

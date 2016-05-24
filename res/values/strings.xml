@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Call Guardian</string>
+    <string name="app_name">Call Control</string>
     
     <!-- Call Control -->
-    <string name="Call_Control__BT_Call_Guardian">BT Call Guardian</string>
+    <string name="Call_Control__BT_Call_Guardian">BT Call Control</string>
     <string name="Call_Control__Do_Not_Disturb">Do Not Disturb</string>
     <string name="Call_Control__Outgoing_Calls">Outgoing Calls</string>
 
-    <!-- BT Call Guardian -->
-    <string name="BT_Call_Guardian__Mode">BT Call Guardian Mode</string>
+    <!-- BT Call Control -->
+    <string name="BT_Call_Guardian__Mode">BT Call Control Mode</string>
     <string name="BT_Call_Guardian__Announce_Message">Announce Message</string>
     <string name="BT_Call_Guardian__Block_Numbers">Block Numbers</string>
     <string name="BT_Call_Guardian__Allow_Numbers">Allow Numbers</string>

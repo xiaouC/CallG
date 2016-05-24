@@ -36,11 +36,11 @@ public class YYCommand {
 	public final static String CALL_GUARDIAN_BANB = "andorid.intent.action.call.guardian.banb";
 	public final static String CALL_GUARDIAN_BANB_RESULT = "com.action.dect.call.guardian.banb.result";
 
-    // 获取 BT Call Guardian 设置
+    // 获取 BT Call Control 设置
 	public final static String CALL_GUARDIAN_GCCS = "andorid.intent.action.call.guardian.gccs";
 	public final static String CALL_GUARDIAN_GCCS_RESULT = "com.action.dect.call.guardian.gccs.result";
 
-    // 更新 BT Call Guardian 设置
+    // 更新 BT Call Control 设置
 	public final static String CALL_GUARDIAN_SCCS = "andorid.intent.action.call.guardian.sccs";
 	public final static String CALL_GUARDIAN_SCCS_RESULT = "com.action.dect.call.guardian.sccs.result";
 
@@ -242,7 +242,7 @@ public class YYCommand {
                 realExecuteCommand();
             }
         });
-        // BT Call Guardian 获取设置
+        // BT Call Control 获取设置
         action_list.put( CALL_GUARDIAN_GCCS_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
                 if( cur_command_info != null ) {
@@ -253,7 +253,7 @@ public class YYCommand {
                 realExecuteCommand();
             }
         });
-        // BT Call Guardian 更新设置
+        // BT Call Control 更新设置
         action_list.put( CALL_GUARDIAN_SCCS_RESULT, new onRecvActionListener() {
             public void onExecute( String data ) {
                 if( cur_command_info != null ) {

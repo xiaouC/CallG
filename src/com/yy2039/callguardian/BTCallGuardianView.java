@@ -51,9 +51,9 @@ public class BTCallGuardianView extends YYViewBack {
             public void onCheckedChanged( CompoundButton buttonView, final boolean isChecked ) {
                 if( !bIsInitSwitchBtnState ) {
                     if( isChecked ) {
-                        String title = "BT Call Guardian";
-                        String content = "You will need Caller Display to use\r\nBT Call Guardian and other call control\r\nfeatures. Please contact your\r\ntelephone service provide for more\r\ninformation.";
-                        String tips = "Switch on BT Call Guardian?";
+                        String title = "BT Call Control";
+                        String content = "You will need Caller Display to use\r\nBT Call Control and other call control\r\nfeatures. Please contact your\r\ntelephone service provide for more\r\ninformation.";
+                        String tips = "Switch on BT Call Control?";
                         main_activity.yy_show_alert_dialog.showContentTipsAlertDialog( title, content, tips, R.drawable.alert_no, R.drawable.alert_yes, new YYShowAlertDialog.onAlertDialogClickHandler() {
                             public boolean getIsCancelEnable() { return true; }
                             public int getKeybackIsCancel() { return 1; }
@@ -93,7 +93,7 @@ public class BTCallGuardianView extends YYViewBack {
     }
 
     public String getViewTitle() {
-        return "BT Call Guardian";
+        return "BT Call Control";
     }
 
     public interface onSelectEvent {
@@ -107,7 +107,7 @@ public class BTCallGuardianView extends YYViewBack {
         if( main_activity.yy_data_source.getBTCallGuardianModeOn() )
         {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // BT Call Guardian Mode
+            // BT Call Control Mode
             initItemData( ret_data, R.drawable.bt_call_guardian, getUpdateTextHandler_BTCallGuardianMode(), new View.OnClickListener() {
                 public void onClick( View v ) {
                     List<YYShowAlertDialog.onAlertDialogRadioItemHandler> item_list_data = new ArrayList<YYShowAlertDialog.onAlertDialogRadioItemHandler>();
@@ -133,7 +133,7 @@ public class BTCallGuardianView extends YYViewBack {
                         public boolean isRadioChecked() { return main_activity.yy_data_source.getBTCallGuardianMode() == YYCommon.BT_CALL_GUARDIAN_MODE_CUSTOM; }
                     });
 
-                    main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "BT Call Guardian Mode", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                    main_activity.yy_show_alert_dialog.showRadioGroupAlertDialog( "BT Call Control Mode", item_list_data, new YYShowAlertDialog.onAlertDialogClickHandler() {
                         public boolean getIsCancelEnable() { return true; }
                         public int getKeybackIsCancel() { return 2; }
                         public void onOK() {
@@ -325,8 +325,8 @@ public class BTCallGuardianView extends YYViewBack {
         if( main_activity.yy_data_source.getBTCallGuardianModeOn() ) {
             tv_tips.setText( "" );
         } else {
-            String text1 = "BT Call Guardian";
-            String text2 = "You will need Caller Display to use\r\nBT Call Guardian and other Call control\r\nfeatures. Please contact your telephone\r\nservice provider for more information.";
+            String text1 = "BT Call Control";
+            String text2 = "You will need Caller Display to use\r\nBT Call Control and other Call control\r\nfeatures. Please contact your telephone\r\nservice provider for more information.";
 
             String text = text1 + "\r\n" + text2;
 
@@ -353,7 +353,7 @@ public class BTCallGuardianView extends YYViewBack {
     public onUpdateTextHandler getUpdateTextHandler_BTCallGuardianMode() {
         return new onUpdateTextHandler() {
             public SpannableString getText() {
-                String text1 = "BT Call Guardian Mode";
+                String text1 = "BT Call Control Mode";
                 String text2 = "Announce";
                 switch( main_activity.yy_data_source.getBTCallGuardianMode() )
                 {

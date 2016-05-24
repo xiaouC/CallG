@@ -43,7 +43,7 @@ public class CallControlView extends YYViewBase {
         List<Map<Integer,YYListAdapter.onYYListItemHandler>> ret_data = new ArrayList<Map<Integer,YYListAdapter.onYYListItemHandler>>();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // BT Call Guardian
+        // BT Call Control
         Map<Integer,YYListAdapter.onYYListItemHandler> map = new HashMap<Integer,YYListAdapter.onYYListItemHandler>();
         map.put( R.id.item_image, new YYListAdapter.onYYListItemHandler() {
             @Override
@@ -56,7 +56,7 @@ public class CallControlView extends YYViewBase {
             public void item_handle( Object view_obj ) {
                 Button btn_obj = (Button)view_obj;
 
-                String text1 = "BT Call Guardian";
+                String text1 = "BT Call Control";
                 String text2 = main_activity.yy_data_source.getBTCallGuardianModeOn() ? "On" : "Off";
 
                 btn_obj.setText( YYViewBase.transferText( text1, text2 ) );
