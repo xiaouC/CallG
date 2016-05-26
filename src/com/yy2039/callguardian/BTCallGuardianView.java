@@ -738,7 +738,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     //defaultMSGOff_okFunc();
                                 }
 
-                                stopPlayMsg( false, true );
+                                stopPlayMsg( false, false );
                             }
                             public void onCancel() {
                                 main_activity.yy_playing_msg_dlg = null;
