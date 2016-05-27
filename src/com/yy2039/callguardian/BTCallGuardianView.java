@@ -621,6 +621,7 @@ public class BTCallGuardianView extends YYViewBack {
         }
 
         public void showRecordNameAlertDialog() {
+            main_activity.bMemoryFullFlag = false;
             main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                 public void onSend() {
                     Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -629,6 +630,10 @@ public class BTCallGuardianView extends YYViewBack {
                     main_activity.sendBroadcast( tempIntent );
                 }
                 public void onRecv( String data ) {
+                    if( main_activity.bMemoryFullFlag ) {
+                        return;
+                    }
+
                     Log.v( "cconn", "ANSWER_MACHINE_COOM_RESULT : " + data );
                     if( data != null && data.equals( "SUCCESS" ) ) {
                         String title = "Voice Prompt\r\nLoudspeaker Delivery";
