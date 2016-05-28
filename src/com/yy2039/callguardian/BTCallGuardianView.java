@@ -667,7 +667,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         main_activity.yy_auto_save_listener = null;
                                         main_activity.changeShengDao( true );
 
-                                        stopPlayMsg( true, true );
+                                        stopPlayMsg( true, true, true );
                                     }
                                     public void onCancel() {
                                         main_activity.yy_playing_msg_dlg = null;
@@ -680,7 +680,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
 
-                                        stopPlayMsg( false, false );
+                                        stopPlayMsg( false, false, true );
 
                                         main_activity.yy_data_source.setIsUseDefaultMessage( true );
 
@@ -743,14 +743,14 @@ public class BTCallGuardianView extends YYViewBack {
                                     //defaultMSGOff_okFunc();
                                 }
 
-                                stopPlayMsg( false, false );
+                                stopPlayMsg( false, false, false );
                             }
                             public void onCancel() {
                                 main_activity.yy_playing_msg_dlg = null;
                                 main_activity.changeShengDao( true );
 
                                 if( main_activity.yy_data_source.getIsUseDefaultMessage() ) {
-                                    stopPlayMsg( false, false );
+                                    stopPlayMsg( false, false, false );
                                     //defaultMSGOn_okFunc();
                                 } else {
                                     deleteRecordMsg();
@@ -761,7 +761,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 main_activity.yy_playing_msg_dlg = null;
                                 main_activity.changeShengDao( true );
 
-                                stopPlayMsg( false, true );
+                                stopPlayMsg( false, true, false );
                             }
                         });
                         main_activity.changeShengDao( true );
@@ -776,11 +776,11 @@ public class BTCallGuardianView extends YYViewBack {
             });
         }
 
-        public void stopPlayMsg( final boolean bShowPlay, final boolean bResetUseDefaultMsg ) {
+        public void stopPlayMsg( final boolean bShowPlay, final boolean bResetUseDefaultMsg, final boolean bRecording ) {
             main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                 public void onSend() {
                     Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
-                    tempIntent.putExtra( "operation", "4" );        // 4 : stop change
+                    tempIntent.putExtra( "operation", bRecording ? "4" : "3" );        // 4 : stop change
                     tempIntent.putExtra( "type", "3" );             // 3 : announce message
                     main_activity.sendBroadcast( tempIntent );
                 }
