@@ -39,6 +39,7 @@ public class CallGuardianActivity extends FragmentActivity
 
     public YYViewBase yy_current_view;
     private PowerManager.WakeLock wakeLock = null;
+    private static boolean lockAcquired = false;
 
     public boolean bContactSynchronising = false;
 
@@ -309,8 +310,7 @@ public class CallGuardianActivity extends FragmentActivity
             changeShengDao( true );
         }
 
-        if( wakeLock != null )
-            wakeLock.acquire();
+        acquireWakeLock();
     }
 
 	@Override
@@ -327,8 +327,7 @@ public class CallGuardianActivity extends FragmentActivity
             });
         }
 
-        if( wakeLock != null )
-            wakeLock.release();
+        releaseWakeLock();
 
         super.onPause();
     }
@@ -344,10 +343,7 @@ public class CallGuardianActivity extends FragmentActivity
         //unregisterReceiver( autoSaveReceiver );
         unregisterReceiver( memoryFullReceiver );
 
-        if( wakeLock != null ) {
-            wakeLock.release();
-            wakeLock = null;
-        }
+        releaseWakeLock();
 
 		// TODO Auto-generated method stub
 		super.onDestroy();
@@ -356,6 +352,44 @@ public class CallGuardianActivity extends FragmentActivity
         yy_command.unregisterReceiver();
 		//unregisterReceiver( yy_command.commandReceiver );
 	}
+
+    public boolean acquireWakeLock() {
+        if( lockAcquired )
+            return true;
+
+        if( wakeLock != null ) {
+            try {
+                wakeLock.acquire();
+                lockAcquired = true;
+            }
+            catch( SecurityException e )
+            {
+                Log.v( "AnswerMachine", "can't acquire wake lock:" + e.toString() );
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean releaseWakeLock() {
+        if( wakeLock != null ) {
+            try {
+                wakeLock.setReferenceCounted(false);
+                wakeLock.release();
+                lockAcquired = false;
+            }
+            catch( SecurityException e )
+            {
+                Log.v( "AnswerMachine", "can't release wake lock:" + e.toString() );
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素
