@@ -76,6 +76,7 @@ public class CallGuardianActivity extends FragmentActivity
     public AlertDialog yy_record_prompt_dlg = null;
     public int yy_record_schedule_index = -1;
     public boolean bMemoryFullFlag = false;
+    public boolean bRecordFlag = false;
 
     private AlertDialog memory_full_dlg = null;
     private BroadcastReceiver memoryFullReceiver = new BroadcastReceiver() {
@@ -324,7 +325,7 @@ public class CallGuardianActivity extends FragmentActivity
 
 	@Override
 	protected void onPause() {
-        if( yy_playing_msg_dlg != null ) {
+        if( yy_playing_msg_dlg != null && !bRecordFlag ) {
             Intent intent = new Intent();  
             intent.setAction( ANSWER_MACHINE_CHANGE_NORMAL );
             sendBroadcast( intent );

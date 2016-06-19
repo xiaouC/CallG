@@ -622,6 +622,7 @@ public class BTCallGuardianView extends YYViewBack {
 
         public void showRecordNameAlertDialog() {
             main_activity.bMemoryFullFlag = false;
+            main_activity.bRecordFlag = true;
             main_activity.yy_command.executeAnswerMachineCommand( YYCommand.ANSWER_MACHINE_COOM_RESULT, new YYCommand.onCommandListener() {
                 public void onSend() {
                     Intent tempIntent = new Intent( YYCommand.ANSWER_MACHINE_COOM );
@@ -664,6 +665,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     public boolean getIsCancelEnable() { return true; }
                                     public int getKeybackIsCancel() { return 0; }
                                     public void onOK() {
+                                        main_activity.bRecordFlag = false;
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
                                         main_activity.changeShengDao( true );
@@ -671,6 +673,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         stopPlayMsg( true, true, true );
                                     }
                                     public void onCancel() {
+                                        main_activity.bRecordFlag = false;
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
                                         main_activity.changeShengDao( true );
@@ -678,6 +681,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         deleteRecordMsg();
                                     }
                                     public void onKeyback() {
+                                        main_activity.bRecordFlag = false;
                                         main_activity.yy_playing_msg_dlg = null;
                                         main_activity.yy_auto_save_listener = null;
 
@@ -689,19 +693,21 @@ public class BTCallGuardianView extends YYViewBack {
                                         task.execute();
                                     }
                                 });
-                                main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
-                                    public void onAutoSave() {
-                                        if( main_activity.yy_playing_msg_dlg != null ) {
-                                            main_activity.yy_schedule.scheduleOnceTime( 100, new YYSchedule.onScheduleAction() {
-                                                public void doSomething() {
-                                                    showPlayMessageAlertDialog();
-                                                }
-                                            });
-                                        }
-                                    }
-                                };
                             }
                         });
+
+                        main_activity.yy_auto_save_listener = new CallGuardianActivity.onAutoSaveListener() {
+                            public void onAutoSave() {
+                                main_activity.bRecordFlag = false;
+                                if( main_activity.yy_playing_msg_dlg != null ) {
+                                    main_activity.yy_schedule.scheduleOnceTime( 100, new YYSchedule.onScheduleAction() {
+                                        public void doSomething() {
+                                            showPlayMessageAlertDialog();
+                                        }
+                                    });
+                                }
+                            }
+                        };
                     }
                     else {
                         //Toast.makeText( main_activity, "record announce message failed", Toast.LENGTH_LONG ).show();
