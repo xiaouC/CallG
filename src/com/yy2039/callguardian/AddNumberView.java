@@ -250,6 +250,8 @@ public class AddNumberView extends YYViewBackList {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public class FromCallsListView extends YYViewBackList {
+        // dialled, missed, received, missed + blocked, blocked + dialled, blocked + received
+        int call_state_res_ids[] = { R.drawable.call_state_1, R.drawable.call_state_2, R.drawable.call_state_3, R.drawable.call_state_4, R.drawable.call_state_5, R.drawable.call_state_6 };
         public FromCallsListView() {
         }
         public String getViewTitle() { return "Add number"; }
@@ -263,6 +265,13 @@ public class AddNumberView extends YYViewBackList {
                 final YYDataSource.callsListItem item_info = calls_list.get( i );
 
                 Map<Integer,YYListAdapter.onYYListItemHandler> map = new HashMap<Integer,YYListAdapter.onYYListItemHandler>();
+                map.put( R.id.item_image, new YYListAdapter.onYYListItemHandler() {
+                    @Override
+                    public void item_handle( Object view_obj ) {
+                        int state = item_info.getState();
+                        ((ImageView)view_obj).setBackgroundResource( call_state_res_ids[state] );
+                    }
+                });
                 map.put( R.id.item_button, new YYListAdapter.onYYListItemHandler() {
                     public void item_handle( Object view_obj ) {
                         final Button btn_obj = (Button)view_obj;
@@ -274,19 +283,12 @@ public class AddNumberView extends YYViewBackList {
                         String callTime = item_info.getCallTime();
                         int state = item_info.getState();
 
-                        // 
-                        String html = "";
-                        if( state == YYCommon.CALLS_LIST_STATE_4 ) {
-                            html = String.format( "<img src='call_state_4'/>%s<br/><img src='call_state_3'/>%s", name, callTime );
-                        }
-                        else {
-                            String state_id = String.format( "call_state_%d", state );
-                            html = String.format( "%s<br/><img src='%s'/>%s", name, state_id, callTime );
-                        }
-                        Log.v( "prot", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=html : " + html );
+                        //// 
+                        //String html = String.format( "%s<br/>%s", name, callTime );
+                        //Log.v( "prot", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=html : " + html );
 
                         // 
-                        btn_obj.setText( YYViewBase.transferText( html ) );
+                        btn_obj.setText( YYViewBase.transferText( name, callTime ) );
                         btn_obj.setMovementMethod( LinkMovementMethod.getInstance() );
 
                         btn_obj.setOnClickListener( new View.OnClickListener() {

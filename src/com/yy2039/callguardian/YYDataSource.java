@@ -552,6 +552,8 @@ public class YYDataSource {
                     //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
+                    data = "22,xxx,1234,201501011310," + "20,xxx,1234,201501011310," + "21,xxx,1234,201501011310," + "10,xxx,1234,201501011310," + "12,xxx,1234,201501011310," + "11,xxx,1234,201501011310,";
+
                     String[] results = data.split( "," );
 
                     cur_calls_list.clear();
@@ -566,12 +568,16 @@ public class YYDataSource {
                             //final int msg_type = Integer.valueOf( results[i*4+0], 16 );
                             // "00","02"
                             Log.v( "cconn", "results0 : " + results[i*4+0] );
-                            int temp_state = 1;
+                            int temp_state = 0;
                             char[] ch_custom = results[i*4+0].toCharArray();
-                            if( ch_custom[0] == '0' ) { temp_state = 3; }
-                            if( ch_custom[0] == '1' ) { temp_state = 1; }
-                            if( ch_custom[0] == '2' ) { temp_state = 2; }
-                            if( ch_custom[0] == '3' ) { temp_state = 4; }
+                            // first : 0 - missed, 1 - received, 2 - dialled, 3 - blocked
+                            // second: 0 - normal, 1 - blocked,  2 - allowed
+                            if( ch_custom[0] == '2' && ch_custom[1] == '2' ) { temp_state = 0; }
+                            if( ch_custom[0] == '2' && ch_custom[1] == '0' ) { temp_state = 1; }
+                            if( ch_custom[0] == '2' && ch_custom[1] == '1' ) { temp_state = 2; }
+                            if( ch_custom[0] == '1' && ch_custom[1] == '0' ) { temp_state = 3; }
+                            if( ch_custom[0] == '1' && ch_custom[1] == '2' ) { temp_state = 4; }
+                            if( ch_custom[0] == '1' && ch_custom[1] == '1' ) { temp_state = 5; }
 
                             final int msg_state = temp_state;
                             Log.v( "cconn", "results1 : " + results[i*4+1] );
