@@ -964,56 +964,150 @@ public class YYDataSource {
     private boolean bSuccess = false;
     private boolean bFail = false;
     public void syncContactToBase( final syncLisenter sync_lisenter ) {
-        List<YYDataSource.contactsListItem> contacts_list = main_activity.yy_data_source.getContactsList();
+        main_activity.yy_show_alert_dialog.showWaitingAlertDialog();
+        main_activity.yy_command.connectSettingsBase( new YYCommand.onConnLisenter() {
+            public void onSuccessfully() {
+                List<YYDataSource.contactsListItem> contacts_list = main_activity.yy_data_source.getContactsList();
 
-        total_count = 0;
-        for( int i=0; i < contacts_list.size(); ++i ) {
-            final YYDataSource.contactsListItem item_info = contacts_list.get( i );
-            List<String> number_list = item_info.getNumber();
-            for( int j=0; j < number_list.size(); ++j ) {
-                total_count = total_count + 1;
+                total_count = 0;
+                for( int i=0; i < contacts_list.size(); ++i ) {
+                    final YYDataSource.contactsListItem item_info = contacts_list.get( i );
+                    List<String> number_list = item_info.getNumber();
+                    for( int j=0; j < number_list.size(); ++j ) {
+                        total_count = total_count + 1;
+                    }
+                }
+
+                // 没有记录的话，就直接返回
+                if( total_count <= 0 ) {
+                    // 处理完后，马上断开
+                    main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                        public void onSuccessfully() {
+                            sync_lisenter.onSuccessfully();
+                            main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                        }
+                        public void onFailure() {
+                            main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                        }
+                    });
+
+                    return;
+                }
+
+                addAllowNumber_2( contacts_list, 0, 0, new syncLisenter() {
+                    public void onSuccessfully() {
+                        // 处理完后，马上断开
+                        main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                            public void onSuccessfully() {
+                                sync_lisenter.onSuccessfully();
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                            public void onFailure() {
+                                sync_lisenter.onSuccessfully();
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                        });
+                    }
+                    public void onFailure() {
+                        // 处理完后，马上断开
+                        main_activity.yy_command.disconnectSettingsBase( new YYCommand.onConnLisenter() {
+                            public void onSuccessfully() {
+                                sync_lisenter.onFailure();
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                            public void onFailure() {
+                                sync_lisenter.onFailure();
+                                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+                            }
+                        });
+                    }
+                });
             }
-        }
+            public void onFailure() {   // connectSettingsBase failed
+                sync_lisenter.onFailure();
+                main_activity.yy_show_alert_dialog.hideWaitingAlertDialog();
+            }
+        });
 
-        // 没有记录的话，就直接返回
-        if( total_count <= 0 ) {
+        //counter = 0;
+        //bSuccess = false;
+        //bFail = false;
+        //for( int i=0; i < contacts_list.size(); ++i ) {
+        //    final YYDataSource.contactsListItem item_info = contacts_list.get( i );
+        //    List<String> number_list = item_info.getNumber();
+        //    for( int j=0; j < number_list.size(); ++j ) {
+        //        main_activity.yy_data_source.addAllowNumber( 2, number_list.get( j ), new YYDataSource.onAddNumberSuccefully() {
+        //            public void onSuccessfully() {
+        //                counter = counter + 1;
+        //                bSuccess = true;
+
+        //                if( counter >= total_count ) {
+        //                    if( bFail ) {
+        //                        sync_lisenter.onFailure();
+        //                    } else {
+        //                        sync_lisenter.onSuccessfully();
+        //                    }
+        //                }
+        //            }
+        //            public void onFailure() {
+        //                counter = counter + 1;
+        //                bFail = true;
+
+        //                if( counter >= total_count ) {
+        //                    sync_lisenter.onFailure();
+        //                }
+        //            }
+        //        });
+        //    }
+        //}
+    }
+
+    public void addAllowNumber_2( final List<YYDataSource.contactsListItem> contacts_list, final int item_index, final int number_index, final syncLisenter sync_lisenter ) {
+        if( item_index >= contacts_list.size() ) {
             sync_lisenter.onSuccessfully();
 
             return;
         }
 
-        counter = 0;
-        bSuccess = false;
-        bFail = false;
+        YYDataSource.contactsListItem item_info = contacts_list.get( item_index );
+        List<String> number_list = item_info.getNumber();
+        if( number_index >= number_list.size() ) {
+            addAllowNumber_2( contacts_list, item_index + 1, 0, sync_lisenter );
 
-        for( int i=0; i < contacts_list.size(); ++i ) {
-            final YYDataSource.contactsListItem item_info = contacts_list.get( i );
-            List<String> number_list = item_info.getNumber();
-            for( int j=0; j < number_list.size(); ++j ) {
-                main_activity.yy_data_source.addAllowNumber( 2, number_list.get( j ), new YYDataSource.onAddNumberSuccefully() {
-                    public void onSuccessfully() {
-                        counter = counter + 1;
-                        bSuccess = true;
-
-                        if( counter >= total_count ) {
-                            if( bFail ) {
-                                sync_lisenter.onFailure();
-                            } else {
-                                sync_lisenter.onSuccessfully();
-                            }
-                        }
-                    }
-                    public void onFailure() {
-                        counter = counter + 1;
-                        bFail = true;
-
-                        if( counter >= total_count ) {
-                            sync_lisenter.onFailure();
-                        }
-                    }
-                });
-            }
+            return;
         }
+
+        final String number = number_list.get( number_index );
+        main_activity.yy_command.executeCommand( YYCommand.CALL_GUARDIAN_BANB_RESULT, new YYCommand.onCommandListener() {
+            public void onSend() {
+                int nNumberFrom = 0;
+                int nNumberType = 1;
+
+                String new_number = "";
+                for( int i=0; i < number.length(); ++i ) {
+                    if( isValidNumber( number.charAt( i ) ) ) {
+                        new_number += number.charAt( i );
+                    }
+                }
+
+                Intent banbIntent = new Intent( YYCommand.CALL_GUARDIAN_BANB );
+                banbIntent.putExtra( "type", String.format( "%d", nNumberFrom ) );
+                banbIntent.putExtra( "block_or_allow", String.format( "%d", nNumberType ) );
+                banbIntent.putExtra( "num", new_number );
+                main_activity.sendBroadcast( banbIntent );
+            }
+            public void onRecv( String data ) {
+                if( data != null && data.equals( "SUCCESS" ) ) {
+                    addAllowNumber_2( contacts_list, item_index, number_index + 1, sync_lisenter );
+                }
+                else {
+                    sync_lisenter.onFailure();
+                }
+            }
+            public void onFailure() {           // executeCommand failed YYCommand.CALL_GUARDIAN_GCCS
+                sync_lisenter.onFailure();
+            }
+        });
     }
 
     public void syncContactSuccessfully() {

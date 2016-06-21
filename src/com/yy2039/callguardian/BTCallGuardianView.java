@@ -1588,7 +1588,7 @@ public class BTCallGuardianView extends YYViewBack {
                                     main_activity.yy_data_source.syncContactToBase( new YYDataSource.syncLisenter() {
                                         public void onSuccessfully() {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
-                                            Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
+                                            //Toast.makeText( main_activity, "synchronisation contacts to base ok", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
                                             main_activity.bContactSynchronising = false;
                                             main_activity.saveSharedPreferences();
@@ -1607,7 +1607,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         }
                                         public void onFailure() {
                                             main_activity.yy_show_alert_dialog.hideAlertDialog();
-                                            Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
+                                            //Toast.makeText( main_activity, "synchronisation contacts to base failed", Toast.LENGTH_LONG ).show();
                                             main_activity.yy_show_alert_dialog.bShowWaiting = true;
                                             main_activity.bContactSynchronising = false;
                                             main_activity.saveSharedPreferences();
