@@ -573,10 +573,10 @@ public class YYDataSource {
                             // first : 0 - missed, 1 - received, 2 - dialled, 3 - blocked
                             // second: 0 - normal, 1 - blocked,  2 - allowed
                             if( ch_custom[0] == '2' && ch_custom[1] == '2' ) { temp_state = 0; }
-                            if( ch_custom[0] == '2' && ch_custom[1] == '0' ) { temp_state = 1; }
-                            if( ch_custom[0] == '2' && ch_custom[1] == '1' ) { temp_state = 2; }
-                            if( ch_custom[0] == '1' && ch_custom[1] == '0' ) { temp_state = 3; }
-                            if( ch_custom[0] == '1' && ch_custom[1] == '2' ) { temp_state = 4; }
+                            if( ch_custom[0] == '0' && ch_custom[1] == '2' ) { temp_state = 1; }
+                            if( ch_custom[0] == '1' && ch_custom[1] == '2' ) { temp_state = 2; }
+                            if( ch_custom[0] == '0' && ch_custom[1] == '1' ) { temp_state = 3; }
+                            if( ch_custom[0] == '2' && ch_custom[1] == '1' ) { temp_state = 4; }
                             if( ch_custom[0] == '1' && ch_custom[1] == '1' ) { temp_state = 5; }
 
                             final int msg_state = temp_state;
