@@ -250,8 +250,8 @@ public class AddNumberView extends YYViewBackList {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public class FromCallsListView extends YYViewBackList {
-        // dialled, missed, received, missed + blocked, blocked + dialled, blocked + received
-        int call_state_res_ids[] = { R.drawable.call_state_1, R.drawable.call_state_2, R.drawable.call_state_3, R.drawable.call_state_4, R.drawable.call_state_5, R.drawable.call_state_6 };
+        // dialled, missed, received, missed + blocked, blocked + dialled, blocked + received, blocked
+        int call_state_res_ids[] = { R.drawable.call_state_1, R.drawable.call_state_2, R.drawable.call_state_3, R.drawable.call_state_4, R.drawable.call_state_5, R.drawable.call_state_6, R.drawable.call_state_7 };
         public FromCallsListView() {
         }
         public String getViewTitle() { return "Add number"; }

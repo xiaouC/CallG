@@ -552,7 +552,8 @@ public class YYDataSource {
                     //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                 }
                 else {
-                    //data = "22,xxx,1234,201501011310," + "20,xxx,1234,201501011310," + "21,xxx,1234,201501011310," + "10,xxx,1234,201501011310," + "12,xxx,1234,201501011310," + "11,xxx,1234,201501011310,";
+                    ////      dialled                         missed                      received                        blocked + missed            blocked + dialled               blocked + received          blocked
+                    //data = "22,xxx,1234,201501011310," + "02,xxx,1234,201501011310," + "12,xxx,1234,201501011310," + "01,xxx,1234,201501011310," + "21,xxx,1234,201501011310," + "11,xxx,1234,201501011310," + "31,xxx,1234,201501011310,";
 
                     String[] results = data.split( "," );
 
@@ -572,12 +573,30 @@ public class YYDataSource {
                             char[] ch_custom = results[i*4+0].toCharArray();
                             // first : 0 - missed, 1 - received, 2 - dialled, 3 - blocked
                             // second: 0 - normal, 1 - blocked,  2 - allowed
-                            if( ch_custom[0] == '2' && ch_custom[1] == '2' ) { temp_state = 0; }
-                            if( ch_custom[0] == '0' && ch_custom[1] == '2' ) { temp_state = 1; }
-                            if( ch_custom[0] == '1' && ch_custom[1] == '2' ) { temp_state = 2; }
-                            if( ch_custom[0] == '0' && ch_custom[1] == '1' ) { temp_state = 3; }
-                            if( ch_custom[0] == '2' && ch_custom[1] == '1' ) { temp_state = 4; }
-                            if( ch_custom[0] == '1' && ch_custom[1] == '1' ) { temp_state = 5; }
+                            // dialled, missed, received, missed + blocked, blocked + dialled, blocked + received, blocked
+                            String temp_first_type = results[i*4+0].substring(0, 1);
+                            int first_type = Integer.parseInt( temp_first_type, 16 );
+                            if( ch_custom[1] == '1' ) {
+                                if( first_type == 3 || first_type == 7 || first_type == 11 || first_type == 15 ) {
+                                    temp_state = 6;
+                                } else if( first_type == 0 || first_type == 4 || first_type == 8 || first_type == 12 ) {
+                                    temp_state = 3;
+                                } else if( first_type == 1 || first_type == 5 || first_type == 9 || first_type == 13 ) {
+                                    temp_state = 5;
+                                } else if( first_type == 2 || first_type == 6 || first_type == 10 || first_type == 14 ) {
+                                   temp_state = 4;
+                                }
+                            } else {
+                                if( first_type == 3 || first_type == 7 || first_type == 11 || first_type == 15 ) {
+                                    temp_state = 6;
+                                } else if( first_type == 0 || first_type == 4 || first_type == 8 || first_type == 12 ) {
+                                    temp_state = 1;
+                                } else if( first_type == 1 || first_type == 5 || first_type == 9 || first_type == 13 ) {
+                                    temp_state = 2;
+                                } else if( first_type == 2 || first_type == 6 || first_type == 10 || first_type == 14 ) {
+                                    temp_state = 0;
+                                }	
+                            }
 
                             final int msg_state = temp_state;
                             Log.v( "cconn", "results1 : " + results[i*4+1] );
