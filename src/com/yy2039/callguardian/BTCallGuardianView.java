@@ -936,7 +936,7 @@ public class BTCallGuardianView extends YYViewBack {
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_BLOCK_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
-                                            String title = String.format( "all blocked numbers\r\nSUCCESSFULLY deleted" );
+                                            String title = String.format( "All blocked numbers\r\nSUCCESSFULLY deleted" );
                                             String tips = "Press OK to finish";
                                             int nDrawableResID = R.drawable.successfully;
                                             int nOKResID = R.drawable.alert_dialog_ok;
