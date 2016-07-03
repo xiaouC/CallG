@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.content.Intent;
 import android.widget.Toast;
+import android.widget.ImageButton;
 import android.util.Log;
 
 public class CallControlView extends YYViewBase {
@@ -119,36 +120,34 @@ public class CallControlView extends YYViewBase {
                                 main_activity.sendBroadcast( gdesIntent );
                                 Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : send" );
                             }
-                            public void onRecv( String data ) {
+                            public void onRecv( final String data ) {
                                 Log.v( "cconn", "CALL_GUARDIAN_GDES_RESULT : recv " + data );
                                 if( data == null ) {
                                     String text = String.format( "%s recv : null", YYCommand.CALL_GUARDIAN_GDES_RESULT );
                                     //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                 }
                                 else {
-                                    final String pin_type = data.equals( "01" ) ? "first" : "enter";
-                                    String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
-                                    main_activity.yy_input_number_pin_view.showInputNumberView( "Confirm your PIN", "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
-                                        public void onSuccessful( String number ) {
-                                            outgoing_calls_view.setView( false, yy_view_self.getViewBackHandler() );
+                                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                                        public void onInit( AlertDialog ad, View view ) {
+                                            TextView tv_tips = (TextView)view.findViewById( R.id.attention_text );
+                                            tv_tips.setText( "You need to set your Access PIN\r\nbefore using call control.\r\nThe Access PIN is used for both\r\nremote access and call control." );
 
-                                            if( pin_type.equals( "first" ) ) {
-                                                main_activity.yy_data_source.setIsFirstTimeUse( false );
+                                            ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
 
-                                                main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention_2, new YYShowAlertDialog.onAlertDialogHandler() {
-                                                    public void onInit( AlertDialog ad, View view ) {
-                                                        String text1 = "Please remember this Access PIN is used for both remote access and outgoing call control";
-                                                        TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                                        tv.setText( text1 );
-                                                    }
-                                                    public boolean getIsCancelEnable() { return false; }
-                                                    public int getKeybackIsCancel() { return 0; }
-                                                    public void onOK() { }
-                                                    public void onCancel() { }
-                                                    public void onKeyback() {}
-                                                });
-                                            }
+                                            ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
                                         }
+                                        public boolean getIsCancelEnable() { return true; }
+                                        public int getKeybackIsCancel() { return 1; }
+                                        public void onOK() {
+                                            String pin_type = data.equals( "01" ) ? "first" : "enter";
+                                            String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
+
+                                            showInputView( title, pin_type );
+                                        }
+                                        public void onCancel() { }
+                                        public void onKeyback() {}
                                     });
                                 }
                             }
@@ -170,5 +169,31 @@ public class CallControlView extends YYViewBase {
     public void updateView() {
         YYListAdapter.updateListViewTask task = new YYListAdapter.updateListViewTask();
         task.execute();
+    }
+
+    public void showInputView( final String title, final String pin_type ) {
+        main_activity.yy_input_number_pin_view.showInputNumberView( title, "", yy_view_self.getViewBackHandler(), pin_type, new YYInputNumberPINView.onYYInputNumberPINHandler() {
+            public void onSuccessful( String number ) {
+                outgoing_calls_view.setView( false, yy_view_self.getViewBackHandler() );
+
+                if( pin_type.equals( "first" ) ) {
+                    main_activity.yy_data_source.setIsFirstTimeUse( false );
+
+                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention_2, new YYShowAlertDialog.onAlertDialogHandler() {
+                        public void onInit( AlertDialog ad, View view ) {
+                            String text1 = "Please remember this Access PIN is used for both remote access and outgoing call control";
+                            TextView tv = (TextView)view.findViewById( R.id.attention_text );
+                            tv.setText( text1 );
+                        }
+                        public boolean getIsCancelEnable() { return false; }
+                        public int getKeybackIsCancel() { return 0; }
+                        public void onOK() { }
+                        public void onCancel() { }
+                        public void onKeyback() {}
+                    });
+                }
+            }
+        });
+
     }
 }
