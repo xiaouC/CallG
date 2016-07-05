@@ -133,10 +133,10 @@ public class CallControlView extends YYViewBase {
                                             tv_tips.setText( "You need to set your Access PIN\r\nbefore using call control.\r\nThe Access PIN is used for both\r\nremote access and call control." );
 
                                             ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
-                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
+                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
 
                                             ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
-                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
                                         }
                                         public boolean getIsCancelEnable() { return true; }
                                         public int getKeybackIsCancel() { return 1; }
