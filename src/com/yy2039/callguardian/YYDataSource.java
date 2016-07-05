@@ -20,6 +20,8 @@ import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.text.TextUtils;
 import android.provider.ContactsContract;
 import android.net.Uri;
+import java.util.Collections;
+import java.util.Comparator;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -662,7 +664,7 @@ public class YYDataSource {
     public List<contactsListItem> getContactsList() {
         Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
 
-        List<String> sortList = new ArrayList<String>();
+        Map<String,String> all_sort_keys = new HashMap<String,String>();
 
         Cursor cursor = null;
         try {
@@ -670,13 +672,16 @@ public class YYDataSource {
             while( cursor.moveToNext() ) {
                 final String displayName = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME ) );
                 final String number = cursor.getString( cursor.getColumnIndex( ContactsContract.CommonDataKinds.Phone.NUMBER ) );
+                final String sort_key = cursor.getString( cursor.getColumnIndex( "phonebook_label" ) );
+                Log.v( "feifei", "displayName : " + displayName + ", number : " + number );
+                Log.v( "feifei", "sort_key : " + sort_key );
 
                 List<String> number_list = name_number_list.get( displayName );
                 if( number_list == null ) {
                     name_number_list.put( displayName, new ArrayList<String>() );
                     number_list = name_number_list.get( displayName );
 
-                    sortList.add( displayName );
+                    all_sort_keys.put( sort_key, displayName );
                 }
                 number_list.add( number );
             }
@@ -689,10 +694,20 @@ public class YYDataSource {
             }
         }
 
+        List<Map.Entry<String, String>> sort_list = new ArrayList<Map.Entry<String,String>>(all_sort_keys.entrySet());
+        Collections.sort( sort_list, new Comparator<Map.Entry<String,String>>() {
+            @Override
+            public int compare( Map.Entry<String,String> firstMapEntry, Map.Entry<String,String> secondMapEntry ) {
+                return secondMapEntry.getKey().compareTo( firstMapEntry.getKey() );
+            }
+        });
+
         List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
 
-        for( int i=0; i < sortList.size(); ++i ) {
-            final String displayName = sortList.get( i );
+        for( int i=0; i < sort_list.size(); ++i ) {
+            Map.Entry<String, String> item = sort_list.get( i );
+            Log.v( "feifei", "item key : " + item.getKey() + ", value : " + item.getValue() );
+            final String displayName = item.getValue();
             final List<String> numbers = name_number_list.get( displayName );
 
             ret_contacts_list.add( new contactsListItem() {

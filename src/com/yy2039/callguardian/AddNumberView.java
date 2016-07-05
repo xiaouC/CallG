@@ -333,12 +333,12 @@ public class AddNumberView extends YYViewBackList {
             }
 
             // calls list is empty
-            if( calls_list.size == 0 ) {
+            if( calls_list.size() == 0 ) {
                 Map<Integer,YYListAdapter.onYYListItemHandler> map = new HashMap<Integer,YYListAdapter.onYYListItemHandler>();
                 map.put( R.id.item_button, new YYListAdapter.onYYListItemHandler() {
                     public void item_handle( Object view_obj ) {
                         final Button btn_obj = (Button)view_obj;
-                        btn_obj.setCheckable( false );
+                        btn_obj.setClickable( false );
                         btn_obj.setText( "Call list empty!" );
                     }
                 });
