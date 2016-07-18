@@ -665,6 +665,7 @@ public class YYDataSource {
         Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
 
         Map<String,String> all_sort_keys = new HashMap<String,String>();
+        List<String> no_name_keys = new ArrayList<String>();
 
         Cursor cursor = null;
         try {
@@ -681,7 +682,11 @@ public class YYDataSource {
                     name_number_list.put( displayName, new ArrayList<String>() );
                     number_list = name_number_list.get( displayName );
 
-                    all_sort_keys.put( sort_key, displayName );
+                    if( sort_key.compareTo( "#" ) == 0 ) {
+                        no_name_keys.add( displayName );
+                    } else {
+                        all_sort_keys.put( sort_key, displayName );
+                    }
                 }
                 number_list.add( number );
             }
@@ -698,7 +703,7 @@ public class YYDataSource {
         Collections.sort( sort_list, new Comparator<Map.Entry<String,String>>() {
             @Override
             public int compare( Map.Entry<String,String> firstMapEntry, Map.Entry<String,String> secondMapEntry ) {
-                return secondMapEntry.getKey().compareTo( firstMapEntry.getKey() );
+                return firstMapEntry.getKey().compareTo( secondMapEntry.getKey() );
             }
         });
 
@@ -712,6 +717,16 @@ public class YYDataSource {
 
             ret_contacts_list.add( new contactsListItem() {
                 public String getName() { return displayName; }
+                public List<String> getNumber() { return numbers; }
+            });
+        }
+
+        for( int i=0; i < no_name_keys.size(); ++i ) {
+            final String display_name = no_name_keys.get( i );
+            final List<String> numbers = name_number_list.get( display_name );
+
+            ret_contacts_list.add( new contactsListItem() {
+                public String getName() { return display_name; }
                 public List<String> getNumber() { return numbers; }
             });
         }
