@@ -936,6 +936,8 @@ public class BTCallGuardianView extends YYViewBack {
                                 public void onCancel() {
                                     main_activity.yy_data_source.onMedaProcess( YYCommand.DELETE_ALL_BLOCK_NUMBER, null, null, new YYDataSource.onMedaListener() {
                                         public void onSuccessfully() {
+                                            main_activity.sendBroadcast( new Intent( "andorid.intent.action.call.guardian.blocked.numbers.deleted" ) );
+
                                             String title = String.format( "All blocked numbers\r\nSUCCESSFULLY deleted" );
                                             String tips = "Press OK to finish";
                                             int nDrawableResID = R.drawable.successfully;
