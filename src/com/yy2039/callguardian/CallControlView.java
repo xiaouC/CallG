@@ -127,28 +127,31 @@ public class CallControlView extends YYViewBase {
                                     //Toast.makeText( main_activity, text, Toast.LENGTH_LONG ).show();
                                 }
                                 else {
-                                    main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
-                                        public void onInit( AlertDialog ad, View view ) {
-                                            TextView tv_tips = (TextView)view.findViewById( R.id.attention_text );
-                                            tv_tips.setText( "You need to set your Access PIN\r\nbefore using call control.\r\nThe Access PIN is used for both\r\nremote access and call control." );
+                                    final String pin_type = data.equals( "01" ) ? "first" : "enter";
+                                    final String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
+                                    if( pin_type.equals( "enter" ) ) {
+                                        showInputView( title, pin_type );
+                                    } else {
+                                        main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
+                                            public void onInit( AlertDialog ad, View view ) {
+                                                TextView tv_tips = (TextView)view.findViewById( R.id.attention_text );
+                                                tv_tips.setText( "You need to set your Access PIN\r\nbefore using call control.\r\nThe Access PIN is used for both\r\nremote access and call control." );
 
-                                            ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
-                                            btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
+                                                ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
+                                                btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_ok ) );
 
-                                            ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
-                                            btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
-                                        }
-                                        public boolean getIsCancelEnable() { return true; }
-                                        public int getKeybackIsCancel() { return 1; }
-                                        public void onOK() {
-                                            String pin_type = data.equals( "01" ) ? "first" : "enter";
-                                            String title = data.equals( "01" ) ? "Choose your PIN" : "Confirm your PIN";
-
-                                            showInputView( title, pin_type );
-                                        }
-                                        public void onCancel() { }
-                                        public void onKeyback() {}
-                                    });
+                                                ImageButton btn_cancel = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_CANCEL );
+                                                btn_cancel.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
+                                            }
+                                            public boolean getIsCancelEnable() { return true; }
+                                            public int getKeybackIsCancel() { return 1; }
+                                            public void onOK() {
+                                                showInputView( title, pin_type );
+                                            }
+                                            public void onCancel() { }
+                                            public void onKeyback() {}
+                                        });
+                                    }
                                 }
                             }
                             public void onFailure() {
