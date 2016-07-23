@@ -1,5 +1,8 @@
 package com.yy2039.callguardian;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Build;
@@ -22,6 +25,13 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.app.AlertDialog;
 import android.os.PowerManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.os.Parcelable;
 
 public class CallGuardianActivity extends FragmentActivity
 {
@@ -42,6 +52,9 @@ public class CallGuardianActivity extends FragmentActivity
     private static boolean lockAcquired = false;
 
     public boolean bContactSynchronising = false;
+
+    public boolean bShowWelcomePage = false;
+    private static final int[] welcome_res_ids = { R.drawable.welcome_1, R.drawable.welcome_2, R.drawable.welcome_3, R.drawable.welcome_4 };
 
     private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() {
         @Override
@@ -157,17 +170,8 @@ public class CallGuardianActivity extends FragmentActivity
         //wakeLock = pm.newWakeLock( PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, CallGuardianActivity.class.getName() );
         wakeLock = pm.newWakeLock( PowerManager.PARTIAL_WAKE_LOCK, CallGuardianActivity.class.getName() );
 
-        yy_common = new YYCommon();
-        yy_schedule = new YYSchedule( this );
-        yy_command = new YYCommand( this );
-        yy_show_alert_dialog = new YYShowAlertDialog( this );
-        yy_data_source = new YYDataSource( this );
-        yy_input_number_view = new YYInputNumberView();
-        yy_input_number_pin_view = new YYInputNumberPINView();
+        localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
 
-        // 
-        call_control_view = new CallControlView();
-        call_control_view.setView( false, null );
 
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ) {
             Window win = getWindow();
@@ -190,74 +194,21 @@ public class CallGuardianActivity extends FragmentActivity
             //tintManager.setStatusBarTintDrawable(MyDrawable);
         }
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics( dm );
-        int widthPixels= dm.widthPixels;
-        int heightPixels= dm.heightPixels;
-        float density = dm.density;
-        int screenWidth = (int)( widthPixels * density );
-        int screenHeight = (int)( heightPixels * density );
-
-        Log.v( "cocos", "screenWidth : " + screenWidth );
-        Log.v( "cocos", "screenHeight : " + screenHeight );
-        Log.v( "cocos", "density : " + density );
-
-        Drawable drawable_1 = main_activity.getResources().getDrawable( R.drawable.item_button_long );
-        Log.v( "drawable", "long width : " + drawable_1.getIntrinsicWidth() );
-        Log.v( "drawable", "long height : " + drawable_1.getIntrinsicHeight() );
-
-        Drawable drawable_2 = main_activity.getResources().getDrawable( R.drawable.item_button_short );
-        Log.v( "drawable", "short width : " + drawable_2.getIntrinsicWidth() );
-        Log.v( "drawable", "short height : " + drawable_2.getIntrinsicHeight() );
+        yy_common = new YYCommon();
+        yy_schedule = new YYSchedule( this );
+        yy_command = new YYCommand( this );
+        yy_show_alert_dialog = new YYShowAlertDialog( this );
+        yy_data_source = new YYDataSource( this );
+        yy_input_number_view = new YYInputNumberView();
+        yy_input_number_pin_view = new YYInputNumberPINView();
 
         loadSharedPreferences();
         saveSharedPreferences();
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction( "android.intent.action.HEADSET_PLUG" );
-        registerReceiver( headsetPlugReceiver, filter );  
-
-        IntentFilter filter2 = new IntentFilter();
-        filter2.addAction( "com.action.dect.page.voicemsg.play.over" );
-        filter2.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
-        filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
-        registerReceiver( playingMsgEndReceiver, filter2 );  
-
-        IntentFilter filter3 = new IntentFilter();
-        filter3.addAction( "com.action.dect.page.incoming.call" );
-        //filter3.addAction( "com.action.dect.call.guardian.handing.result" );
-        filter3.addAction( "com.action.dect.settings.base.brst.result" );       // base reset
-        registerReceiver( incomingCallReceiver, filter3 );  
-
-        IntentFilter filter4 = new IntentFilter();
-        filter4.addAction( "com.action.dect.page.memory.full" );
-        registerReceiver( memoryFullReceiver, filter4 );  
-
-        //IntentFilter filter5 = new IntentFilter();
-        //filter5.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
-        //registerReceiver( autoSaveReceiver, filter5 );  
-
-        localAudioManager = (AudioManager)getSystemService( Context.AUDIO_SERVICE );  
-
-        if( bContactSynchronising ) {
-            String title = "Error adding contacts to\r\nthe allowed list";
-            String tips = "Press OK to return";
-            int nDrawableResID = R.drawable.failure;
-            int nOKResID = R.drawable.alert_dialog_ok;
-            yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
-                public boolean getIsCancelEnable() { return true; }
-                public int getKeybackIsCancel() { return 0; }
-                public void onOK() {
-                    yy_data_source.initDataSource();
-                }
-                public void onCancel() { }
-                public void onKeyback() { }
-            });
-
-            bContactSynchronising = false;
-            saveSharedPreferences();
+        if( bShowWelcomePage ) {
+            openWelcomeView();
         } else {
-            yy_data_source.initDataSource();
+            openCallContolView();
         }
     }
 
@@ -434,6 +385,8 @@ public class CallGuardianActivity extends FragmentActivity
         yy_data_source.setAllDialledCallsMode( share.getBoolean( "AllDialled", true ) ? YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED : YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_BARRED );
         bContactSynchronising = share.getBoolean( "ContactSynchronising", false );
 
+        bShowWelcomePage = share.getBoolean( "ShowWelcomePage", true );
+
         bIsLoading = false;
     }
 
@@ -449,7 +402,108 @@ public class CallGuardianActivity extends FragmentActivity
         editor.putBoolean( "International", yy_data_source.getInternationalCallsMode() == YYCommon.OUTGOING_CALLS_INTERNATIONAL_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "AllDialled", yy_data_source.getAllDialledCallsMode() == YYCommon.OUTGOING_CALLS_ALL_DIALLED_CALLS_MODE_ALLOWED ? true : false );
         editor.putBoolean( "ContactSynchronising", bContactSynchronising );
+        editor.putBoolean( "ShowWelcomePage", bShowWelcomePage );
 
         editor.commit();
+    }
+
+    public void openWelcomeView() {
+        setContentView( R.layout.welcome );
+
+        List<View> views = new ArrayList<View>();
+
+        LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT );
+
+        //初始化引导图片列表
+        for( int i=0; i < welcome_res_ids.length; ++i ) {
+            ImageView iv = new ImageView( this );
+            iv.setLayoutParams( mParams );
+            iv.setImageResource( welcome_res_ids[i] );
+            views.add( iv );
+        }
+
+        ViewPager vp = (ViewPager) findViewById(R.id.viewpager);
+        //初始化Adapter
+        vp.setAdapter( new ViewPagerAdapter( views ) );
+        //绑定回调
+        vp.setOnPageChangeListener( new OnPageChangeListener() {
+            //当滑动状态改变时调用
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            //当当前页面被滑动时调用
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            //当新的页面被选中时调用
+            @Override
+            public void onPageSelected(int arg0) {
+                //设置底部小点选中状态
+                if( arg0 == welcome_res_ids.length - 1 ) {
+                    bShowWelcomePage = false;
+                    saveSharedPreferences();
+
+                    openCallContolView();
+                }
+            }
+        });
+    }
+
+    public void openCallContolView() {
+        // 
+        call_control_view = new CallControlView();
+        call_control_view.setView( false, null );
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction( "android.intent.action.HEADSET_PLUG" );
+        registerReceiver( headsetPlugReceiver, filter );  
+
+        IntentFilter filter2 = new IntentFilter();
+        filter2.addAction( "com.action.dect.page.voicemsg.play.over" );
+        filter2.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
+        filter2.addAction( "com.action.dect.page.voicemsg.delete.play.over" );
+        registerReceiver( playingMsgEndReceiver, filter2 );  
+
+        IntentFilter filter3 = new IntentFilter();
+        filter3.addAction( "com.action.dect.page.incoming.call" );
+        //filter3.addAction( "com.action.dect.call.guardian.handing.result" );
+        filter3.addAction( "com.action.dect.settings.base.brst.result" );       // base reset
+        registerReceiver( incomingCallReceiver, filter3 );  
+
+        IntentFilter filter4 = new IntentFilter();
+        filter4.addAction( "com.action.dect.page.memory.full" );
+        registerReceiver( memoryFullReceiver, filter4 );  
+
+        //IntentFilter filter5 = new IntentFilter();
+        //filter5.addAction( "com.action.dect.page.voicemsg.overtime.autosave" );
+        //registerReceiver( autoSaveReceiver, filter5 );  
+
+
+        if( bContactSynchronising ) {
+            String title = "Error adding contacts to\r\nthe allowed list";
+            String tips = "Press OK to return";
+            int nDrawableResID = R.drawable.failure;
+            int nOKResID = R.drawable.alert_dialog_ok;
+            yy_show_alert_dialog.showSuccessfullImageTipsAlertDialog( title, nDrawableResID, tips, nOKResID, new YYShowAlertDialog.onAlertDialogClickHandler() {
+                public boolean getIsCancelEnable() { return true; }
+                public int getKeybackIsCancel() { return 0; }
+                public void onOK() {
+                    yy_data_source.initDataSource();
+                }
+                public void onCancel() { }
+                public void onKeyback() { }
+            });
+
+            bContactSynchronising = false;
+            saveSharedPreferences();
+        } else {
+            yy_data_source.initDataSource();
+        }
     }
 }
