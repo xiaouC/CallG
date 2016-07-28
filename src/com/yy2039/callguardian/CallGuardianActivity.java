@@ -54,7 +54,7 @@ public class CallGuardianActivity extends FragmentActivity
     public boolean bContactSynchronising = false;
 
     public boolean bShowWelcomePage = false;
-    private static final int[] welcome_res_ids = { R.drawable.welcome_1, R.drawable.welcome_2, R.drawable.welcome_3, R.drawable.welcome_4 };
+    private static final int[] welcome_res_ids = { R.drawable.welcome_1, R.drawable.welcome_2, R.drawable.welcome_3, R.drawable.welcome_4, R.drawable.welcome_5 };
 
     private BroadcastReceiver headsetPlugReceiver = new BroadcastReceiver() {
         @Override
