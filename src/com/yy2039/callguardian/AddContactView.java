@@ -42,7 +42,7 @@ public class AddContactView extends YYViewBackList {
             case ADD_CONTACT_VIEW_TYPE_BLOCK_NUMBER: {
                 v_handler = new onViewHandler() {
                     public String getAttentionText( String name ) {
-                        return String.format( "All numbers asscociated with \r\n%s will be added to\r\nthe BLOCKED list. Are you sure you\r\nwish to continue?", name );
+                        return String.format( "        All numbers asscociated with %s will be added to the BLOCKED list. Are you sure you wish to continue?", name );
                     }
                     public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
                         final String name = item_info.getName();
@@ -113,7 +113,7 @@ public class AddContactView extends YYViewBackList {
             case ADD_CONTACT_VIEW_TYPE_ALLOW_NUMBER: {
                 v_handler = new onViewHandler() {
                     public String getAttentionText( String name ) {
-                        return String.format( "All numbers asscociated with\r\n%s will be added to\r\nthe ALLOWED list. Are you sure you\r\nwish to continue?", name );
+                        return String.format( "        All numbers asscociated with %s will be added to the ALLOWED list. Are you sure you wish to continue?", name );
                     }
                     public void onAttentionOK( final YYDataSource.contactsListItem item_info ) {
                         final String name = item_info.getName();

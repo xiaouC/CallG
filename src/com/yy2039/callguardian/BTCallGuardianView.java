@@ -918,7 +918,7 @@ public class BTCallGuardianView extends YYViewBack {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                 public void onInit( AlertDialog ad, View view ) {
-                                    String text1 = "Are you sure that you want to delete all the blocked numbers stored on your telephone system?";
+                                    String text1 = "        Are you sure that you want to delete all the blocked numbers stored on your telephone system?";
                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                     tv.setText( text1 );
 
@@ -1046,7 +1046,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                     main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                         public void onInit( AlertDialog ad, View view ) {
                                                             TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                                            tv.setText( "The area codes list is full.Please\r\npress OK to select an area code in\r\nthe list to replace or CANCEL to go\r\nback." );
+                                                            tv.setText( "        The area codes list is full.Please press OK to select an area code in the list to replace or CANCEL to go back." );
 
                                                             // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
                                                             ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
@@ -1335,7 +1335,7 @@ public class BTCallGuardianView extends YYViewBack {
                                                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                                                 public void onInit( AlertDialog ad, View view ) {
                                                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
-                                                                    tv.setText( "The area codes list is full.Please\r\npress OK to select an area code in\r\nthe list to replace or CANCEL to go\r\nback." );
+                                                                    tv.setText( "        The area codes list is full.Please press OK to select an area code in the list to replace or CANCEL to go back." );
 
                                                                     // 又是 OK 当 CANCEL 用，CANCEL 当 OK 用
                                                                     ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
@@ -1389,7 +1389,7 @@ public class BTCallGuardianView extends YYViewBack {
                                         final String area_code = (String)yy_view_self.yy_temp_data.get( "area_code" );
                                         main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                             public void onInit( AlertDialog ad, View view ) {
-                                                String text1 = String.format( "Are you sure that you want to delete\r\nthe area code %s from\r\nyour list?", area_code );
+                                                String text1 = String.format( "        Are you sure that you want to delete the area code %s from your list?", area_code );
                                                 TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                                 tv.setText( text1 );
 
@@ -1513,7 +1513,7 @@ public class BTCallGuardianView extends YYViewBack {
                         public void onClick( View v ) {
                             main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                                 public void onInit( AlertDialog ad, View view ) {
-                                    String text1 = "Are you sure that you want to delete all the allowed numbers stored on your telephone system?";
+                                    String text1 = "        Are you sure that you want to delete all the allowed numbers stored on your telephone system?";
                                     TextView tv = (TextView)view.findViewById( R.id.attention_text );
                                     tv.setText( text1 );
 
@@ -1650,7 +1650,7 @@ public class BTCallGuardianView extends YYViewBack {
                 public void onCancel() {
                     main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
                         public void onInit( AlertDialog ad, View view ) {
-                            String text1 = "If you cancel this synchronisation\r\nnow, your contacts will need to\r\nannounce their names when they call.\r\nAre you sure?";
+                            String text1 = "        If you cancel this synchronisation now, your contacts will need to announce their names when they call. Are you sure?";
                             TextView tv = (TextView)view.findViewById( R.id.attention_text );
                             tv.setText( text1 );
 

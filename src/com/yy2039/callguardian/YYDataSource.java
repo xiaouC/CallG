@@ -303,7 +303,7 @@ public class YYDataSource {
         main_activity.yy_show_alert_dialog.showAlertDialog( R.layout.alert_attention, new YYShowAlertDialog.onAlertDialogHandler() {
             public void onInit( AlertDialog ad, View view ) {
                 TextView tv_tips = (TextView)view.findViewById( R.id.attention_text );
-                tv_tips.setText( "If you cancel this synchroniation\r\nnow,your contacts will need to\r\nannounce their names when they call.\r\nAre you sure?" );
+                tv_tips.setText( "        If you cancel this synchroniation now,your contacts will need to announce their names when they call. Are you sure?" );
 
                 ImageButton btn_ok = (ImageButton)view.findViewById( R.id.ALERT_DIALOG_OK );
                 btn_ok.setImageDrawable( main_activity.getResources().getDrawable( R.drawable.alert_attention_back ) );
