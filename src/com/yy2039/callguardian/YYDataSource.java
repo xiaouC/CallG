@@ -664,7 +664,7 @@ public class YYDataSource {
     public List<contactsListItem> getContactsList() {
         Map<String,List<String>> name_number_list = new HashMap<String,List<String>>();
 
-        Map<String,String> all_sort_keys = new HashMap<String,String>();
+        Map<String,ArrayList<String>> all_sort_keys = new HashMap<String,ArrayList<String>>();
         List<String> no_name_keys = new ArrayList<String>();
 
         Cursor cursor = null;
@@ -685,7 +685,15 @@ public class YYDataSource {
                     if( sort_key.compareTo( "#" ) == 0 ) {
                         no_name_keys.add( displayName );
                     } else {
-                        all_sort_keys.put( sort_key, displayName );
+                        ArrayList<String> keys = all_sort_keys.get( sort_key );
+                        if( keys == null ) {
+                            keys = new ArrayList<String>();
+                            keys.add( displayName );
+
+                            all_sort_keys.put( sort_key, keys );
+                        } else {
+                            keys.add( displayName );
+                        }
                     }
                 }
                 number_list.add( number );
@@ -699,10 +707,10 @@ public class YYDataSource {
             }
         }
 
-        List<Map.Entry<String, String>> sort_list = new ArrayList<Map.Entry<String,String>>(all_sort_keys.entrySet());
-        Collections.sort( sort_list, new Comparator<Map.Entry<String,String>>() {
+        List<Map.Entry<String, ArrayList<String>>> sort_list = new ArrayList<Map.Entry<String,ArrayList<String>>>(all_sort_keys.entrySet());
+        Collections.sort( sort_list, new Comparator<Map.Entry<String,ArrayList<String>>>() {
             @Override
-            public int compare( Map.Entry<String,String> firstMapEntry, Map.Entry<String,String> secondMapEntry ) {
+            public int compare( Map.Entry<String,ArrayList<String>> firstMapEntry, Map.Entry<String,ArrayList<String>> secondMapEntry ) {
                 return firstMapEntry.getKey().compareTo( secondMapEntry.getKey() );
             }
         });
@@ -710,15 +718,17 @@ public class YYDataSource {
         List<contactsListItem> ret_contacts_list = new ArrayList<contactsListItem>();
 
         for( int i=0; i < sort_list.size(); ++i ) {
-            Map.Entry<String, String> item = sort_list.get( i );
-            Log.v( "feifei", "item key : " + item.getKey() + ", value : " + item.getValue() );
-            final String displayName = item.getValue();
-            final List<String> numbers = name_number_list.get( displayName );
+            Map.Entry<String, ArrayList<String>> item = sort_list.get( i );
+            ArrayList<String> keys = item.getValue();
+            for( int j=0; j < keys.size(); ++j ) {
+                final String displayName = keys.get( j );
+                final List<String> numbers = name_number_list.get( displayName );
 
-            ret_contacts_list.add( new contactsListItem() {
-                public String getName() { return displayName; }
-                public List<String> getNumber() { return numbers; }
-            });
+                ret_contacts_list.add( new contactsListItem() {
+                    public String getName() { return displayName; }
+                    public List<String> getNumber() { return numbers; }
+                });
+            }
         }
 
         for( int i=0; i < no_name_keys.size(); ++i ) {
